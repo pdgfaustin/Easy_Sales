@@ -7,6 +7,7 @@ package views;
 
 
 
+import controllers.PontParametres;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -22,7 +23,7 @@ public class MenuGen extends javax.swing.JFrame {
     public MenuGen() {
         initComponents();
         setLocationRelativeTo(this);
-        setTitle("Easy Sales : For a secure sale");
+        setTitle("Easy Sales : For a secure sale. Vous êtes connecté en tant que : "+PontParametres.User);
         MInterVisa.setCollapsed(true);
         try{
             this.setIconImage(new ImageIcon(getClass().getResource("/LesImages/HPP_Congo.jpg")).getImage());//donne l'icon au formulaire

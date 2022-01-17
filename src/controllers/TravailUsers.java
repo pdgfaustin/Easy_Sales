@@ -24,10 +24,11 @@ public class TravailUsers {
     public void enregistrerTravail(){
         try {
             easy_sales.connexionEasy();
-            easy_sales.Pst =  (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO travailUsers (idUsers,idSite,dateDebut) "
-                    + " VALUES(?,?,NOW())");
+            easy_sales.Pst =  (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO travailUsers (idUsers,idSite,dateDebut,actif) "
+                    + " VALUES(?,?,NOW(),?)");
             easy_sales.Pst.setString(1, idUsers);
             easy_sales.Pst.setString(2, idSite);
+            easy_sales.Pst.setString(3, "A");
             easy_sales.Pst.execute();
             easy_sales.deconnexionEasy();
             System.out.println("Enregistrement effectué");
@@ -55,8 +56,9 @@ public class TravailUsers {
         try {
             easy_sales.connexionEasy();
             easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("UPDATE travailUsers SET "
-                    + " dateFin = now() WHERE idUsers = ?");
-            easy_sales.Pst.setString(1, idUsers);
+                    + " dateFin = now(), actif = ? WHERE idUsers = ?");
+            easy_sales.Pst.setString(2, idUsers);
+            easy_sales.Pst.setString(1, "B");
             easy_sales.Pst.execute();
             easy_sales.deconnexionEasy();
             System.out.println("Modification effectuée");

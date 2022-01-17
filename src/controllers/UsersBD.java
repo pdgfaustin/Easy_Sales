@@ -89,4 +89,26 @@ public class UsersBD extends Controller {
         }
         return trouve;
     }
+    public boolean trouverUser(String User, String pwd){
+        boolean trouve = false;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (ClientPreparedStatement)  easy_sales.cn.clientPrepareStatement("SELECT idUsers,statuts,pwd,idSite,actif FROM travailusersview WHERE idUsers = ?");
+            easy_sales.Pst.setString(1, User);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            while (easy_sales.rs.next()) {   
+                String dd = easy_sales.rs.getString(5);
+                if (dd.equals("A")) {
+                    String a = easy_sales.rs.getString(3);
+                    if (pwd.equals(a)) {
+                        PontParametres PP = new PontParametres(easy_sales.rs.getString(1), easy_sales.rs.getString(2), easy_sales.rs.getString(4));
+                        trouve = true;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return trouve;
+    }
 }

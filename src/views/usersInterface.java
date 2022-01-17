@@ -8,6 +8,7 @@ package views;
 import com.mysql.cj.jdbc.ClientPreparedStatement;
 import controllers.TravailUsers;
 import controllers.UsersBD;
+import java.util.Arrays;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modeles.easy_sales;
@@ -51,7 +52,7 @@ public class usersInterface extends javax.swing.JInternalFrame {
     }
     UsersBD user = null;
     void appelUser(){
-        user = new UsersBD(txtUserID.getText().toUpperCase().trim(), txtNomComplet.getText().toUpperCase().trim(), cbStatus.getSelectedItem().toString().trim(), txtPwd.getText().trim());
+        user = new UsersBD(txtUserID.getText().toUpperCase().trim(), txtNomComplet.getText().toUpperCase().trim(), cbStatus.getSelectedItem().toString().trim(), Arrays.toString(txtPwd.getPassword()));
     }
     TravailUsers TU = null;
     void appelTravail(){
