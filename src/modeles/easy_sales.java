@@ -12,12 +12,16 @@ import java.sql.ResultSet;
 
 /**
  *
- * @author user
+ * @author Faustin PADINGANYI
  */
 public class easy_sales {
     public static Connection cn;
     public static PreparedStatement Pst;
     public static ResultSet rs;
+    
+    /**
+     * La Méthode de Connexion
+     */
     public static void connexionEasy(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -27,6 +31,9 @@ public class easy_sales {
             System.err.println("Erreur : "+e.getMessage());
         }
     }
+    /**
+     * La Méthode de déconnexion
+     */
     public static void deconnexionEasy(){
         try {
             if (!cn.isClosed()) {
