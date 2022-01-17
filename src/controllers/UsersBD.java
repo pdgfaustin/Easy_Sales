@@ -10,7 +10,7 @@ import modeles.easy_sales;
 
 /**
  *
- * @author user
+ * @author Faustin PADINGANYI
  */
 public class UsersBD extends Controller {
 

@@ -11,7 +11,7 @@ import modeles.easy_sales;
 
 /**
  *
- * @author user
+ * @author Faustin PADINGANYI
  */
 public class TravailUsers {
     String idUsers, idSite;
