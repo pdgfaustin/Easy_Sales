@@ -147,6 +147,7 @@ public class usersInterface extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
 
+        jPanel1.setBackground(new java.awt.Color(0, 51, 51));
         jPanel1.setFont(new java.awt.Font("Cambria", 0, 12)); // NOI18N
 
         BTNsite.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
@@ -217,7 +218,7 @@ public class usersInterface extends javax.swing.JInternalFrame {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
-        jPanel3.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel3.setBackground(new java.awt.Color(1, 52, 52));
 
         txtUserID.setText("jTextField1");
 

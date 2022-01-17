@@ -204,6 +204,9 @@ public class MenuGen extends javax.swing.JFrame {
 //        frmOccuper_Chambre frmOC = new frmOccuper_Chambre();
 //        DsKtp.add(frmOC);
 //        frmOC.setVisible(true);
+        approInterface API = new  approInterface();
+        DsKtp.add(API);
+        API.setVisible(true);
     }//GEN-LAST:event_jXHyperlink9ActionPerformed
 
     private void jXHyperlink10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jXHyperlink10MouseClicked
