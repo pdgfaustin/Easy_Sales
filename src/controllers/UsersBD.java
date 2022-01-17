@@ -5,7 +5,7 @@
  */
 package controllers;
 
-import com.mysql.jdbc.PreparedStatement;
+import com.mysql.cj.jdbc.ClientPreparedStatement;
 import modeles.easy_sales;
 
 /**
@@ -14,26 +14,27 @@ import modeles.easy_sales;
  */
 public class UsersBD extends Controller {
 
-    String ID, nomComplet, contact, pwd;
+    String ID, nomComplet,statuts, contact = "OK", pwd;
     public UsersBD(){
         
     }
-    public UsersBD(String ID, String nomComplet, String contact, String pwd){
+    public UsersBD(String ID, String nomComplet, String statuts, String pwd){
         this.ID = ID;
         this.nomComplet = nomComplet;
-        this.contact = contact;
+        this.statuts = statuts;
         this.pwd = pwd;
     }
     @Override
     public void enregistrer() {
         try {
             easy_sales.connexionEasy();
-            easy_sales.Pst = (PreparedStatement) easy_sales.cn.prepareStatement("INSERT INTO UsersBD (idUsers,nomComplet,contact,pwd) "
-                    + " VALUES (?,?,?,?)");
+            easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO UsersBD (idUsers,nomComplet,contact,statuts,pwd) "
+                    + " VALUES (?,?,?,?,?)");
             easy_sales.Pst.setString(1, ID);
             easy_sales.Pst.setString(2, nomComplet);
             easy_sales.Pst.setString(3, contact);
-            easy_sales.Pst.setString(4, pwd);
+            easy_sales.Pst.setString(4, statuts);
+            easy_sales.Pst.setString(5, pwd);
             easy_sales.Pst.execute();
             easy_sales.deconnexionEasy();
             System.err.println("Enregistrement effectué");
@@ -46,11 +47,12 @@ public class UsersBD extends Controller {
     public void modifier() {
         try {
             easy_sales.connexionEasy();
-            easy_sales.Pst = (PreparedStatement) easy_sales.cn.prepareStatement("UPDATE UsersBD SET nomComplet=?,contact=? "
+            easy_sales.Pst = (ClientPreparedStatement)  easy_sales.cn.clientPrepareStatement("UPDATE UsersBD SET nomComplet=?,contact=?, statuts = ? "
                     + " WHERE idUsers=?");
-            easy_sales.Pst.setString(3, ID);
+            easy_sales.Pst.setString(4, ID);
             easy_sales.Pst.setString(1, nomComplet);
             easy_sales.Pst.setString(2, contact);
+            easy_sales.Pst.setString(3, statuts);
             easy_sales.Pst.execute();
             easy_sales.deconnexionEasy();
             System.err.println("Modification effectuée");
@@ -63,7 +65,7 @@ public class UsersBD extends Controller {
     public void supprimer() {
         try {
             easy_sales.connexionEasy();
-            easy_sales.Pst = (PreparedStatement) easy_sales.cn.prepareStatement("DELETE FROM UsersBD  WHERE idUsers=?");
+            easy_sales.Pst = (ClientPreparedStatement)  easy_sales.cn.clientPrepareStatement("DELETE FROM UsersBD  WHERE idUsers=?");
             easy_sales.Pst.setString(1, ID);
             easy_sales.Pst.execute();
             easy_sales.deconnexionEasy();
@@ -76,7 +78,7 @@ public class UsersBD extends Controller {
         boolean trouve=false;
         try {
             easy_sales.connexionEasy();
-            easy_sales.Pst = (PreparedStatement) easy_sales.cn.prepareStatement("SELECT idUsers FROM UsersBD WHERE idUsers = ?");
+            easy_sales.Pst = (ClientPreparedStatement)  easy_sales.cn.clientPrepareStatement("SELECT idUsers FROM UsersBD WHERE idUsers = ?");
             easy_sales.Pst.setString(1, ID);
             easy_sales.rs = easy_sales.Pst.executeQuery();
             if (easy_sales.rs.next()) {

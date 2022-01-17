@@ -189,6 +189,9 @@ public class MenuGen extends javax.swing.JFrame {
 
     private void jXHyperlink15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXHyperlink15ActionPerformed
         // TODO add your handling code here:
+        usersInterface IntUser  =  new usersInterface();
+        DsKtp.add(IntUser);
+        IntUser.setVisible(true);
     }//GEN-LAST:event_jXHyperlink15ActionPerformed
 
     private void jXHyperlink9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jXHyperlink9MouseClicked

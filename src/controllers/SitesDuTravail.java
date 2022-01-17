@@ -5,7 +5,7 @@
  */
 package controllers;
 
-import com.mysql.jdbc.PreparedStatement;
+import com.mysql.cj.jdbc.ClientPreparedStatement;
 import modeles.easy_sales;
 
 /**
@@ -27,7 +27,7 @@ public class SitesDuTravail extends Controller {
     public void enregistrer() {
         try {
             easy_sales.connexionEasy();
-            easy_sales.Pst = (PreparedStatement) easy_sales.cn.prepareStatement("INSERT INTO Sites (idSite,libSite,adresse) "
+            easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO Sites (idSite,libSite,adresse) "
                     + " (?,?,?)");
             easy_sales.Pst.setString(1, idSite);
             easy_sales.Pst.setString(2, libSite);
@@ -44,7 +44,7 @@ public class SitesDuTravail extends Controller {
     public void modifier() {
         try {
             easy_sales.connexionEasy();
-            easy_sales.Pst = (PreparedStatement) easy_sales.cn.prepareStatement("UPDATE Sites SET libSite=?,adresse=? "
+            easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("UPDATE Sites SET libSite=?,adresse=? "
                     + " WHERE idSite = ?");
             easy_sales.Pst.setString(3, idSite);
             easy_sales.Pst.setString(1, libSite);
@@ -61,7 +61,7 @@ public class SitesDuTravail extends Controller {
     public void supprimer() {
         try {
             easy_sales.connexionEasy();
-            easy_sales.Pst = (PreparedStatement) easy_sales.cn.prepareStatement("DELETE FROM Sites WHERE idSite = ?");
+            easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("DELETE FROM Sites WHERE idSite = ?");
             easy_sales.Pst.setString(1, idSite);
             easy_sales.Pst.execute();
             easy_sales.deconnexionEasy();
@@ -74,7 +74,7 @@ public class SitesDuTravail extends Controller {
         boolean trouve = false;
         try {
             easy_sales.connexionEasy();
-            easy_sales.Pst = (PreparedStatement) easy_sales.cn.prepareStatement("SELECT idSite FROM Sites WHERE idSite = ?");
+            easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT idSite FROM Sites WHERE idSite = ?");
             easy_sales.Pst.setString(1, idSite);
             easy_sales.rs = easy_sales.Pst.executeQuery();
             if (easy_sales.rs.next()) {
