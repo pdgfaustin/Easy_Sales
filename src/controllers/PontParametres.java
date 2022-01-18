@@ -10,7 +10,7 @@ package controllers;
  * @author Faustin PADINGANYI
  */
 public class PontParametres {
-    public static String  User, statut, site;
+    public static String  User, statut, site, admin, connecter;
     public PontParametres(){
         
     }

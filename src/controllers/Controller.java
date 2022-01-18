@@ -7,7 +7,7 @@ package controllers;
 
 /**
  *
- * @author user
+ * @author FAustin PADINGANYI
  */
 public abstract class Controller {
     public abstract void enregistrer();
