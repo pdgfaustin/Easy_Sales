@@ -354,7 +354,7 @@ public class approInterface extends javax.swing.JInternalFrame {
                 b = tblAppro.getValueAt(i, 2).toString();
                 c = tblAppro.getValueAt(i, 3).toString();
                 d = lblSite.getText().trim();
-                Ap = new Approvisionnements(b, c, d, e);
+                Ap = new Approvisionnements(b, c, d, e,PontParametres.User);
                 Ap.enregistrerAppro();
                 Ap.ajouterStock();
             }

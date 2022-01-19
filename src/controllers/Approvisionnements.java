@@ -14,16 +14,17 @@ import modeles.easy_sales;
  * @author Faustin PADINGANYI
  */
 public class Approvisionnements {
-    private String idType, idArticles, jrAppro,idSite;
+    private String idType, idArticles, jrAppro,idSite,users;
     private int qteAppro;
     public Approvisionnements(){
         
     }
-    public Approvisionnements(String idType, String idArticles,String idSite, int qteAppro){
+    public Approvisionnements(String idType, String idArticles,String idSite, int qteAppro,String users){
         this.idType = idType;
         this.idArticles = idArticles;
         this.idSite = idSite;
         this.qteAppro = qteAppro;
+        this.users = users;
     }
 
     public String getJrAppro() {
@@ -52,12 +53,13 @@ public class Approvisionnements {
         try {
             easy_sales.connexionEasy();
             easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO Appro (idType,idArticles,"
-                    + "qteAppro,jrAppro,idSite, dateAppro) VALUES (?,?,?,?,?,now())");
+                    + "qteAppro,jrAppro,idSite,users, dateAppro) VALUES (?,?,?,?,?,?,now())");
             easy_sales.Pst.setString(1, idType);
             easy_sales.Pst.setString(2, idArticles);
             easy_sales.Pst.setInt(3, qteAppro);
             easy_sales.Pst.setString(4, getJrAppro());
             easy_sales.Pst.setString(5, idSite);
+            easy_sales.Pst.setString(6, users);
             easy_sales.Pst.execute();
             easy_sales.deconnexionEasy();
             System.out.println("Enregistrement effectué");

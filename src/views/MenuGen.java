@@ -45,6 +45,7 @@ public class MenuGen extends javax.swing.JFrame {
         Mvisa = new org.jdesktop.swingx.JXTaskPane();
         MBaseVisa = new org.jdesktop.swingx.JXTaskPane();
         jXHyperlink15 = new org.jdesktop.swingx.JXHyperlink();
+        jXHyperlink16 = new org.jdesktop.swingx.JXHyperlink();
         MBaseVisa1 = new org.jdesktop.swingx.JXTaskPane();
         jXHyperlink9 = new org.jdesktop.swingx.JXHyperlink();
         MBaseVisa2 = new org.jdesktop.swingx.JXTaskPane();
@@ -83,6 +84,20 @@ public class MenuGen extends javax.swing.JFrame {
             }
         });
         MBaseVisa.getContentPane().add(jXHyperlink15);
+
+        jXHyperlink16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LesImages/1sms_buttonFilter.png"))); // NOI18N
+        jXHyperlink16.setText("Assigner PU");
+        jXHyperlink16.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jXHyperlink16MouseClicked(evt);
+            }
+        });
+        jXHyperlink16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXHyperlink16ActionPerformed(evt);
+            }
+        });
+        MBaseVisa.getContentPane().add(jXHyperlink16);
 
         Mvisa.getContentPane().add(MBaseVisa);
 
@@ -225,6 +240,17 @@ public class MenuGen extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jXHyperlink11ActionPerformed
 
+    private void jXHyperlink16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jXHyperlink16MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jXHyperlink16MouseClicked
+
+    private void jXHyperlink16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXHyperlink16ActionPerformed
+        // TODO add your handling code here:
+        puInterface PUnit = new puInterface();
+        DsKtp.add(PUnit);
+        PUnit.setVisible(true);
+    }//GEN-LAST:event_jXHyperlink16ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -277,6 +303,7 @@ public class MenuGen extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXHyperlink jXHyperlink10;
     private org.jdesktop.swingx.JXHyperlink jXHyperlink11;
     private org.jdesktop.swingx.JXHyperlink jXHyperlink15;
+    private org.jdesktop.swingx.JXHyperlink jXHyperlink16;
     private org.jdesktop.swingx.JXHyperlink jXHyperlink7;
     private org.jdesktop.swingx.JXHyperlink jXHyperlink9;
     // End of variables declaration//GEN-END:variables

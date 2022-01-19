@@ -76,6 +76,18 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jXHyperlink15ActionPerformed"/>
               </Events>
             </Component>
+            <Component class="org.jdesktop.swingx.JXHyperlink" name="jXHyperlink16">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/LesImages/1sms_buttonFilter.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Assigner PU"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jXHyperlink16MouseClicked"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jXHyperlink16ActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
           <LayoutCode>
             <CodeStatement>
@@ -143,6 +155,22 @@
                 </CodeExpression>
               </Parameters>
             </CodeStatement>
+            <CodeStatement>
+              <CodeExpression id="3"/>
+              <StatementProvider type="CodeMethod">
+                <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component"/>
+              </StatementProvider>
+              <Parameters>
+                <CodeExpression id="6_jXHyperlink16">
+                  <CodeVariable name="jXHyperlink16" type="8194" declaredType="org.jdesktop.swingx.JXHyperlink"/>
+                  <ExpressionOrigin>
+                    <ExpressionProvider type="ComponentRef">
+                      <ComponentRef name="jXHyperlink16"/>
+                    </ExpressionProvider>
+                  </ExpressionOrigin>
+                </CodeExpression>
+              </Parameters>
+            </CodeStatement>
           </LayoutCode>
         </Container>
         <Container class="org.jdesktop.swingx.JXTaskPane" name="MBaseVisa1">
@@ -171,7 +199,7 @@
           </SubComponents>
           <LayoutCode>
             <CodeStatement>
-              <CodeExpression id="6_verticalLayout2">
+              <CodeExpression id="7_verticalLayout2">
                 <CodeVariable name="verticalLayout2" type="4096" declaredType="org.jdesktop.swingx.VerticalLayout"/>
                 <ExpressionOrigin>
                   <ExpressionProvider type="CodeConstructor">
@@ -180,16 +208,16 @@
                 </ExpressionOrigin>
               </CodeExpression>
               <StatementProvider type="CodeExpression">
-                <CodeExpression id="6_verticalLayout2"/>
+                <CodeExpression id="7_verticalLayout2"/>
               </StatementProvider>
             </CodeStatement>
             <CodeStatement>
-              <CodeExpression id="6_verticalLayout2"/>
+              <CodeExpression id="7_verticalLayout2"/>
               <StatementProvider type="CodeMethod">
                 <CodeMethod name="setGap" class="org.jdesktop.swingx.VerticalLayout" parameterTypes="int"/>
               </StatementProvider>
               <Parameters>
-                <CodeExpression id="7">
+                <CodeExpression id="8">
                   <ExpressionOrigin>
                     <Value type="int" value="2"/>
                   </ExpressionOrigin>
@@ -197,9 +225,9 @@
               </Parameters>
             </CodeStatement>
             <CodeStatement>
-              <CodeExpression id="8">
+              <CodeExpression id="9">
                 <ExpressionOrigin>
-                  <CodeExpression id="9_MBaseVisa1">
+                  <CodeExpression id="10_MBaseVisa1">
                     <CodeVariable name="MBaseVisa1" type="8194" declaredType="org.jdesktop.swingx.JXTaskPane"/>
                     <ExpressionOrigin>
                       <ExpressionProvider type="ComponentRef">
@@ -216,16 +244,16 @@
                 <CodeMethod name="setLayout" class="java.awt.Container" parameterTypes="java.awt.LayoutManager"/>
               </StatementProvider>
               <Parameters>
-                <CodeExpression id="6_verticalLayout2"/>
+                <CodeExpression id="7_verticalLayout2"/>
               </Parameters>
             </CodeStatement>
             <CodeStatement>
-              <CodeExpression id="8"/>
+              <CodeExpression id="9"/>
               <StatementProvider type="CodeMethod">
                 <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component"/>
               </StatementProvider>
               <Parameters>
-                <CodeExpression id="10_jXHyperlink9">
+                <CodeExpression id="11_jXHyperlink9">
                   <CodeVariable name="jXHyperlink9" type="8194" declaredType="org.jdesktop.swingx.JXHyperlink"/>
                   <ExpressionOrigin>
                     <ExpressionProvider type="ComponentRef">
@@ -263,7 +291,7 @@
           </SubComponents>
           <LayoutCode>
             <CodeStatement>
-              <CodeExpression id="11_verticalLayout6">
+              <CodeExpression id="12_verticalLayout6">
                 <CodeVariable name="verticalLayout6" type="4096" declaredType="org.jdesktop.swingx.VerticalLayout"/>
                 <ExpressionOrigin>
                   <ExpressionProvider type="CodeConstructor">
@@ -272,16 +300,16 @@
                 </ExpressionOrigin>
               </CodeExpression>
               <StatementProvider type="CodeExpression">
-                <CodeExpression id="11_verticalLayout6"/>
+                <CodeExpression id="12_verticalLayout6"/>
               </StatementProvider>
             </CodeStatement>
             <CodeStatement>
-              <CodeExpression id="11_verticalLayout6"/>
+              <CodeExpression id="12_verticalLayout6"/>
               <StatementProvider type="CodeMethod">
                 <CodeMethod name="setGap" class="org.jdesktop.swingx.VerticalLayout" parameterTypes="int"/>
               </StatementProvider>
               <Parameters>
-                <CodeExpression id="12">
+                <CodeExpression id="13">
                   <ExpressionOrigin>
                     <Value type="int" value="2"/>
                   </ExpressionOrigin>
@@ -289,9 +317,9 @@
               </Parameters>
             </CodeStatement>
             <CodeStatement>
-              <CodeExpression id="13">
+              <CodeExpression id="14">
                 <ExpressionOrigin>
-                  <CodeExpression id="14_MBaseVisa2">
+                  <CodeExpression id="15_MBaseVisa2">
                     <CodeVariable name="MBaseVisa2" type="8194" declaredType="org.jdesktop.swingx.JXTaskPane"/>
                     <ExpressionOrigin>
                       <ExpressionProvider type="ComponentRef">
@@ -308,16 +336,16 @@
                 <CodeMethod name="setLayout" class="java.awt.Container" parameterTypes="java.awt.LayoutManager"/>
               </StatementProvider>
               <Parameters>
-                <CodeExpression id="11_verticalLayout6"/>
+                <CodeExpression id="12_verticalLayout6"/>
               </Parameters>
             </CodeStatement>
             <CodeStatement>
-              <CodeExpression id="13"/>
+              <CodeExpression id="14"/>
               <StatementProvider type="CodeMethod">
                 <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component"/>
               </StatementProvider>
               <Parameters>
-                <CodeExpression id="15_jXHyperlink10">
+                <CodeExpression id="16_jXHyperlink10">
                   <CodeVariable name="jXHyperlink10" type="8194" declaredType="org.jdesktop.swingx.JXHyperlink"/>
                   <ExpressionOrigin>
                     <ExpressionProvider type="ComponentRef">
@@ -351,7 +379,7 @@
           </SubComponents>
           <LayoutCode>
             <CodeStatement>
-              <CodeExpression id="16_verticalLayout7">
+              <CodeExpression id="17_verticalLayout7">
                 <CodeVariable name="verticalLayout7" type="4096" declaredType="org.jdesktop.swingx.VerticalLayout"/>
                 <ExpressionOrigin>
                   <ExpressionProvider type="CodeConstructor">
@@ -360,16 +388,16 @@
                 </ExpressionOrigin>
               </CodeExpression>
               <StatementProvider type="CodeExpression">
-                <CodeExpression id="16_verticalLayout7"/>
+                <CodeExpression id="17_verticalLayout7"/>
               </StatementProvider>
             </CodeStatement>
             <CodeStatement>
-              <CodeExpression id="16_verticalLayout7"/>
+              <CodeExpression id="17_verticalLayout7"/>
               <StatementProvider type="CodeMethod">
                 <CodeMethod name="setGap" class="org.jdesktop.swingx.VerticalLayout" parameterTypes="int"/>
               </StatementProvider>
               <Parameters>
-                <CodeExpression id="17">
+                <CodeExpression id="18">
                   <ExpressionOrigin>
                     <Value type="int" value="2"/>
                   </ExpressionOrigin>
@@ -377,9 +405,9 @@
               </Parameters>
             </CodeStatement>
             <CodeStatement>
-              <CodeExpression id="18">
+              <CodeExpression id="19">
                 <ExpressionOrigin>
-                  <CodeExpression id="19_MInterVisa">
+                  <CodeExpression id="20_MInterVisa">
                     <CodeVariable name="MInterVisa" type="8194" declaredType="org.jdesktop.swingx.JXTaskPane"/>
                     <ExpressionOrigin>
                       <ExpressionProvider type="ComponentRef">
@@ -396,16 +424,16 @@
                 <CodeMethod name="setLayout" class="java.awt.Container" parameterTypes="java.awt.LayoutManager"/>
               </StatementProvider>
               <Parameters>
-                <CodeExpression id="16_verticalLayout7"/>
+                <CodeExpression id="17_verticalLayout7"/>
               </Parameters>
             </CodeStatement>
             <CodeStatement>
-              <CodeExpression id="18"/>
+              <CodeExpression id="19"/>
               <StatementProvider type="CodeMethod">
                 <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component"/>
               </StatementProvider>
               <Parameters>
-                <CodeExpression id="20_jXHyperlink7">
+                <CodeExpression id="21_jXHyperlink7">
                   <CodeVariable name="jXHyperlink7" type="8194" declaredType="org.jdesktop.swingx.JXHyperlink"/>
                   <ExpressionOrigin>
                     <ExpressionProvider type="ComponentRef">
@@ -432,7 +460,7 @@
       </SubComponents>
       <LayoutCode>
         <CodeStatement>
-          <CodeExpression id="21_verticalLayout4">
+          <CodeExpression id="22_verticalLayout4">
             <CodeVariable name="verticalLayout4" type="4096" declaredType="org.jdesktop.swingx.VerticalLayout"/>
             <ExpressionOrigin>
               <ExpressionProvider type="CodeConstructor">
@@ -441,16 +469,16 @@
             </ExpressionOrigin>
           </CodeExpression>
           <StatementProvider type="CodeExpression">
-            <CodeExpression id="21_verticalLayout4"/>
+            <CodeExpression id="22_verticalLayout4"/>
           </StatementProvider>
         </CodeStatement>
         <CodeStatement>
-          <CodeExpression id="21_verticalLayout4"/>
+          <CodeExpression id="22_verticalLayout4"/>
           <StatementProvider type="CodeMethod">
             <CodeMethod name="setGap" class="org.jdesktop.swingx.VerticalLayout" parameterTypes="int"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="22">
+            <CodeExpression id="23">
               <ExpressionOrigin>
                 <Value type="int" value="2"/>
               </ExpressionOrigin>
@@ -458,9 +486,9 @@
           </Parameters>
         </CodeStatement>
         <CodeStatement>
-          <CodeExpression id="23">
+          <CodeExpression id="24">
             <ExpressionOrigin>
-              <CodeExpression id="24_Mvisa">
+              <CodeExpression id="25_Mvisa">
                 <CodeVariable name="Mvisa" type="8194" declaredType="org.jdesktop.swingx.JXTaskPane"/>
                 <ExpressionOrigin>
                   <ExpressionProvider type="ComponentRef">
@@ -477,11 +505,11 @@
             <CodeMethod name="setLayout" class="java.awt.Container" parameterTypes="java.awt.LayoutManager"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="21_verticalLayout4"/>
+            <CodeExpression id="22_verticalLayout4"/>
           </Parameters>
         </CodeStatement>
         <CodeStatement>
-          <CodeExpression id="23"/>
+          <CodeExpression id="24"/>
           <StatementProvider type="CodeMethod">
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component"/>
           </StatementProvider>
@@ -490,39 +518,39 @@
           </Parameters>
         </CodeStatement>
         <CodeStatement>
-          <CodeExpression id="23"/>
+          <CodeExpression id="24"/>
           <StatementProvider type="CodeMethod">
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="9_MBaseVisa1"/>
+            <CodeExpression id="10_MBaseVisa1"/>
           </Parameters>
         </CodeStatement>
         <CodeStatement>
-          <CodeExpression id="23"/>
+          <CodeExpression id="24"/>
           <StatementProvider type="CodeMethod">
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="14_MBaseVisa2"/>
+            <CodeExpression id="15_MBaseVisa2"/>
           </Parameters>
         </CodeStatement>
         <CodeStatement>
-          <CodeExpression id="23"/>
+          <CodeExpression id="24"/>
           <StatementProvider type="CodeMethod">
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="19_MInterVisa"/>
+            <CodeExpression id="20_MInterVisa"/>
           </Parameters>
         </CodeStatement>
         <CodeStatement>
-          <CodeExpression id="23"/>
+          <CodeExpression id="24"/>
           <StatementProvider type="CodeMethod">
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="25_jXHyperlink11">
+            <CodeExpression id="26_jXHyperlink11">
               <CodeVariable name="jXHyperlink11" type="8194" declaredType="org.jdesktop.swingx.JXHyperlink"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
