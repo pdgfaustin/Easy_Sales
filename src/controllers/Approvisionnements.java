@@ -14,7 +14,7 @@ import modeles.easy_sales;
  * @author Faustin PADINGANYI
  */
 public class Approvisionnements {
-    private String idType, idArticles, jrAppro,idSite,users;
+    private String idType, idArticles,idSite,users;
     private int qteAppro;
     public Approvisionnements(){
         
@@ -26,29 +26,6 @@ public class Approvisionnements {
         this.qteAppro = qteAppro;
         this.users = users;
     }
-
-    public String getJrAppro() {
-        Calendar cal = Calendar.getInstance();
-        int day = cal.get(Calendar.DAY_OF_WEEK);
-        int JJ = day-1;
-        switch (JJ){
-            case 1: jrAppro = "Lundi";
-                    break;
-            case 2: jrAppro="Mardi";
-                    break;
-            case 3: jrAppro = "Mercredi";
-                    break;
-            case 4: jrAppro = "Jeudi";
-                    break;
-            case 5: jrAppro = "Vendredi";
-                    break;
-            case 6: jrAppro = "Samedi";
-                    break;
-            case 0: jrAppro = "Dimanche";
-                    break;
-        }
-        return jrAppro;
-    }
     public void enregistrerAppro(){
         try {
             easy_sales.connexionEasy();
@@ -57,7 +34,7 @@ public class Approvisionnements {
             easy_sales.Pst.setString(1, idType);
             easy_sales.Pst.setString(2, idArticles);
             easy_sales.Pst.setInt(3, qteAppro);
-            easy_sales.Pst.setString(4, getJrAppro());
+            easy_sales.Pst.setString(4, PontParametres.getJrSemaine(Calendar.getInstance()));
             easy_sales.Pst.setString(5, idSite);
             easy_sales.Pst.setString(6, users);
             easy_sales.Pst.execute();

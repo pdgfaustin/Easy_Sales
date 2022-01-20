@@ -45,9 +45,9 @@ public class MenuGen extends javax.swing.JFrame {
         Mvisa = new org.jdesktop.swingx.JXTaskPane();
         MBaseVisa = new org.jdesktop.swingx.JXTaskPane();
         jXHyperlink15 = new org.jdesktop.swingx.JXHyperlink();
-        jXHyperlink16 = new org.jdesktop.swingx.JXHyperlink();
         MBaseVisa1 = new org.jdesktop.swingx.JXTaskPane();
         jXHyperlink9 = new org.jdesktop.swingx.JXHyperlink();
+        jXHyperlink16 = new org.jdesktop.swingx.JXHyperlink();
         MBaseVisa2 = new org.jdesktop.swingx.JXTaskPane();
         jXHyperlink10 = new org.jdesktop.swingx.JXHyperlink();
         MInterVisa = new org.jdesktop.swingx.JXTaskPane();
@@ -85,20 +85,6 @@ public class MenuGen extends javax.swing.JFrame {
         });
         MBaseVisa.getContentPane().add(jXHyperlink15);
 
-        jXHyperlink16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LesImages/1sms_buttonFilter.png"))); // NOI18N
-        jXHyperlink16.setText("Assigner PU");
-        jXHyperlink16.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jXHyperlink16MouseClicked(evt);
-            }
-        });
-        jXHyperlink16.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jXHyperlink16ActionPerformed(evt);
-            }
-        });
-        MBaseVisa.getContentPane().add(jXHyperlink16);
-
         Mvisa.getContentPane().add(MBaseVisa);
 
         MBaseVisa1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LesImages/iClear.png"))); // NOI18N
@@ -118,6 +104,20 @@ public class MenuGen extends javax.swing.JFrame {
             }
         });
         MBaseVisa1.getContentPane().add(jXHyperlink9);
+
+        jXHyperlink16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LesImages/1sms_buttonFilter.png"))); // NOI18N
+        jXHyperlink16.setText("Assigner PU");
+        jXHyperlink16.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jXHyperlink16MouseClicked(evt);
+            }
+        });
+        jXHyperlink16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXHyperlink16ActionPerformed(evt);
+            }
+        });
+        MBaseVisa1.getContentPane().add(jXHyperlink16);
 
         Mvisa.getContentPane().add(MBaseVisa1);
 
@@ -230,6 +230,9 @@ public class MenuGen extends javax.swing.JFrame {
 
     private void jXHyperlink10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXHyperlink10ActionPerformed
         // TODO add your handling code here:
+        venteInterface VI = new venteInterface();
+        DsKtp.add(VI);
+        VI.setVisible(true);
     }//GEN-LAST:event_jXHyperlink10ActionPerformed
 
     private void jXHyperlink11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jXHyperlink11MouseClicked
