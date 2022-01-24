@@ -360,7 +360,7 @@ public class usersInterface extends javax.swing.JInternalFrame {
                 boolean vr = verifieZone();
                 if (vr) {
                     appelUser(); appelTravail();
-                    boolean tr = user.rechercherUser();
+                    boolean tr = user.rechercherUser(txtUserID.getText().trim());
                     if (tr) {
                         int msg1 = JOptionPane.showConfirmDialog(this, "Cet'Utilisateur existe déjà, voulez vous le modifier ?", "Easy Sales", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                         if (msg1== JOptionPane.YES_OPTION) {

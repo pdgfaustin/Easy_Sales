@@ -12,7 +12,8 @@ import java.util.Calendar;
  * @author Faustin PADINGANYI
  */
 public class PontParametres {
-    public static String  User, statut, site, admin, connecter,jrSemaine;
+    public static String  User,userAdm, statut, site,  connecter,jrSemaine;
+    public static boolean admin;
     public PontParametres(){
         
     }
@@ -24,6 +25,22 @@ public class PontParametres {
 
     public  String getUser() {
         return User;
+    }
+
+    public static String getUserAdm() {
+        return userAdm;
+    }
+
+    public static boolean isAdmin() {
+        return admin;
+    }
+
+    public static void setUserAdm(String userAdm) {
+        PontParametres.userAdm = userAdm;
+    }
+
+    public static void setAdmin(boolean admin) {
+        PontParametres.admin = admin;
     }
 
     public String getStatut() {
@@ -54,5 +71,24 @@ public class PontParametres {
                     break;
         }
         return jrSemaine;
+    }
+    public static int prixParJour(){
+        int prix = 0;
+        getJrSemaine(Calendar.getInstance());
+        switch (jrSemaine){
+            case "Mardi" : prix = 8000;
+                break;
+            case "Mercredi" : prix = 7000;
+                break;
+            case "Jeudi": prix = 6000;
+                break;
+            case "Vendredi": prix = 5000;
+                break;
+            case "Samedi" : prix = 4000;
+                break;
+            case "Dimanche" : prix = 3000;
+                break;
+        }
+        return prix;
     }
 }

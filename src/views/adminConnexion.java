@@ -5,27 +5,27 @@
  */
 package views;
 
-import controllers.PontParametres;
 import controllers.UsersBD;
+import controllers.Ventes;
 import javax.swing.JOptionPane;
 import java.io.*;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import javax.swing.ImageIcon;
 
 /**
  *
  * @author InfoSys Tech
  */
-public class Cnxion extends javax.swing.JFrame {
+public class adminConnexion extends javax.swing.JFrame {
 
     /**
      * Creates new form Cnxion
      */
-    public Cnxion() {
+    public adminConnexion() {
         initComponents();
+        initBiloko();
         this.setTitle("Connexion Foreign Base Dynamique ...");
         this.setLocationRelativeTo(this);
         this.setResizable(false);
@@ -37,6 +37,10 @@ public class Cnxion extends javax.swing.JFrame {
         }
     }
 
+    void initBiloko(){
+        btnHJ.setSelected(true);
+        btnSolde.setSelected(false);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,6 +57,8 @@ public class Cnxion extends javax.swing.JFrame {
         zpwd = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        btnHJ = new javax.swing.JRadioButton();
+        btnSolde = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -92,6 +98,20 @@ public class Cnxion extends javax.swing.JFrame {
             }
         });
 
+        btnHJ.setText("Heure de Joie");
+        btnHJ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHJActionPerformed(evt);
+            }
+        });
+
+        btnSolde.setText("Solde");
+        btnSolde.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSoldeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -105,18 +125,26 @@ public class Cnxion extends javax.swing.JFrame {
                         .addComponent(zUserN))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                         .addComponent(zpwd, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnHJ)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSolde)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(53, 53, 53)
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnHJ)
+                    .addComponent(btnSolde))
+                .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(zUserN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -164,34 +192,61 @@ public class Cnxion extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         try{
-            PrintWriter fich= new PrintWriter(new FileWriter("FicherUser.txt"));
             String us=this.zUserN.getText(), pd=Arrays.toString(zpwd.getPassword());
-//            fich.
+            Ventes vt = new Ventes();
             UsersBD user = new UsersBD();
-            boolean users = user.trouverUser(us, pd);
+            boolean users = user.trouverAdmin(us, pd);
             if(users){
+                if (btnHJ.isSelected()) {
+                    boolean hj = vt.heureDeJoie();
+                    if (!hj) {
+                        vt.creerParam("HEURE DE JOIE");
+                        JOptionPane.showMessageDialog(this, "Heure de Joie Créer", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
+                    }else{
+                        int msg = JOptionPane.showConfirmDialog(this, "Mettre fin à l'Heure de Joie ?", "Easy Sales", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        if (msg == JOptionPane.YES_OPTION) {
+                            vt.tuerParam("HEURE DE JOIE");
+                        }
+                    }
+                }else if(btnSolde.isSelected()){
+                    String z = vt.paramVentes();
+                    if (z.equals("SOLDE")) {
+                        vt.tuerParam("SOLDE");
+                        vt.creerParam("NORMAL");
+                        JOptionPane.showMessageDialog(this, "Nouvelle Semaine Créée", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
+                    }else{
+                        vt.tuerParam("HEURE DE JOIE");
+                        vt.tuerParam("NORMAL");
+                        vt.creerParam("SOLDE");
+                        JOptionPane.showMessageDialog(this, "Type de Vente : Solde", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
+                    }                    
+                }
+                
                 dispose();
-                new views.Logo().setVisible(true);
             }else{
-                System.err.println("H : "+ users);
-                JOptionPane.showMessageDialog(this, "Vérifiez les informations s'il vous plait", "Easy Sales", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Vous devez être minimum Gérant(e) pour modifier un état", "Easy Sales", JOptionPane.WARNING_MESSAGE);
             }
             
         }catch(Exception e){
-            JOptionPane.showMessageDialog(this, "Erreur : "+e.getMessage(), "Easy Sales", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Erreur : "+e.getMessage(), "Magnific Base Dynamique", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
     DateFormatSymbols dtf=new DateFormatSymbols();
     SimpleDateFormat sdt=new SimpleDateFormat("yyyy-MM-dd",dtf);
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        int i=JOptionPane.showConfirmDialog(this, "Voulez vous quitter Easy Sales ?", "Easy Sales", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if(i==JOptionPane.YES_OPTION){
-            System.exit(0);
-        }else{
-            this.zUserN.requestFocus();
-        }
+        dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnHJActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHJActionPerformed
+        // TODO add your handling code here:
+        btnSolde.setSelected(false);
+    }//GEN-LAST:event_btnHJActionPerformed
+
+    private void btnSoldeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSoldeActionPerformed
+        // TODO add your handling code here:
+        btnHJ.setSelected(false);
+    }//GEN-LAST:event_btnSoldeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -210,14 +265,18 @@ public class Cnxion extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Cnxion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(adminConnexion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Cnxion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(adminConnexion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Cnxion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(adminConnexion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Cnxion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(adminConnexion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -226,12 +285,14 @@ public class Cnxion extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Cnxion().setVisible(true);
+                new adminConnexion().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton btnHJ;
+    private javax.swing.JRadioButton btnSolde;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;

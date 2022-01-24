@@ -14,12 +14,12 @@ import modeles.easy_sales;
  * @author Faustin PADINGANYI
  */
 public class Ventes {
-    private String idClie, idArticles, idSite, idTvente, users;
+    private String nFacture,idClie, idArticles, idSite, idTvente, users;
     private int qteVente,prixVente;
     public Ventes(){
         
     }
-    public Ventes(String idClie,String idArticles,String idSite,String idTvente,String users,int qteVente, int prixVente){
+    public Ventes(String idClie,String idArticles,String idSite,String idTvente,String users,int qteVente, int prixVente,String nFacture){
         this.idClie = idClie;
         this.idArticles = idArticles;
         this.idSite = idSite;
@@ -27,13 +27,61 @@ public class Ventes {
         this.users = users;
         this.qteVente = qteVente;
         this.prixVente = prixVente;
+        this.nFacture = nFacture;
+    }
+    public String numeroFacture(){
+        String fact = "";
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT DISTINCT numFact FROM ventes ORDER BY numFact DESC LIMIT 1");
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                String a = easy_sales.rs.getString(1);
+                int b = Integer.parseInt(a.substring(3, a.length()));
+                b++;
+                fact = "HPP" + b;
+            }else{
+                fact = "HPP1";
+            }
+            easy_sales.deconnexionEasy();
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return fact;
+    }
+    public void enregistrerClient(){
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO clients (idClie) VALUES (?)");
+            easy_sales.Pst.setString(1, idClie);
+            easy_sales.Pst.execute();
+            easy_sales.deconnexionEasy();
+            System.out.println("Client Créé");
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+    }
+    public boolean rechercherClient(){
+        boolean trouve = false;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT idClie FROM Clients WHERE idClie = ?");
+            easy_sales.Pst.setString(1, idClie);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                trouve = true;
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return trouve;
     }
     public void enregistrerVente(){
         try {
             easy_sales.connexionEasy();
             easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO ventes "
                     + "(idClie, idArticles, idSite, idTVentes, qteVente, prixVente, jrVente, "
-                    + "users, dateVente VALUES (?,?,?,?,?,?,?,?,now())");
+                    + "users,numFact, dateVente) VALUES (?,?,?,?,?,?,?,?,?,now())");
             easy_sales.Pst.setString(1, idClie);
             easy_sales.Pst.setString(2, idArticles);
             easy_sales.Pst.setString(3, idSite);
@@ -42,12 +90,28 @@ public class Ventes {
             easy_sales.Pst.setInt(6, prixVente);
             easy_sales.Pst.setString(7, PontParametres.getJrSemaine(Calendar.getInstance()));
             easy_sales.Pst.setString(8, users);
+            easy_sales.Pst.setString(9, nFacture);
             easy_sales.Pst.execute();
             easy_sales.deconnexionEasy();
             System.out.println("Enregistrement effectué");
         } catch (Exception e) {
             System.err.println("Erreur : "+e.getMessage());
         }
+    }
+    public Integer qteProduit(String ID){
+        int QTE = 0;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT qteStock FROM articles WHERE idArticles = ?");
+            easy_sales.Pst.setString(1, ID);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                QTE = easy_sales.rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return QTE;
     }
     
     public static void fixerPrix(String ID, int prixUnitaire){
@@ -94,6 +158,26 @@ public class Ventes {
             System.err.println("Erreur : "+e.getMessage());
         }
     }
+    public boolean heureDeJoie(){
+        boolean trouve = false;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT nomParam,dateOuverture FROM parametreventes WHERE etatParam = ? AND nomParam = ?");
+            easy_sales.Pst.setString(1, "A");
+            easy_sales.Pst.setString(2, "HEURE DE JOIE");
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                trouve = true;
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return trouve;
+    }
+    /**
+     * 
+     * @return "Le Type de Vente activé"
+     */
     public String paramVentes(){
         String paramS = "";
         try {
@@ -104,6 +188,7 @@ public class Ventes {
             if (easy_sales.rs.next()) {
                 paramS = easy_sales.rs.getString(1);
             }
+            easy_sales.deconnexionEasy();
         } catch (Exception e) {
             System.err.println("Erreur : "+e.getMessage());
         }
@@ -123,6 +208,11 @@ public class Ventes {
             System.err.println("Erreur : "+e.getMessage());
         }
     }
+    /**
+     * 
+     * @param a "Y Spécifier la valeur du Type de Vente"
+     * @return  "Met fin au paramettre en cours spécifié"
+     */
     public void tuerParam(String a){
         try {
             easy_sales.connexionEasy();

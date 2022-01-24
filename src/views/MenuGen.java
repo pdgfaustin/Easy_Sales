@@ -25,6 +25,7 @@ public class MenuGen extends javax.swing.JFrame {
         setLocationRelativeTo(this);
         setTitle("Easy Sales : For a secure sale. Vous êtes connecté en tant que : "+PontParametres.User);
         MInterVisa.setCollapsed(true);
+        paraMe();
         try{
             this.setIconImage(new ImageIcon(getClass().getResource("/LesImages/HPP_Congo.jpg")).getImage());//donne l'icon au formulaire
         }catch  (Exception ex){
@@ -33,6 +34,16 @@ public class MenuGen extends javax.swing.JFrame {
         }
     }
 
+    void paraMe(){
+        String stat = PontParametres.statut;
+        if (stat.equals("Caissier")) {
+            MBaseVisa.setVisible(false);
+            MBaseVisa1.setVisible(false);
+            MInterVisa.setVisible(false);
+        }else if(stat.equals("Gérant")){
+            MBaseVisa.setVisible(false);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,6 +61,8 @@ public class MenuGen extends javax.swing.JFrame {
         jXHyperlink16 = new org.jdesktop.swingx.JXHyperlink();
         MBaseVisa2 = new org.jdesktop.swingx.JXTaskPane();
         jXHyperlink10 = new org.jdesktop.swingx.JXHyperlink();
+        MBaseVisa3 = new org.jdesktop.swingx.JXTaskPane();
+        jXHyperlink17 = new org.jdesktop.swingx.JXHyperlink();
         MInterVisa = new org.jdesktop.swingx.JXTaskPane();
         jXHyperlink7 = new org.jdesktop.swingx.JXHyperlink();
         jXHyperlink11 = new org.jdesktop.swingx.JXHyperlink();
@@ -141,6 +154,26 @@ public class MenuGen extends javax.swing.JFrame {
 
         Mvisa.getContentPane().add(MBaseVisa2);
 
+        MBaseVisa3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LesImages/exec.png"))); // NOI18N
+        MBaseVisa3.setTitle("Personal Parameters :");
+        MBaseVisa3.setFont(new java.awt.Font("Cambria", 1, 12)); // NOI18N
+
+        jXHyperlink17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LesImages/b_usradd.png"))); // NOI18N
+        jXHyperlink17.setText("Changer Mot de Passe");
+        jXHyperlink17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jXHyperlink17MouseClicked(evt);
+            }
+        });
+        jXHyperlink17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXHyperlink17ActionPerformed(evt);
+            }
+        });
+        MBaseVisa3.getContentPane().add(jXHyperlink17);
+
+        Mvisa.getContentPane().add(MBaseVisa3);
+
         MInterVisa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LesImages/Print.png"))); // NOI18N
         MInterVisa.setTitle("Some Lists :");
         MInterVisa.setFont(new java.awt.Font("Cambria", 1, 12)); // NOI18N
@@ -153,16 +186,6 @@ public class MenuGen extends javax.swing.JFrame {
 
         jXHyperlink11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LesImages/Help.png"))); // NOI18N
         jXHyperlink11.setText("About Us");
-        jXHyperlink11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jXHyperlink11MouseClicked(evt);
-            }
-        });
-        jXHyperlink11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jXHyperlink11ActionPerformed(evt);
-            }
-        });
         Mvisa.getContentPane().add(jXHyperlink11);
 
         javax.swing.GroupLayout DsKtpLayout = new javax.swing.GroupLayout(DsKtp);
@@ -188,7 +211,7 @@ public class MenuGen extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(DsKtp)
-            .addComponent(Mvisa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Mvisa, javax.swing.GroupLayout.DEFAULT_SIZE, 786, Short.MAX_VALUE)
         );
 
         pack();
@@ -235,14 +258,6 @@ public class MenuGen extends javax.swing.JFrame {
         VI.setVisible(true);
     }//GEN-LAST:event_jXHyperlink10ActionPerformed
 
-    private void jXHyperlink11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jXHyperlink11MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jXHyperlink11MouseClicked
-
-    private void jXHyperlink11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXHyperlink11ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jXHyperlink11ActionPerformed
-
     private void jXHyperlink16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jXHyperlink16MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jXHyperlink16MouseClicked
@@ -253,6 +268,15 @@ public class MenuGen extends javax.swing.JFrame {
         DsKtp.add(PUnit);
         PUnit.setVisible(true);
     }//GEN-LAST:event_jXHyperlink16ActionPerformed
+
+    private void jXHyperlink17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jXHyperlink17MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jXHyperlink17MouseClicked
+
+    private void jXHyperlink17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXHyperlink17ActionPerformed
+        // TODO add your handling code here:
+        new pwdInterface().setVisible(true);
+    }//GEN-LAST:event_jXHyperlink17ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -301,12 +325,14 @@ public class MenuGen extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXTaskPane MBaseVisa;
     private org.jdesktop.swingx.JXTaskPane MBaseVisa1;
     private org.jdesktop.swingx.JXTaskPane MBaseVisa2;
+    private org.jdesktop.swingx.JXTaskPane MBaseVisa3;
     private org.jdesktop.swingx.JXTaskPane MInterVisa;
     private org.jdesktop.swingx.JXTaskPane Mvisa;
     private org.jdesktop.swingx.JXHyperlink jXHyperlink10;
     private org.jdesktop.swingx.JXHyperlink jXHyperlink11;
     private org.jdesktop.swingx.JXHyperlink jXHyperlink15;
     private org.jdesktop.swingx.JXHyperlink jXHyperlink16;
+    private org.jdesktop.swingx.JXHyperlink jXHyperlink17;
     private org.jdesktop.swingx.JXHyperlink jXHyperlink7;
     private org.jdesktop.swingx.JXHyperlink jXHyperlink9;
     // End of variables declaration//GEN-END:variables

@@ -8,25 +8,25 @@ package views;
 import controllers.PontParametres;
 import controllers.UsersBD;
 import javax.swing.JOptionPane;
-import java.io.*;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import javax.swing.ImageIcon;
 
 /**
  *
  * @author InfoSys Tech
  */
-public class Cnxion extends javax.swing.JFrame {
+public class pwdInterface extends javax.swing.JFrame {
 
     /**
      * Creates new form Cnxion
      */
-    public Cnxion() {
+    public pwdInterface() {
         initComponents();
         this.setTitle("Connexion Foreign Base Dynamique ...");
+        zUserN.setEditable(false);
+        zUserN.setText(PontParametres.User);
         this.setLocationRelativeTo(this);
         this.setResizable(false);
         try{
@@ -53,6 +53,8 @@ public class Cnxion extends javax.swing.JFrame {
         zpwd = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        zpwdC = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -92,6 +94,11 @@ public class Cnxion extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        jLabel4.setText("Confirm :");
+
+        zpwdC.setFont(new java.awt.Font("Cambria", 0, 12)); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -110,7 +117,11 @@ public class Cnxion extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                        .addComponent(zpwdC, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -124,6 +135,10 @@ public class Cnxion extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(zpwd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(zpwdC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -164,19 +179,19 @@ public class Cnxion extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         try{
-            PrintWriter fich= new PrintWriter(new FileWriter("FicherUser.txt"));
-            String us=this.zUserN.getText(), pd=Arrays.toString(zpwd.getPassword());
-//            fich.
-            UsersBD user = new UsersBD();
-            boolean users = user.trouverUser(us, pd);
-            if(users){
+            String a  = Arrays.toString(zpwd.getPassword());
+            String b = Arrays.toString(zpwdC.getPassword());
+            if (a.equals(b)) {
+                int msg = JOptionPane.showConfirmDialog(this, "Etes - vous sûr de changer le mot de passe ?", "Easy Sales", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (msg == JOptionPane.NO_OPTION) {
+                    return;
+                }
+                UsersBD usB = new UsersBD();
+                usB.modifierPWD(zUserN.getText().trim(), b);
                 dispose();
-                new views.Logo().setVisible(true);
             }else{
-                System.err.println("H : "+ users);
-                JOptionPane.showMessageDialog(this, "Vérifiez les informations s'il vous plait", "Easy Sales", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Les deux mot de passe doivent être identiques", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
             }
-            
         }catch(Exception e){
             JOptionPane.showMessageDialog(this, "Erreur : "+e.getMessage(), "Easy Sales", JOptionPane.ERROR_MESSAGE);
         }
@@ -185,12 +200,7 @@ public class Cnxion extends javax.swing.JFrame {
     SimpleDateFormat sdt=new SimpleDateFormat("yyyy-MM-dd",dtf);
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        int i=JOptionPane.showConfirmDialog(this, "Voulez vous quitter Easy Sales ?", "Easy Sales", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if(i==JOptionPane.YES_OPTION){
-            System.exit(0);
-        }else{
-            this.zUserN.requestFocus();
-        }
+        dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -210,14 +220,18 @@ public class Cnxion extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Cnxion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(pwdInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Cnxion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(pwdInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Cnxion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(pwdInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Cnxion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(pwdInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -226,7 +240,7 @@ public class Cnxion extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Cnxion().setVisible(true);
+                new pwdInterface().setVisible(true);
             }
         });
     }
@@ -237,8 +251,10 @@ public class Cnxion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField zUserN;
     private javax.swing.JPasswordField zpwd;
+    private javax.swing.JPasswordField zpwdC;
     // End of variables declaration//GEN-END:variables
 }
