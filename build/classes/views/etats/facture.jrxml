@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="297" pageHeight="421" columnWidth="257" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="383cb188-8389-4052-a9e3-435fc15ce4a7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="hFacture" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     les_ventes.`idventes` AS les_ventes_idventes,
+     les_ventes.`idclie` AS les_ventes_idclie,
+     les_ventes.`idArticles` AS les_ventes_idArticles,
+     les_ventes.`idSite` AS les_ventes_idSite,
+     les_ventes.`numFact` AS les_ventes_numFact,
+     les_ventes.`qteVente` AS les_ventes_qteVente,
+     les_ventes.`prixVente` AS les_ventes_prixVente,
+     les_ventes.`dateVente` AS les_ventes_dateVente,
+     les_ventes.`desiArticle` AS les_ventes_desiArticle,
+     les_ventes.`libSite` AS les_ventes_libSite,
+     les_ventes.`adresse` AS les_ventes_adresse
+FROM
+     `les_ventes` les_ventes
+WHERE
+     numFact = $P{hFacture}]]>
+	</queryString>
+	<field name="les_ventes_idventes" class="java.lang.Integer"/>
+	<field name="les_ventes_idclie" class="java.lang.String"/>
+	<field name="les_ventes_idArticles" class="java.lang.String"/>
+	<field name="les_ventes_idSite" class="java.lang.String"/>
+	<field name="les_ventes_numFact" class="java.lang.String"/>
+	<field name="les_ventes_qteVente" class="java.math.BigDecimal"/>
+	<field name="les_ventes_prixVente" class="java.math.BigDecimal"/>
+	<field name="les_ventes_dateVente" class="java.sql.Date"/>
+	<field name="les_ventes_desiArticle" class="java.lang.String"/>
+	<field name="les_ventes_libSite" class="java.lang.String"/>
+	<field name="les_ventes_adresse" class="java.lang.String"/>
+	<variable name="prixTotal" class="java.lang.Integer">
+		<variableExpression><![CDATA[new Integer($F{les_ventes_qteVente}.intValue() * $F{les_ventes_prixVente}.intValue())]]></variableExpression>
+	</variable>
+	<variable name="totGen" class="java.lang.Integer" resetType="Group" resetGroup="numeroFacture" calculation="Sum">
+		<variableExpression><![CDATA[$V{prixTotal}]]></variableExpression>
+	</variable>
+	<group name="numeroFacture" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{les_ventes_numFact}]]></groupExpression>
+		<groupHeader>
+			<band height="51">
+				<textField>
+					<reportElement uuid="7d5e88e8-8e2b-4109-ae35-55732a126428" x="0" y="0" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{les_ventes_idSite}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="7164a95b-5f77-49d8-8a12-c72309af2856" x="197" y="0" width="60" height="20"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{les_ventes_numFact}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="14acaff3-a2f0-45b9-8720-cb1d1ada6086" x="136" y="0" width="55" height="20"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Cambria"/>
+					</textElement>
+					<text><![CDATA[Facture N° :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="14acaff3-a2f0-45b9-8720-cb1d1ada6086" x="0" y="30" width="79" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cambria"/>
+					</textElement>
+					<text><![CDATA[Produits]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="14acaff3-a2f0-45b9-8720-cb1d1ada6086" x="93" y="30" width="57" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cambria"/>
+					</textElement>
+					<text><![CDATA[QTE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="14acaff3-a2f0-45b9-8720-cb1d1ada6086" x="151" y="30" width="46" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cambria"/>
+					</textElement>
+					<text><![CDATA[PU]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="14acaff3-a2f0-45b9-8720-cb1d1ada6086" x="203" y="30" width="54" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cambria"/>
+					</textElement>
+					<text><![CDATA[PT]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="5656f79c-0870-413c-8295-92aeb849a504" x="0" y="50" width="257" height="1"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="22">
+				<textField>
+					<reportElement uuid="4caad660-4234-47de-9d78-392bcbd14c9e" x="182" y="0" width="54" height="20"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{totGen}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="14acaff3-a2f0-45b9-8720-cb1d1ada6086" x="236" y="0" width="18" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Cambria"/>
+					</textElement>
+					<text><![CDATA[FC]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement uuid="2602a984-f1e6-4ad3-b9d7-0e2b606e4850" x="4" y="0" width="79" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{les_ventes_desiArticle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="af013167-f44f-43bf-bb93-e72de9e1dd1a" x="151" y="0" width="46" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{les_ventes_prixVente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c8a68ce3-b518-44e2-9f9c-59b50205d430" x="100" y="0" width="43" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{les_ventes_qteVente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="33fd640c-9a80-472f-b507-051743031365" x="201" y="0" width="54" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{prixTotal}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="5656f79c-0870-413c-8295-92aeb849a504" x="0" y="20" width="257" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="82a8784e-6462-4e24-920f-c097a3d4be47" x="82" y="1" width="1" height="19"/>
+			</line>
+			<line>
+				<reportElement uuid="82a8784e-6462-4e24-920f-c097a3d4be47" x="150" y="1" width="1" height="19"/>
+			</line>
+			<line>
+				<reportElement uuid="82a8784e-6462-4e24-920f-c097a3d4be47" x="200" y="1" width="1" height="19"/>
+			</line>
+			<line>
+				<reportElement uuid="82a8784e-6462-4e24-920f-c097a3d4be47" x="-1" y="1" width="1" height="19"/>
+			</line>
+			<line>
+				<reportElement uuid="82a8784e-6462-4e24-920f-c097a3d4be47" x="257" y="1" width="1" height="19"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="71" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="af1dca2c-0e2d-4975-b2b0-e3dcdcc9bc02" x="-1" y="3" width="258" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Cambria"/>
+				</textElement>
+				<text><![CDATA[Merci d'être passé(e) dans notre boutique]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="db3c57fc-94e3-424f-a6cf-48fd8c0bd8e1" x="0" y="2" width="258" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="af1dca2c-0e2d-4975-b2b0-e3dcdcc9bc02" x="0" y="23" width="257" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Cambria" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[A bientôt]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="512c41f1-1eaf-4f6c-81de-c7cb119a8986" x="83" y="43" width="100" height="1"/>
+			</line>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="be6e3d8c-a324-49ea-b25e-ec1c2fed7375" x="149" y="50" width="108" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Cambria" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{les_ventes_dateVente}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

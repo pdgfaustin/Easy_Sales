@@ -5,7 +5,7 @@
  */
 package views;
 
-import com.mysql.cj.jdbc.ClientPreparedStatement;
+import com.mysql.jdbc.PreparedStatement;
 import controllers.Approvisionnements;
 import controllers.PontParametres;
 import java.util.Calendar;
@@ -54,7 +54,7 @@ public class approInterface extends javax.swing.JInternalFrame {
             tblStock.getColumn("QTE").setMaxWidth(50);
             tblStock.getColumn("ID PRO").setMaxWidth(0);
             easy_sales.connexionEasy();
-            easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT desiArticle, qteStock, idArticles FROM articles");
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT desiArticle, qteStock, idArticles FROM articles");
             easy_sales.rs = easy_sales.Pst.executeQuery();
             while (easy_sales.rs.next()) {                
                 String a,b,d;
@@ -90,7 +90,7 @@ public class approInterface extends javax.swing.JInternalFrame {
         try {
             cbTAppro.removeAllItems();
             easy_sales.connexionEasy();
-            easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT idType FROM TypeAppro");
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT idType FROM TypeAppro");
             easy_sales.rs=easy_sales.Pst.executeQuery();
             while (easy_sales.rs.next()) {                
                 cbTAppro.addItem(easy_sales.rs.getString(1));

@@ -5,12 +5,17 @@
  */
 package views;
 
-import com.mysql.cj.jdbc.ClientPreparedStatement;
+import com.mysql.jdbc.PreparedStatement;
 import controllers.PontParametres;
 import controllers.Ventes;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modeles.easy_sales;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -111,7 +116,7 @@ public class venteInterface extends javax.swing.JInternalFrame {
             ventes = new Ventes();
             ventes.fixerNouveauPrix();
             easy_sales.connexionEasy();
-            easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT desiArticle, qteStock, idArticles,prixUnitaire FROM articles");
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT desiArticle, qteStock, idArticles,prixUnitaire FROM articles");
             easy_sales.rs = easy_sales.Pst.executeQuery();
             while (easy_sales.rs.next()) { 
                 String a,b,d,e;
@@ -476,10 +481,22 @@ public class venteInterface extends javax.swing.JInternalFrame {
                     if (!trClie) {
                         ventes.enregistrerClient();
                     }
+                    boolean tvT = ventes.trTypeVente();
+                    if (!tvT) {
+                        ventes.creerTVente();
+                    }
                     ventes.enregistrerVente();
+                    ventes.updateQtePro();
                 }
                 JOptionPane.showMessageDialog(this, "Vente effectuée", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
             }
+            /**
+             * Début de l'impression
+             */
+            imprimerFacture(txtNFact.getText().trim());
+            /**
+             * Fin de l'Impression
+             */
             nettoie();
             numeroFacture();
         } catch (Exception e) {
@@ -487,6 +504,23 @@ public class venteInterface extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    void imprimerFacture(String numFact){
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT idSite,numFact, "
+                    + "desiArticle, qteVente, prixVente, dateVente FROM les_ventes WHERE numFact = ?");
+            easy_sales.Pst.setString(1, numFact);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                Map para = new HashMap();
+                para.put("hFacture", numFact);
+                JasperPrint jp = JasperFillManager.fillReport(getClass().getResourceAsStream("etats/facture1.jasper"),para,easy_sales.cn);
+                JasperViewer.viewReport(jp, false);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbTVente;
     private javax.swing.JButton jButton1;

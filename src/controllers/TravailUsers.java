@@ -5,7 +5,7 @@
  */
 package controllers;
 
-import com.mysql.cj.jdbc.ClientPreparedStatement;
+import com.mysql.jdbc.PreparedStatement;
 import modeles.easy_sales;
 
 /**
@@ -24,7 +24,7 @@ public class TravailUsers {
     public void enregistrerTravail(){
         try {
             easy_sales.connexionEasy();
-            easy_sales.Pst =  (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO travailUsers (idUsers,idSite,dateDebut,actif) "
+            easy_sales.Pst =  (PreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO travailUsers (idUsers,idSite,dateDebut,actif) "
                     + " VALUES(?,?,NOW(),?)");
             easy_sales.Pst.setString(1, idUsers);
             easy_sales.Pst.setString(2, idSite);
@@ -40,7 +40,7 @@ public class TravailUsers {
         boolean trouve = false;
         try {
             easy_sales.connexionEasy();
-            easy_sales.Pst=(ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT idUsers FROM travailUsers WHERE "
+            easy_sales.Pst=(PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT idUsers FROM travailUsers WHERE "
                     + " idUsers = ? AND datefin = null");
             easy_sales.Pst.setString(1, idUsers);
             easy_sales.rs = easy_sales.Pst.executeQuery();
@@ -55,7 +55,7 @@ public class TravailUsers {
     public void finTravail(){
         try {
             easy_sales.connexionEasy();
-            easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("UPDATE travailUsers SET "
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("UPDATE travailUsers SET "
                     + " dateFin = now(), actif = ? WHERE idUsers = ?");
             easy_sales.Pst.setString(2, idUsers);
             easy_sales.Pst.setString(1, "B");

@@ -5,7 +5,7 @@
  */
 package views;
 
-import com.mysql.cj.jdbc.ClientPreparedStatement;
+import com.mysql.jdbc.PreparedStatement;
 import controllers.TravailUsers;
 import controllers.UsersBD;
 import java.util.Arrays;
@@ -71,7 +71,7 @@ public class usersInterface extends javax.swing.JInternalFrame {
             tblMix.getColumn("Status").setMaxWidth(200);
             tblMix.getColumn("PWD").setMaxWidth(0);
             easy_sales.connexionEasy();
-            easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.prepareStatement("SELECT idUsers, nomcomplet, statuts, pwd FROM UsersBD");
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.prepareStatement("SELECT idUsers, nomcomplet, statuts, pwd FROM UsersBD");
             easy_sales.rs = easy_sales.Pst.executeQuery();
             while (easy_sales.rs.next()) {                
                 Object a,b,c,d;
@@ -99,7 +99,7 @@ public class usersInterface extends javax.swing.JInternalFrame {
             tblMix.getColumn("Nom Site").setMaxWidth(200);
             tblMix.getColumn("Adresse").setMinWidth(100);
             easy_sales.connexionEasy();
-            easy_sales.Pst = (ClientPreparedStatement)  easy_sales.cn.prepareStatement("SELECT idSite, libSite, adresse FROM sites");
+            easy_sales.Pst = (PreparedStatement)  easy_sales.cn.prepareStatement("SELECT idSite, libSite, adresse FROM sites");
             easy_sales.rs = easy_sales.Pst.executeQuery();
             while (easy_sales.rs.next()) {                
                 Object a,b,c;

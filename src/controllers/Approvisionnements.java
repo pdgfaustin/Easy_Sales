@@ -5,7 +5,7 @@
  */
 package controllers;
 
-import com.mysql.cj.jdbc.ClientPreparedStatement;
+import com.mysql.jdbc.PreparedStatement;
 import java.util.Calendar;
 import modeles.easy_sales;
 
@@ -29,7 +29,7 @@ public class Approvisionnements {
     public void enregistrerAppro(){
         try {
             easy_sales.connexionEasy();
-            easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO Appro (idType,idArticles,"
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO Appro (idType,idArticles,"
                     + "qteAppro,jrAppro,idSite,users, dateAppro) VALUES (?,?,?,?,?,?,now())");
             easy_sales.Pst.setString(1, idType);
             easy_sales.Pst.setString(2, idArticles);
@@ -47,7 +47,7 @@ public class Approvisionnements {
     public void ajouterStock(){
         try {
             easy_sales.connexionEasy();
-            easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT idArticles, desiArticle, qteStock FROM Articles WHERE idArticles =?");
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT idArticles, desiArticle, qteStock FROM Articles WHERE idArticles =?");
             easy_sales.Pst.setString(1, idArticles);
             easy_sales.rs = easy_sales.Pst.executeQuery();
             if (easy_sales.rs.next()) {
@@ -56,7 +56,7 @@ public class Approvisionnements {
                 qte += qteAppro;
                 easy_sales.deconnexionEasy();
                 easy_sales.connexionEasy();
-                easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("UPDATE Articles SET qtestock = ? WHERE idarticles = ?");
+                easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("UPDATE Articles SET qtestock = ? WHERE idarticles = ?");
                 easy_sales.Pst.setString(2, ID);
                 easy_sales.Pst.setInt(1, qte);
                 easy_sales.Pst.execute();

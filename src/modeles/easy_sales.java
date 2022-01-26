@@ -5,7 +5,7 @@
  */
 package modeles;
 
-import com.mysql.cj.jdbc.*;
+import com.mysql.jdbc.*;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 
@@ -14,8 +14,8 @@ import java.sql.ResultSet;
  * @author Faustin PADINGANYI
  */
 public class easy_sales {
-    public static ConnectionImpl cn;
-    public static ClientPreparedStatement Pst;
+    public static Connection cn;
+    public static PreparedStatement Pst;
     public static ResultSet rs;
     
     /**
@@ -23,8 +23,8 @@ public class easy_sales {
      */
     public static void connexionEasy(){
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            cn  = (ConnectionImpl) DriverManager.getConnection("jdbc:mysql://localhost:3306/hpp_easy_sales","root","");
+            Class.forName("com.mysql.jdbc.Driver");
+            cn  = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/hpp_easy_sales","root","");
             cn.setAutoCommit(false);
         } catch (Exception e) {
             System.err.println("Erreur : "+e.getMessage());

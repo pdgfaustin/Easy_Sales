@@ -5,7 +5,7 @@
  */
 package views;
 
-import com.mysql.cj.jdbc.ClientPreparedStatement;
+import com.mysql.jdbc.PreparedStatement;
 import controllers.Ventes;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -48,7 +48,7 @@ public class puInterface extends javax.swing.JInternalFrame {
             tblStock.getColumn("ID PRO").setMaxWidth(0);
             tblStock.getColumn("PU").setMaxWidth(0);
             easy_sales.connexionEasy();
-            easy_sales.Pst = (ClientPreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT desiArticle, qteStock, idArticles, prixunitaire FROM articles");
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT desiArticle, qteStock, idArticles, prixunitaire FROM articles");
             easy_sales.rs = easy_sales.Pst.executeQuery();
             while (easy_sales.rs.next()) {                
                 String a,b,d,e;
