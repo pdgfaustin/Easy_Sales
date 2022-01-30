@@ -1,27 +1,24 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
--- https://www.phpmyadmin.net/
+-- version 4.1.14
+-- http://www.phpmyadmin.net
 --
--- Hôte : 127.0.0.1:3306
--- Généré le : mar. 25 jan. 2022 à 11:22
--- Version du serveur : 8.0.27
--- Version de PHP : 7.4.26
+-- Client :  127.0.0.1
+-- Généré le :  Mer 26 Janvier 2022 à 16:38
+-- Version du serveur :  5.6.17
+-- Version de PHP :  5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
--- Base de données : `hpp_easy_sales`
+-- Base de données :  `hpp_easy_sales`
 --
-CREATE DATABASE IF NOT EXISTS `hpp_easy_sales` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-USE `hpp_easy_sales`;
 
 -- --------------------------------------------------------
 
@@ -29,45 +26,31 @@ USE `hpp_easy_sales`;
 -- Structure de la table `appro`
 --
 
-DROP TABLE IF EXISTS `appro`;
 CREATE TABLE IF NOT EXISTS `appro` (
-  `idAppro` smallint NOT NULL AUTO_INCREMENT,
-  `idType` varchar(15) DEFAULT NULL,
-  `idArticles` varchar(15) DEFAULT NULL,
-  `idSite` varchar(15) DEFAULT NULL,
+  `idAppro` smallint(6) NOT NULL AUTO_INCREMENT,
+  `idType` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `idArticles` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `idSite` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
   `qteAppro` decimal(6,0) DEFAULT NULL,
-  `jrAppro` varchar(10) DEFAULT NULL,
+  `jrAppro` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `dateAppro` date DEFAULT NULL,
-  `users` varchar(15) DEFAULT NULL,
+  `users` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`idAppro`),
   KEY `idType` (`idType`),
   KEY `idArticles` (`idArticles`),
   KEY `idSite` (`idSite`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
 
 --
--- Déchargement des données de la table `appro`
+-- Contenu de la table `appro`
 --
 
 INSERT INTO `appro` (`idAppro`, `idType`, `idArticles`, `idSite`, `qteAppro`, `jrAppro`, `dateAppro`, `users`) VALUES
-(1, 'INJECTION', 'BAG', NULL, '520', 'Mardi', '2022-01-18', NULL),
-(2, 'INJECTION', 'BAG', 'HPP KINTAMBO', '50', 'Mardi', '2022-01-18', NULL),
-(3, 'INJECTION', 'CHA', 'HPP KINTAMBO', '6580', 'Mardi', '2022-01-18', NULL),
-(4, 'INJECTION', 'BAG', 'HPP KINTAMBO', '250', 'Mardi', '2022-01-18', NULL),
-(5, 'INJECTION', 'CHA', 'HPP KINTAMBO', '650', 'Mardi', '2022-01-18', NULL),
-(6, 'INJECTION', 'TNS', 'HPP KINTAMBO', '890', 'Mardi', '2022-01-18', NULL),
-(7, 'INJECTION', 'BAG', 'HPP KINTAMBO', '28', 'Mardi', '2022-01-18', NULL),
-(8, 'INJECTION', 'BAG', 'HPP KINTAMBO', '2', 'Mardi', '2022-01-18', NULL),
-(9, 'INJECTION', 'BAG', 'HPP KINTAMBO', '3', 'Mardi', '2022-01-18', NULL),
-(10, 'INJECTION', 'BAG', 'HPP KINTAMBO', '7', 'Mardi', '2022-01-18', NULL),
-(11, 'INJECTION', 'MAT', 'HPP KINTAMBO', '19', 'Mardi', '2022-01-18', NULL),
-(12, 'INJECTION', 'TNS', 'HPP KINTAMBO', '11', 'Mardi', '2022-01-18', NULL),
-(13, 'INJECTION', 'BAG', 'HPP KINTAMBO', '11', 'Mardi', '2022-01-18', NULL),
-(14, 'INJECTION', 'CHA', 'HPP KINTAMBO', '19', 'Mardi', '2022-01-18', NULL),
-(15, 'INJECTION', 'TNS', 'HPP KINTAMBO', '17', 'Mardi', '2022-01-18', NULL),
-(16, 'INJECTION', 'SHOES', 'HPP KINTAMBO', '77', 'Mardi', '2022-01-18', NULL),
-(17, 'INJECTION', 'MAT', 'HPP KINTAMBO', '89', 'Mardi', '2022-01-18', NULL),
-(18, 'INJECTION', 'CHA', 'HPP KINTAMBO', '10', 'Mardi', '2022-01-18', 'FF.PADINGANYI');
+(1, 'INJECTION', 'BAG', 'HPP KINTAMBO', '7000', 'Mercredi', '2022-01-26', 'FF.PADINGANYI'),
+(2, 'INJECTION', 'CHI', 'HPP KINTAMBO', '560', 'Mercredi', '2022-01-26', 'FF.PADINGANYI'),
+(3, 'INJECTION', 'CLO', 'HPP KINTAMBO', '17000', 'Mercredi', '2022-01-26', 'FF.PADINGANYI'),
+(4, 'INJECTION', 'MAT', 'HPP KINTAMBO', '800', 'Mercredi', '2022-01-26', 'FF.PADINGANYI'),
+(5, 'INJECTION', 'TIN', 'HPP KINTAMBO', '9000', 'Mercredi', '2022-01-26', 'FF.PADINGANYI');
 
 -- --------------------------------------------------------
 
@@ -75,27 +58,25 @@ INSERT INTO `appro` (`idAppro`, `idType`, `idArticles`, `idSite`, `qteAppro`, `j
 -- Structure de la table `articles`
 --
 
-DROP TABLE IF EXISTS `articles`;
 CREATE TABLE IF NOT EXISTS `articles` (
-  `idArticles` varchar(15) NOT NULL,
-  `desiArticle` varchar(100) DEFAULT NULL,
+  `idArticles` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `desiArticle` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `qteStock` decimal(6,0) DEFAULT '0',
   `prixUnitaire` decimal(6,0) DEFAULT '0',
   `prixVidageStock` decimal(6,0) DEFAULT '0',
   PRIMARY KEY (`idArticles`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Déchargement des données de la table `articles`
+-- Contenu de la table `articles`
 --
 
 INSERT INTO `articles` (`idArticles`, `desiArticle`, `qteStock`, `prixUnitaire`, `prixVidageStock`) VALUES
-('BAG', 'Sacs', '301', '6000', '0'),
-('CHA', 'Habit Enfant', '679', '0', '0'),
-('CLO', 'Habit', '0', '6000', '0'),
-('MAT', 'Matériels', '108', '6000', '0'),
-('SHOES', 'Chaussures', '77', '1700', '0'),
-('TNS', 'Petites Choses', '918', '0', '0');
+('BAG', 'Bags', '6988', '7000', '0'),
+('CHI', 'Children', '560', '6500', '0'),
+('CLO', 'Clothes', '16993', '7000', '0'),
+('MAT', 'Materials', '799', '1700', '0'),
+('TIN', 'Tinies/Belts etc', '8966', '950', '0');
 
 -- --------------------------------------------------------
 
@@ -103,30 +84,27 @@ INSERT INTO `articles` (`idArticles`, `desiArticle`, `qteStock`, `prixUnitaire`,
 -- Structure de la table `clients`
 --
 
-DROP TABLE IF EXISTS `clients`;
 CREATE TABLE IF NOT EXISTS `clients` (
-  `idclie` varchar(15) NOT NULL,
+  `idclie` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`idclie`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Déchargement des données de la table `clients`
+-- Contenu de la table `clients`
 --
 
 INSERT INTO `clients` (`idclie`) VALUES
 ('00243'),
+('00243811869726'),
 ('00243840610172');
 
 -- --------------------------------------------------------
 
 --
 -- Doublure de structure pour la vue `les_appro`
--- (Voir ci-dessous la vue réelle)
 --
-DROP VIEW IF EXISTS `les_appro`;
 CREATE TABLE IF NOT EXISTS `les_appro` (
-`idAppro` smallint
-,`idType` varchar(15)
+`idTYpe` varchar(15)
 ,`idArticles` varchar(15)
 ,`idSite` varchar(15)
 ,`qteAppro` decimal(6,0)
@@ -134,20 +112,17 @@ CREATE TABLE IF NOT EXISTS `les_appro` (
 ,`dateAppro` date
 ,`users` varchar(15)
 ,`desiArticle` varchar(100)
+,`prixUnitaire` decimal(6,0)
 ,`libSite` varchar(100)
 ,`adresse` text
 );
-
 -- --------------------------------------------------------
 
 --
 -- Doublure de structure pour la vue `les_ventes`
--- (Voir ci-dessous la vue réelle)
 --
-DROP VIEW IF EXISTS `les_ventes`;
 CREATE TABLE IF NOT EXISTS `les_ventes` (
-`idventes` smallint
-,`idclie` varchar(15)
+`idClie` varchar(15)
 ,`idArticles` varchar(15)
 ,`idSite` varchar(15)
 ,`idTVentes` varchar(15)
@@ -161,52 +136,72 @@ CREATE TABLE IF NOT EXISTS `les_ventes` (
 ,`libSite` varchar(100)
 ,`adresse` text
 );
-
 -- --------------------------------------------------------
 
 --
 -- Structure de la table `parametreventes`
 --
 
-DROP TABLE IF EXISTS `parametreventes`;
 CREATE TABLE IF NOT EXISTS `parametreventes` (
-  `idParam` smallint NOT NULL AUTO_INCREMENT,
+  `idParam` smallint(6) NOT NULL AUTO_INCREMENT,
   `nomParam` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
   `dateOuverture` date DEFAULT NULL,
   `dateFermeture` date DEFAULT NULL,
   `etatParam` char(1) COLLATE utf8_unicode_ci NOT NULL,
   `users` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`idParam`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
 --
--- Déchargement des données de la table `parametreventes`
+-- Contenu de la table `parametreventes`
 --
 
 INSERT INTO `parametreventes` (`idParam`, `nomParam`, `dateOuverture`, `dateFermeture`, `etatParam`, `users`) VALUES
-(1, 'NORMAL', '2022-01-20', '2022-01-24', 'B', 'FF.PADINGANYI'),
-(2, 'HEURE DE JOIE', '2022-01-24', '2022-01-24', 'B', 'FOLOLO2100'),
-(3, 'HEURE DE JOIE', '2022-01-24', '2022-01-24', 'B', 'FOLOLO2100'),
-(4, 'HEURE DE JOIE', '2022-01-24', '2022-01-24', 'B', 'FOLOLO2100'),
-(5, 'SOLDE', '2022-01-24', '2022-01-24', 'B', 'FOLOLO2100'),
-(6, 'NORMAL', '2022-01-24', NULL, 'A', 'FOLOLO2100');
+(1, 'NORMAL', '2022-01-26', NULL, 'A', 'FF.PADINGANYI');
 
+-- --------------------------------------------------------
+
+--
+-- Doublure de structure pour la vue `rapportdetailsemaine`
+--
+CREATE TABLE IF NOT EXISTS `rapportdetailsemaine` (
+`idArticles` varchar(15)
+,`desiArticle` varchar(100)
+,`jrvente` varchar(10)
+,`dateVente` date
+,`venteTot` decimal(34,0)
+,`Les_Appro` decimal(28,0)
+,`qteVenduJr` decimal(28,0)
+,`nbreClient` bigint(21)
+);
+-- --------------------------------------------------------
+
+--
+-- Doublure de structure pour la vue `rapportglobalsemaine`
+--
+CREATE TABLE IF NOT EXISTS `rapportglobalsemaine` (
+`jrvente` varchar(10)
+,`dateVente` date
+,`venteTot` decimal(34,0)
+,`Les_Appro` decimal(28,0)
+,`qteVenduJr` decimal(28,0)
+,`nbreClient` bigint(21)
+);
 -- --------------------------------------------------------
 
 --
 -- Structure de la table `sites`
 --
 
-DROP TABLE IF EXISTS `sites`;
 CREATE TABLE IF NOT EXISTS `sites` (
-  `idSite` varchar(15) NOT NULL,
-  `libSite` varchar(100) DEFAULT NULL,
-  `adresse` text,
+  `idSite` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `libSite` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `adresse` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`idSite`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Déchargement des données de la table `sites`
+-- Contenu de la table `sites`
 --
 
 INSERT INTO `sites` (`idSite`, `libSite`, `adresse`) VALUES
@@ -219,19 +214,20 @@ INSERT INTO `sites` (`idSite`, `libSite`, `adresse`) VALUES
 -- Structure de la table `travailusers`
 --
 
-DROP TABLE IF EXISTS `travailusers`;
 CREATE TABLE IF NOT EXISTS `travailusers` (
-  `idTravail` smallint NOT NULL AUTO_INCREMENT,
+  `idTravail` smallint(6) NOT NULL AUTO_INCREMENT,
   `idUsers` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
   `idSite` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
   `dateDebut` date DEFAULT NULL,
   `dateFin` date DEFAULT NULL,
   `actif` varchar(1) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`idTravail`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+  PRIMARY KEY (`idTravail`),
+  KEY `idUsers` (`idUsers`),
+  KEY `idSite` (`idSite`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9 ;
 
 --
--- Déchargement des données de la table `travailusers`
+-- Contenu de la table `travailusers`
 --
 
 INSERT INTO `travailusers` (`idTravail`, `idUsers`, `idSite`, `dateDebut`, `dateFin`, `actif`) VALUES
@@ -243,14 +239,12 @@ INSERT INTO `travailusers` (`idTravail`, `idUsers`, `idSite`, `dateDebut`, `date
 
 --
 -- Doublure de structure pour la vue `travailusersview`
--- (Voir ci-dessous la vue réelle)
 --
-DROP VIEW IF EXISTS `travailusersview`;
 CREATE TABLE IF NOT EXISTS `travailusersview` (
 `idUsers` varchar(15)
-,`idSite` varchar(15)
-,`dateDebut` date
-,`dateFin` date
+,`idsite` varchar(15)
+,`datedebut` date
+,`datefin` date
 ,`actif` varchar(1)
 ,`nomComplet` varchar(30)
 ,`statuts` varchar(15)
@@ -259,21 +253,19 @@ CREATE TABLE IF NOT EXISTS `travailusersview` (
 ,`libSite` varchar(100)
 ,`adresse` text
 );
-
 -- --------------------------------------------------------
 
 --
 -- Structure de la table `typeappro`
 --
 
-DROP TABLE IF EXISTS `typeappro`;
 CREATE TABLE IF NOT EXISTS `typeappro` (
-  `idType` varchar(15) NOT NULL,
+  `idType` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`idType`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Déchargement des données de la table `typeappro`
+-- Contenu de la table `typeappro`
 --
 
 INSERT INTO `typeappro` (`idType`) VALUES
@@ -286,20 +278,17 @@ INSERT INTO `typeappro` (`idType`) VALUES
 -- Structure de la table `typeventes`
 --
 
-DROP TABLE IF EXISTS `typeventes`;
 CREATE TABLE IF NOT EXISTS `typeventes` (
-  `idTVentes` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `idTVentes` varchar(15) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`idTVentes`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Déchargement des données de la table `typeventes`
+-- Contenu de la table `typeventes`
 --
 
 INSERT INTO `typeventes` (`idTVentes`) VALUES
-('HEURE DE JOIE'),
-('NORMAL'),
-('SOLDE');
+('NORMAL');
 
 -- --------------------------------------------------------
 
@@ -307,23 +296,22 @@ INSERT INTO `typeventes` (`idTVentes`) VALUES
 -- Structure de la table `usersbd`
 --
 
-DROP TABLE IF EXISTS `usersbd`;
 CREATE TABLE IF NOT EXISTS `usersbd` (
-  `idUsers` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `idUsers` varchar(15) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `nomComplet` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `statuts` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `statuts` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
   `contact` text COLLATE utf8_unicode_ci,
   `pwd` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`idUsers`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Déchargement des données de la table `usersbd`
+-- Contenu de la table `usersbd`
 --
 
 INSERT INTO `usersbd` (`idUsers`, `nomComplet`, `statuts`, `contact`, `pwd`) VALUES
 ('FF.PADINGANYI', 'FAUSTIN PADINGANYI', 'Administrateur', 'OK', '[1, 2, 3]'),
-('FOLOLO2100', 'FLORY PADINGANYI', 'Caissier', 'OK', '[1, 2, 3]'),
+('FOLOLO2100', 'FLORY PADINGANYI', 'Caissier', 'OK', '[F, F, ., P, A, D, I, N, G, A, N, Y, I]'),
 ('HNKONGOLO', 'HÉLÈNE NKONGOLO', 'Gérant', 'OK', '[1, 2, 3]');
 
 -- --------------------------------------------------------
@@ -332,33 +320,44 @@ INSERT INTO `usersbd` (`idUsers`, `nomComplet`, `statuts`, `contact`, `pwd`) VAL
 -- Structure de la table `ventes`
 --
 
-DROP TABLE IF EXISTS `ventes`;
 CREATE TABLE IF NOT EXISTS `ventes` (
-  `idventes` smallint NOT NULL AUTO_INCREMENT,
-  `idclie` varchar(15) DEFAULT NULL,
-  `idArticles` varchar(15) DEFAULT NULL,
-  `idSite` varchar(15) DEFAULT NULL,
-  `idTVentes` varchar(15) NOT NULL,
-  `numFact` varchar(15) DEFAULT NULL,
+  `idventes` smallint(6) NOT NULL AUTO_INCREMENT,
+  `idclie` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `idArticles` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `idSite` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `idTVentes` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `numFact` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
   `qteVente` decimal(6,0) DEFAULT NULL,
   `prixVente` decimal(6,0) DEFAULT NULL,
-  `jrVente` varchar(10) DEFAULT NULL,
+  `jrVente` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `dateVente` date DEFAULT NULL,
-  `users` varchar(15) DEFAULT NULL,
+  `users` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`idventes`),
   KEY `idclie` (`idclie`),
+  KEY `idTVentes` (`idTVentes`),
   KEY `idArticles` (`idArticles`),
   KEY `idSite` (`idSite`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=17 ;
 
 --
--- Déchargement des données de la table `ventes`
+-- Contenu de la table `ventes`
 --
 
 INSERT INTO `ventes` (`idventes`, `idclie`, `idArticles`, `idSite`, `idTVentes`, `numFact`, `qteVente`, `prixVente`, `jrVente`, `dateVente`, `users`) VALUES
-(2, '00243840610172', 'BAG', 'HPP KINTAMBO', 'NORMAL', 'HPP1', '1', '6000', 'Lundi', '2022-01-24', 'FOLOLO2100'),
-(3, '00243840610172', 'SHOES', 'HPP KINTAMBO', 'NORMAL', 'HPP1', '5', '1700', 'Lundi', '2022-01-24', 'FOLOLO2100'),
-(4, '00243', 'BAG', 'HPP KINTAMBO', 'NORMAL', 'HPP2', '2', '6000', 'Lundi', '2022-01-24', 'FOLOLO2100');
+(3, '00243', 'TIN', 'HPP KINTAMBO', 'NORMAL', 'HPP1', '17', '950', 'Mercredi', '2022-01-26', 'FOLOLO2100'),
+(4, '00243', 'BAG', 'HPP KINTAMBO', 'NORMAL', 'HPP1', '3', '7000', 'Mercredi', '2022-01-26', 'FOLOLO2100'),
+(5, '00243', 'CLO', 'HPP KINTAMBO', 'NORMAL', 'HPP1', '6', '7000', 'Mercredi', '2022-01-26', 'FOLOLO2100'),
+(6, '00243', 'BAG', 'HPP KINTAMBO', 'NORMAL', 'HPP2', '1', '7000', 'Mercredi', '2022-01-26', 'FOLOLO2100'),
+(7, '00243', 'CHI', 'HPP KINTAMBO', 'NORMAL', 'HPP2', '3', '6500', 'Mercredi', '2022-01-26', 'FOLOLO2100'),
+(8, '00243', 'TIN', 'HPP KINTAMBO', 'NORMAL', 'HPP2', '11', '950', 'Mercredi', '2022-01-26', 'FOLOLO2100'),
+(9, '00243840610172', 'BAG', 'HPP KINTAMBO', 'NORMAL', 'HPP3', '5', '7000', 'Mercredi', '2022-01-26', 'FOLOLO2100'),
+(10, '00243840610172', 'TIN', 'HPP KINTAMBO', 'NORMAL', 'HPP3', '19', '950', 'Mercredi', '2022-01-26', 'FOLOLO2100'),
+(11, '00243840610172', 'MAT', 'HPP KINTAMBO', 'NORMAL', 'HPP3', '1', '1700', 'Mercredi', '2022-01-26', 'FOLOLO2100'),
+(12, '00243811869726', 'BAG', 'HPP KINTAMBO', 'NORMAL', 'HPP4', '1', '7000', 'Mercredi', '2022-01-26', 'FOLOLO2100'),
+(13, '00243811869726', 'CLO', 'HPP KINTAMBO', 'NORMAL', 'HPP4', '7', '7000', 'Mercredi', '2022-01-26', 'FOLOLO2100'),
+(14, '00243811869726', 'TIN', 'HPP KINTAMBO', 'NORMAL', 'HPP4', '6', '950', 'Mercredi', '2022-01-26', 'FOLOLO2100'),
+(15, '00243', 'BAG', 'HPP KINTAMBO', 'NORMAL', 'HPP5', '6', '7000', 'Mercredi', '2022-01-26', 'FOLOLO2100'),
+(16, '00243', 'TIN', 'HPP KINTAMBO', 'NORMAL', 'HPP5', '9', '950', 'Mercredi', '2022-01-26', 'FOLOLO2100');
 
 -- --------------------------------------------------------
 
@@ -367,8 +366,7 @@ INSERT INTO `ventes` (`idventes`, `idclie`, `idArticles`, `idSite`, `idTVentes`,
 --
 DROP TABLE IF EXISTS `les_appro`;
 
-DROP VIEW IF EXISTS `les_appro`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `les_appro`  AS SELECT `a`.`idAppro` AS `idAppro`, `a`.`idType` AS `idType`, `a`.`idArticles` AS `idArticles`, `a`.`idSite` AS `idSite`, `a`.`qteAppro` AS `qteAppro`, `a`.`jrAppro` AS `jrAppro`, `a`.`dateAppro` AS `dateAppro`, `a`.`users` AS `users`, `b`.`desiArticle` AS `desiArticle`, `c`.`libSite` AS `libSite`, `c`.`adresse` AS `adresse` FROM (((`appro` `a` join `articles` `b`) join `sites` `c`) join `typeappro` `d`) WHERE ((`a`.`idType` = `d`.`idType`) AND (`a`.`idArticles` = `b`.`idArticles`) AND (`a`.`idSite` = `c`.`idSite`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `les_appro` AS select `a`.`idType` AS `idTYpe`,`a`.`idArticles` AS `idArticles`,`a`.`idSite` AS `idSite`,`a`.`qteAppro` AS `qteAppro`,`a`.`jrAppro` AS `jrAppro`,`a`.`dateAppro` AS `dateAppro`,`a`.`users` AS `users`,`b`.`desiArticle` AS `desiArticle`,`b`.`prixUnitaire` AS `prixUnitaire`,`d`.`libSite` AS `libSite`,`d`.`adresse` AS `adresse` from (((`appro` `a` join `articles` `b`) join `typeappro` `c`) join `sites` `d`) where ((`a`.`idType` = `c`.`idType`) and (`a`.`idArticles` = `b`.`idArticles`) and (`a`.`idSite` = `d`.`idSite`));
 
 -- --------------------------------------------------------
 
@@ -377,8 +375,25 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `les_ventes`;
 
-DROP VIEW IF EXISTS `les_ventes`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `les_ventes`  AS SELECT `a`.`idventes` AS `idventes`, `a`.`idclie` AS `idclie`, `a`.`idArticles` AS `idArticles`, `a`.`idSite` AS `idSite`, `a`.`idTVentes` AS `idTVentes`, `a`.`numFact` AS `numFact`, `a`.`qteVente` AS `qteVente`, `a`.`prixVente` AS `prixVente`, `a`.`jrVente` AS `jrVente`, `a`.`dateVente` AS `dateVente`, `a`.`users` AS `users`, `b`.`desiArticle` AS `desiArticle`, `c`.`libSite` AS `libSite`, `c`.`adresse` AS `adresse` FROM (((`ventes` `a` join `articles` `b`) join `sites` `c`) join `clients` `d`) WHERE ((`a`.`idclie` = `d`.`idclie`) AND (`a`.`idArticles` = `b`.`idArticles`) AND (`a`.`idSite` = `c`.`idSite`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `les_ventes` AS select `a`.`idclie` AS `idClie`,`a`.`idArticles` AS `idArticles`,`a`.`idSite` AS `idSite`,`a`.`idTVentes` AS `idTVentes`,`a`.`numFact` AS `numFact`,`a`.`qteVente` AS `qteVente`,`a`.`prixVente` AS `prixVente`,`a`.`jrVente` AS `jrVente`,`a`.`dateVente` AS `dateVente`,`a`.`users` AS `users`,`d`.`desiArticle` AS `desiArticle`,`e`.`libSite` AS `libSite`,`e`.`adresse` AS `adresse` from ((((`ventes` `a` join `clients` `b`) join `typeventes` `c`) join `articles` `d`) join `sites` `e`) where ((`a`.`idclie` = `b`.`idclie`) and (`a`.`idArticles` = `d`.`idArticles`) and (`a`.`idSite` = `e`.`idSite`) and (`a`.`idTVentes` = `c`.`idTVentes`));
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la vue `rapportdetailsemaine`
+--
+DROP TABLE IF EXISTS `rapportdetailsemaine`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `rapportdetailsemaine` AS select `a`.`idArticles` AS `idArticles`,`b`.`desiArticle` AS `desiArticle`,`a`.`jrVente` AS `jrvente`,`a`.`dateVente` AS `dateVente`,sum((`a`.`prixVente` * `a`.`qteVente`)) AS `venteTot`,(select sum(`appro`.`qteAppro`) from `appro` where ((`appro`.`jrAppro` = `a`.`jrVente`) and (`appro`.`dateAppro` = `a`.`dateVente`) and (`appro`.`idType` = 'INJECTION'))) AS `Les_Appro`,sum(`a`.`qteVente`) AS `qteVenduJr`,count(distinct `a`.`idclie`) AS `nbreClient` from (`ventes` `a` join `articles` `b`) where (`a`.`idArticles` = `b`.`idArticles`) group by `b`.`desiArticle`;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la vue `rapportglobalsemaine`
+--
+DROP TABLE IF EXISTS `rapportglobalsemaine`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `rapportglobalsemaine` AS select `a`.`jrVente` AS `jrvente`,`a`.`dateVente` AS `dateVente`,sum((`a`.`prixVente` * `a`.`qteVente`)) AS `venteTot`,(select sum(`appro`.`qteAppro`) from `appro` where ((`appro`.`jrAppro` = `a`.`jrVente`) and (`appro`.`dateAppro` = `a`.`dateVente`) and (`appro`.`idType` = 'INJECTION'))) AS `Les_Appro`,sum(`a`.`qteVente`) AS `qteVenduJr`,count(distinct `a`.`idclie`) AS `nbreClient` from `ventes` `a` group by `a`.`jrVente`;
 
 -- --------------------------------------------------------
 
@@ -387,11 +402,10 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `travailusersview`;
 
-DROP VIEW IF EXISTS `travailusersview`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `travailusersview`  AS SELECT `a`.`idUsers` AS `idUsers`, `a`.`idSite` AS `idSite`, `a`.`dateDebut` AS `dateDebut`, `a`.`dateFin` AS `dateFin`, `a`.`actif` AS `actif`, `b`.`nomComplet` AS `nomComplet`, `b`.`statuts` AS `statuts`, `b`.`contact` AS `contact`, `b`.`pwd` AS `pwd`, `c`.`libSite` AS `libSite`, `c`.`adresse` AS `adresse` FROM ((`travailusers` `a` join `usersbd` `b`) join `sites` `c`) WHERE ((`a`.`idUsers` = `b`.`idUsers`) AND (`a`.`idSite` = `c`.`idSite`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `travailusersview` AS select `a`.`idUsers` AS `idUsers`,`a`.`idSite` AS `idsite`,`a`.`dateDebut` AS `datedebut`,`a`.`dateFin` AS `datefin`,`a`.`actif` AS `actif`,`c`.`nomComplet` AS `nomComplet`,`c`.`statuts` AS `statuts`,`c`.`contact` AS `contact`,`c`.`pwd` AS `pwd`,`b`.`libSite` AS `libSite`,`b`.`adresse` AS `adresse` from ((`travailusers` `a` join `sites` `b`) join `usersbd` `c`) where ((`a`.`idUsers` = `c`.`idUsers`) and (`a`.`idSite` = `b`.`idSite`));
 
 --
--- Contraintes pour les tables déchargées
+-- Contraintes pour les tables exportées
 --
 
 --
@@ -403,13 +417,20 @@ ALTER TABLE `appro`
   ADD CONSTRAINT `appro_ibfk_3` FOREIGN KEY (`idSite`) REFERENCES `sites` (`idSite`);
 
 --
+-- Contraintes pour la table `travailusers`
+--
+ALTER TABLE `travailusers`
+  ADD CONSTRAINT `travailusers_ibfk_1` FOREIGN KEY (`idUsers`) REFERENCES `usersbd` (`idUsers`),
+  ADD CONSTRAINT `travailusers_ibfk_2` FOREIGN KEY (`idSite`) REFERENCES `sites` (`idSite`);
+
+--
 -- Contraintes pour la table `ventes`
 --
 ALTER TABLE `ventes`
   ADD CONSTRAINT `ventes_ibfk_1` FOREIGN KEY (`idclie`) REFERENCES `clients` (`idclie`),
-  ADD CONSTRAINT `ventes_ibfk_2` FOREIGN KEY (`idArticles`) REFERENCES `articles` (`idArticles`),
-  ADD CONSTRAINT `ventes_ibfk_3` FOREIGN KEY (`idSite`) REFERENCES `sites` (`idSite`);
-COMMIT;
+  ADD CONSTRAINT `ventes_ibfk_2` FOREIGN KEY (`idTVentes`) REFERENCES `typeventes` (`idTVentes`),
+  ADD CONSTRAINT `ventes_ibfk_3` FOREIGN KEY (`idArticles`) REFERENCES `articles` (`idArticles`),
+  ADD CONSTRAINT `ventes_ibfk_4` FOREIGN KEY (`idSite`) REFERENCES `sites` (`idSite`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
