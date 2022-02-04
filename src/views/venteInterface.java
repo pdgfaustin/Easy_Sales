@@ -30,8 +30,8 @@ public class venteInterface extends javax.swing.JInternalFrame {
         initComponents();
         setLocation(100, 50);
         chargerVente();
-        nettoie();
         numeroFacture();
+        nettoie();
     }
 
     void nettoie(){
@@ -42,12 +42,12 @@ public class venteInterface extends javax.swing.JInternalFrame {
         txtQTE.setText("0");
         txtIdProd.setEditable(false);
         txtLibPro.setEditable(false);
-        txtPU.setEditable(false);
+        txtNomClient.setText(null);
         chargerStock();
 //        chargerVente();
         chargerCBVente();
         chargerTVentes();
-        txtQTE.requestFocus();
+        txtIdClient.requestFocus();
     }
     void numeroFacture(){
         ventes = new Ventes();
@@ -86,16 +86,17 @@ public class venteInterface extends javax.swing.JInternalFrame {
     void chargerVente(){
         try {
             dt1 = new DefaultTableModel();
-            dt1.addColumn("Article");
+            dt1.addColumn("ID Pro");
             dt1.addColumn("QTE");
             dt1.addColumn("PU");
             dt1.addColumn("Type Vente");
-            dt1.addColumn("ID Pro");
+            dt1.addColumn("Article");
             tblVente.setModel(dt1);
             tblVente.getColumn("QTE").setMaxWidth(60);
             tblVente.getColumn("PU").setMaxWidth(60);
             tblVente.getColumn("Type Vente").setMaxWidth(0);
-            tblVente.getColumn("ID Pro").setMaxWidth(0);
+            tblVente.getColumn("ID Pro").setMaxWidth(100);
+            tblVente.getColumn("Article").setMaxWidth(0);
         } catch (Exception e) {
             System.err.println("Erreur : "+e.getMessage());
         }
@@ -105,26 +106,22 @@ public class venteInterface extends javax.swing.JInternalFrame {
     void chargerStock(){
         try {
             dt = new DefaultTableModel();
-            dt.addColumn("Produit");
-            dt.addColumn("QTE");
             dt.addColumn("ID PRO");
-            dt.addColumn("PU");
+            dt.addColumn("PT Vente");
+            dt.addColumn("DesiPro");
             tblStock.setModel(dt);
-            tblStock.getColumn("QTE").setMaxWidth(50);
-            tblStock.getColumn("ID PRO").setMaxWidth(0);
-            tblStock.getColumn("PU").setMaxWidth(0); 
-            ventes = new Ventes();
-            ventes.fixerNouveauPrix();
+            tblStock.getColumn("PT Vente").setMaxWidth(60);
+            tblStock.getColumn("DesiPro").setMaxWidth(0);
             easy_sales.connexionEasy();
-            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT desiArticle, qteStock, idArticles,prixUnitaire FROM articles");
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT desiArticle, qteStock, idArticles,pteauvente FROM articlesite WHERE idSite = ?");
+            easy_sales.Pst.setString(1, PontParametres.site);
             easy_sales.rs = easy_sales.Pst.executeQuery();
-            while (easy_sales.rs.next()) { 
-                String a,b,d,e;
-                a = easy_sales.rs.getString(1);
-                b = easy_sales.rs.getString(2);
+            while (easy_sales.rs.next()) {                
+                String a,b,d;
+                a = easy_sales.rs.getString(4);
+                b = easy_sales.rs.getString(1);
                 d = easy_sales.rs.getString(3);
-                e = easy_sales.rs.getString(4);
-                String [] c = {a,b,d,e};
+                String [] c = {d,a,b};
                 dt.addRow(c);
             }
             tblStock.setModel(dt);
@@ -164,6 +161,7 @@ public class venteInterface extends javax.swing.JInternalFrame {
         txtNFact = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtIdClient = new javax.swing.JTextField();
+        txtNomClient = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -278,56 +276,59 @@ public class venteInterface extends javax.swing.JInternalFrame {
         txtIdClient.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtIdClient.setText("jTextField1");
 
+        txtNomClient.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtNomClient.setText("jTextField1");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtPU, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
-                        .addGap(8, 8, 8))
+                    .addComponent(lblSite, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNFact, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jSeparator1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtQTE, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblSite, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jSeparator1)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel5)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtIdClient))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel5)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtIdClient, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(59, 59, 59)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jButton4)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                             .addComponent(jButton1)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                             .addComponent(jButton2))
                                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jLabel2)
+                                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(txtIdProd, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(cbTVente, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addComponent(txtLibPro, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtNFact, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                            .addComponent(cbTVente, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(txtPU, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel3)
+                                    .addGap(2, 2, 2))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtQTE, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtIdProd, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(txtLibPro, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtNomClient, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -344,11 +345,16 @@ public class venteInterface extends javax.swing.JInternalFrame {
                                 .addComponent(cbTVente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtNFact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(34, 34, 34)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(txtIdClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addComponent(jLabel5))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtIdClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNomClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -362,15 +368,15 @@ public class venteInterface extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(txtQTE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGap(33, 33, 33)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
                             .addComponent(jButton2))
-                        .addGap(28, 28, 28)
+                        .addGap(18, 18, 18)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton4)))
-                .addGap(0, 26, Short.MAX_VALUE))
+                .addGap(0, 30, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -393,17 +399,18 @@ public class venteInterface extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         ventes = new Ventes();
         try {
-            String a  =  txtLibPro.getText().trim();
+            String e  =  txtLibPro.getText().trim();
             int b = Integer.parseInt(txtQTE.getText().trim());
             int c = Integer.parseInt(txtPU.getText().trim());
             String d = cbTVente.getSelectedItem().toString().trim();
-            String e = txtIdProd.getText().trim();
-            if (e.equals("") || b<1) {
+            String a = txtIdProd.getText().trim();
+            String site = lblSite.getText();
+            if (e.equals("") || b<1 || c<1) {
                 JOptionPane.showMessageDialog(this, "Toutes les zones sont obligatoires", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
-            if (ventes.qteProduit(e) < b) {
-                JOptionPane.showMessageDialog(this, "La quantité en Stock est de : "+ventes.qteProduit(e)+", vous ne pouvez vendre qu'une quantité inférieure ou égale", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
+            if (ventes.qteProduit(a,site) < b) {
+                JOptionPane.showMessageDialog(this, "La quantité en Stock est de : "+ventes.qteProduit(a,site)+", vous ne pouvez vendre qu'une quantité inférieure ou égale", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
             Object [] f = {a,b,c,d,e};
@@ -417,27 +424,10 @@ public class venteInterface extends javax.swing.JInternalFrame {
 
     private void tblStockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblStockMouseClicked
         // TODO add your handling code here:
-        String a = tblStock.getValueAt(tblStock.getSelectedRow(), 3).toString();
-        int b = Integer.parseInt(a);
-        if (b>0) {
-            txtLibPro.setText(tblStock.getValueAt(tblStock.getSelectedRow(), 0).toString());
-            txtIdProd.setText(tblStock.getValueAt(tblStock.getSelectedRow(), 2).toString());
-            String al = cbTVente.getSelectedItem().toString();
-            if (al.equals("NORMAL")) {
-                txtPU.setText(a);
-            }else if(al.equals("SOLDE")){
-                txtPU.setEditable(true);
-            }else if(al.equals("HEURE DE JOIE")){
-                int prix = Integer.parseInt(a);
-                if (prix >= PontParametres.prixParJour()) {
-                   String nvPrix = String.valueOf(PontParametres.prixParJour() - 1000); 
-                   txtPU.setText(nvPrix);
-                }
-            }
-        }else{
-            JOptionPane.showMessageDialog(this, "Ne peut être vendu qu'un produit ayant un prix", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);  
-            
-        }
+        txtLibPro.setText(tblStock.getValueAt(tblStock.getSelectedRow(), 2).toString());
+        txtIdProd.setText(tblStock.getValueAt(tblStock.getSelectedRow(), 0).toString());
+        txtPU.requestFocus();
+        
     }//GEN-LAST:event_tblStockMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -464,6 +454,13 @@ public class venteInterface extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         try {
             int nbrLigne = tblVente.getRowCount();
+            String numClient = txtIdClient.getText();
+            if (numClient.length() < 10) {
+                int msg = JOptionPane.showConfirmDialog(this, "Vous n'avez pas renseigner le numéro du Client, voulez vous le renseigner ?", "Easy Sales", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (msg == JOptionPane.YES_OPTION) {
+                    return;
+                }
+            }
             if (nbrLigne <= 0) {
                 JOptionPane.showMessageDialog(this, "Aucun produit n'existe dans la liste à facturer", "Easy Sales", JOptionPane.ERROR_MESSAGE);
             }else{
@@ -472,11 +469,12 @@ public class venteInterface extends javax.swing.JInternalFrame {
                 String user = PontParametres.User;
                 String facture = txtNFact.getText().trim();
                 for (int i = 0; i < nbrLigne; i++) {
-                    String idArt = tblVente.getValueAt(i, 4).toString();
+                    String idArt = tblVente.getValueAt(i, 0).toString();
                     String idTVente = tblVente.getValueAt(i, 3).toString();
                     int qteVente = Integer.parseInt(tblVente.getValueAt(i, 1).toString());
                     int pUnit = Integer.parseInt(tblVente.getValueAt(i, 2).toString());
-                    ventes = new Ventes(client, idArt, site, idTVente, user, qteVente, pUnit, facture);
+                    String nomClient = txtNomClient.getText();
+                    ventes = new Ventes(client, idArt, site, idTVente, user, qteVente, pUnit, facture,nomClient);
                     boolean trClie = ventes.rechercherClient();
                     if (!trClie) {
                         ventes.enregistrerClient();
@@ -497,8 +495,9 @@ public class venteInterface extends javax.swing.JInternalFrame {
             /**
              * Fin de l'Impression
              */
-            nettoie();
             numeroFacture();
+            chargerVente();
+            nettoie();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erreur : "+e.getMessage(), "Easy Sales", JOptionPane.ERROR_MESSAGE);
         }
@@ -542,6 +541,7 @@ public class venteInterface extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtIdProd;
     private javax.swing.JTextField txtLibPro;
     private javax.swing.JTextField txtNFact;
+    private javax.swing.JTextField txtNomClient;
     private javax.swing.JTextField txtPU;
     private javax.swing.JTextField txtQTE;
     // End of variables declaration//GEN-END:variables

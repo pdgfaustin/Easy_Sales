@@ -52,7 +52,8 @@ public class usersInterface extends javax.swing.JInternalFrame {
     }
     UsersBD user = null;
     void appelUser(){
-        user = new UsersBD(txtUserID.getText().toUpperCase().trim(), txtNomComplet.getText().toUpperCase().trim(), cbStatus.getSelectedItem().toString().trim(), Arrays.toString(txtPwd.getPassword()));
+        String a = Arrays.toString(txtPwd.getPassword());
+        user = new UsersBD(txtUserID.getText().toUpperCase().trim(), txtNomComplet.getText().toUpperCase().trim(), cbStatus.getSelectedItem().toString().trim(), a);
     }
     TravailUsers TU = null;
     void appelTravail(){
@@ -409,7 +410,7 @@ public class usersInterface extends javax.swing.JInternalFrame {
         if (BTNuser.isSelected()) {
             txtUserID.setText(tblMix.getValueAt(tblMix.getSelectedRow(), 0).toString());
             txtNomComplet.setText(tblMix.getValueAt(tblMix.getSelectedRow(), 1).toString());
-            txtPwd.setText(tblMix.getValueAt(tblMix.getSelectedRow(), 3).toString());
+//            txtPwd.setText(tblMix.getValueAt(tblMix.getSelectedRow(), 3).toString());
             cbStatus.setSelectedItem(tblMix.getValueAt(tblMix.getSelectedRow(), 2).toString());
         }else{
             txtSiteID.setText(tblMix.getValueAt(tblMix.getSelectedRow(), 0).toString());

@@ -47,21 +47,22 @@ public class approInterface extends javax.swing.JInternalFrame {
     void chargerStock(){
         try {
             dt = new DefaultTableModel();
-            dt.addColumn("Produit");
-            dt.addColumn("QTE");
             dt.addColumn("ID PRO");
+            dt.addColumn("QTE PRO");
+            dt.addColumn("PT Vente");
             tblStock.setModel(dt);
-            tblStock.getColumn("QTE").setMaxWidth(50);
-            tblStock.getColumn("ID PRO").setMaxWidth(0);
+            tblStock.getColumn("QTE PRO").setMaxWidth(60);
+            tblStock.getColumn("PT Vente").setMaxWidth(60);
             easy_sales.connexionEasy();
-            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT desiArticle, qteStock, idArticles FROM articles");
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT desiArticle, qteStock, idArticles,pteauvente FROM articlesite WHERE idSite = ?");
+            easy_sales.Pst.setString(1, PontParametres.site);
             easy_sales.rs = easy_sales.Pst.executeQuery();
             while (easy_sales.rs.next()) {                
                 String a,b,d;
-                a = easy_sales.rs.getString(1);
+                a = easy_sales.rs.getString(4);
                 b = easy_sales.rs.getString(2);
                 d = easy_sales.rs.getString(3);
-                String [] c = {a,b,d};
+                String [] c = {d,b,a};
                 dt.addRow(c);
             }
             tblStock.setModel(dt);
@@ -75,13 +76,15 @@ public class approInterface extends javax.swing.JInternalFrame {
         try {
             dt1 = new DefaultTableModel();
             dt1.addColumn("Article");
+            dt1.addColumn("ID Pro");
+            dt1.addColumn("Qualité");
             dt1.addColumn("QTE");
             dt1.addColumn("Type Appro");
-            dt1.addColumn("ID Pro");
             tblAppro.setModel(dt1);
             tblAppro.getColumn("QTE").setMaxWidth(60);
-            tblAppro.getColumn("Type Appro").setMaxWidth(0);
-            tblAppro.getColumn("ID Pro").setMaxWidth(0);
+            tblAppro.getColumn("Article").setMaxWidth(0);
+            tblAppro.getColumn("Qualité").setMaxWidth(100);
+            tblAppro.getColumn("ID Pro").setMaxWidth(100);
         } catch (Exception e) {
             System.err.println("Erreur : "+e.getMessage());
         }
@@ -125,6 +128,8 @@ public class approInterface extends javax.swing.JInternalFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
+        CBQ = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -211,6 +216,12 @@ public class approInterface extends javax.swing.JInternalFrame {
             }
         });
 
+        CBQ.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SQB", "TM/LM" }));
+
+        jLabel3.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Qualité Article :");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -226,9 +237,13 @@ public class approInterface extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtLibPro))
                     .addComponent(cbTAppro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(CBQ, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtQTE, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -242,9 +257,9 @@ public class approInterface extends javax.swing.JInternalFrame {
                                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -265,7 +280,9 @@ public class approInterface extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(txtQTE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtQTE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(CBQ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
                         .addGap(53, 53, 53)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
@@ -274,7 +291,7 @@ public class approInterface extends javax.swing.JInternalFrame {
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28)
                         .addComponent(jButton3)))
-                .addGap(0, 22, Short.MAX_VALUE))
+                .addGap(0, 26, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -307,8 +324,8 @@ public class approInterface extends javax.swing.JInternalFrame {
                 return;
             }
             String b = cbTAppro.getSelectedItem().toString().trim();
-            if (!a.equals("Lundi") && b.equals("BALANCE DEBUT")) {
-                JOptionPane.showMessageDialog(this, "La Balance du début ne se fait que le lundi ! Revoir cela SVP", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
+            if ((!a.equals("Lundi") && b.equals("IN STAND")) || b.equals("PRODUCTION")) {
+                JOptionPane.showMessageDialog(this, "Le IN STAND ne se fait que le lundi ! Revoir cela SVP", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
             String c = txtIdProd.getText().trim();
@@ -316,7 +333,7 @@ public class approInterface extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(this, "Toutes les zones sont obligatoires SVP", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
-            Object [] d = {a,qte,b,c};
+            Object [] d = {txtLibPro.getText(),txtIdProd.getText(),CBQ.getSelectedItem(),qte,b};
             dt1.addRow(d);
             nettoie();
         } catch (Exception e) {
@@ -342,15 +359,26 @@ public class approInterface extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(this, "La liste à Approvisionner est vide", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
+            String cbTA = cbTAppro.getSelectedItem().toString();
+            if (!cbTA.equalsIgnoreCase("PRODUCTION")) {
+                int msg = JOptionPane.showConfirmDialog(this, "Avez vous déjà préalablement enregistrer le Production ?", "Easy Sales", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (msg == JOptionPane.NO_OPTION) {
+                    return;
+                }
+            }
+            int msg = JOptionPane.showConfirmDialog(this, "Les données sont - elles correctes ?", "Easy Sales", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (msg==JOptionPane.NO_OPTION) {
+                return;
+            }
             Approvisionnements Ap =  null;
             for (int i = 0; i < nbrLigne; i++) {
                 String a,b,c,d;
-                a = tblAppro.getValueAt(i, 0).toString();
-                int e = Integer.parseInt(tblAppro.getValueAt(i, 1).toString());
-                b = tblAppro.getValueAt(i, 2).toString();
-                c = tblAppro.getValueAt(i, 3).toString();
+                a = tblAppro.getValueAt(i, 2).toString();
+                int e = Integer.parseInt(tblAppro.getValueAt(i, 3).toString());
+                b = tblAppro.getValueAt(i, 4).toString();
+                c = tblAppro.getValueAt(i, 1).toString();
                 d = lblSite.getText().trim();
-                Ap = new Approvisionnements(b, c, d, e,PontParametres.User);
+                Ap = new Approvisionnements(b, c, d, e,PontParametres.User,a);
                 Ap.enregistrerAppro();
                 Ap.ajouterStock();
             }
@@ -363,12 +391,14 @@ public class approInterface extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> CBQ;
     private javax.swing.JComboBox<String> cbTAppro;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

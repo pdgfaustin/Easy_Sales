@@ -58,7 +58,6 @@ public class MenuGen extends javax.swing.JFrame {
         jXHyperlink15 = new org.jdesktop.swingx.JXHyperlink();
         MBaseVisa1 = new org.jdesktop.swingx.JXTaskPane();
         jXHyperlink9 = new org.jdesktop.swingx.JXHyperlink();
-        jXHyperlink16 = new org.jdesktop.swingx.JXHyperlink();
         MBaseVisa2 = new org.jdesktop.swingx.JXTaskPane();
         jXHyperlink10 = new org.jdesktop.swingx.JXHyperlink();
         MBaseVisa3 = new org.jdesktop.swingx.JXTaskPane();
@@ -105,7 +104,7 @@ public class MenuGen extends javax.swing.JFrame {
         MBaseVisa1.setFont(new java.awt.Font("Cambria", 1, 12)); // NOI18N
 
         jXHyperlink9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LesImages/b_usrcheck.png"))); // NOI18N
-        jXHyperlink9.setText("Initialise / Injections");
+        jXHyperlink9.setText("In Stand / Top Up");
         jXHyperlink9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jXHyperlink9MouseClicked(evt);
@@ -118,20 +117,6 @@ public class MenuGen extends javax.swing.JFrame {
         });
         MBaseVisa1.getContentPane().add(jXHyperlink9);
 
-        jXHyperlink16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LesImages/1sms_buttonFilter.png"))); // NOI18N
-        jXHyperlink16.setText("Assigner PU");
-        jXHyperlink16.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jXHyperlink16MouseClicked(evt);
-            }
-        });
-        jXHyperlink16.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jXHyperlink16ActionPerformed(evt);
-            }
-        });
-        MBaseVisa1.getContentPane().add(jXHyperlink16);
-
         Mvisa.getContentPane().add(MBaseVisa1);
 
         MBaseVisa2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LesImages/iClear.png"))); // NOI18N
@@ -139,7 +124,7 @@ public class MenuGen extends javax.swing.JFrame {
         MBaseVisa2.setFont(new java.awt.Font("Cambria", 1, 12)); // NOI18N
 
         jXHyperlink10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LesImages/b_usrcheck.png"))); // NOI18N
-        jXHyperlink10.setText("Les ventes & Sorties ");
+        jXHyperlink10.setText("Plateau de Vente");
         jXHyperlink10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jXHyperlink10MouseClicked(evt);
@@ -258,17 +243,6 @@ public class MenuGen extends javax.swing.JFrame {
         VI.setVisible(true);
     }//GEN-LAST:event_jXHyperlink10ActionPerformed
 
-    private void jXHyperlink16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jXHyperlink16MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jXHyperlink16MouseClicked
-
-    private void jXHyperlink16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXHyperlink16ActionPerformed
-        // TODO add your handling code here:
-        puInterface PUnit = new puInterface();
-        DsKtp.add(PUnit);
-        PUnit.setVisible(true);
-    }//GEN-LAST:event_jXHyperlink16ActionPerformed
-
     private void jXHyperlink17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jXHyperlink17MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jXHyperlink17MouseClicked
@@ -331,7 +305,6 @@ public class MenuGen extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXHyperlink jXHyperlink10;
     private org.jdesktop.swingx.JXHyperlink jXHyperlink11;
     private org.jdesktop.swingx.JXHyperlink jXHyperlink15;
-    private org.jdesktop.swingx.JXHyperlink jXHyperlink16;
     private org.jdesktop.swingx.JXHyperlink jXHyperlink17;
     private org.jdesktop.swingx.JXHyperlink jXHyperlink7;
     private org.jdesktop.swingx.JXHyperlink jXHyperlink9;

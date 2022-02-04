@@ -50,6 +50,16 @@ public class PontParametres {
     public  String getSite() {
         return site;
     }
+    public static Integer getSemaineYear(Calendar cal){
+        int week = 0;
+        try {
+            week = cal.get(Calendar.WEEK_OF_YEAR);
+            System.out.println("La semaine : "+week);
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return week;
+    }
     public static String getJrSemaine(Calendar cal) {
         
         int day = cal.get(Calendar.DAY_OF_WEEK);

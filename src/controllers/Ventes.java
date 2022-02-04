@@ -14,12 +14,12 @@ import modeles.easy_sales;
  * @author Faustin PADINGANYI
  */
 public class Ventes {
-    private String nFacture,idClie, idArticles, idSite, idTvente, users;
+    private String nFacture,idClie, idArticles, idSite, idTvente, users,nomClient;
     private int qteVente,prixVente;
     public Ventes(){
         
     }
-    public Ventes(String idClie,String idArticles,String idSite,String idTvente,String users,int qteVente, int prixVente,String nFacture){
+    public Ventes(String idClie,String idArticles,String idSite,String idTvente,String users,int qteVente, int prixVente,String nFacture,String nomClient){
         this.idClie = idClie;
         this.idArticles = idArticles;
         this.idSite = idSite;
@@ -28,6 +28,7 @@ public class Ventes {
         this.qteVente = qteVente;
         this.prixVente = prixVente;
         this.nFacture = nFacture;
+        this.nomClient = nomClient;
     }
     public String numeroFacture(){
         String fact = "";
@@ -52,8 +53,9 @@ public class Ventes {
     public void enregistrerClient(){
         try {
             easy_sales.connexionEasy();
-            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO clients (idClie) VALUES (?)");
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO clients (idClie,nomClient) VALUES (?,?)");
             easy_sales.Pst.setString(1, idClie);
+            easy_sales.Pst.setString(2, nomClient);
             easy_sales.Pst.execute();
             easy_sales.deconnexionEasy();
             System.out.println("Client Créé");
@@ -80,8 +82,8 @@ public class Ventes {
         try {
             easy_sales.connexionEasy();
             easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO ventes "
-                    + "(idClie, idArticles, idSite, idTVentes, qteVente, prixVente, jrVente, "
-                    + "users,numFact, dateVente) VALUES (?,?,?,?,?,?,?,?,?,now())");
+                    + "(idClie, idArticles, idSite, idTVentes, qteVente, prixVente, jrVente,"
+                    + "users,numFact, semaineVente, dateVente) VALUES (?,?,?,?,?,?,?,?,?,?,now())");
             easy_sales.Pst.setString(1, idClie);
             easy_sales.Pst.setString(2, idArticles);
             easy_sales.Pst.setString(3, idSite);
@@ -91,6 +93,7 @@ public class Ventes {
             easy_sales.Pst.setString(7, PontParametres.getJrSemaine(Calendar.getInstance()));
             easy_sales.Pst.setString(8, users);
             easy_sales.Pst.setString(9, nFacture);
+            easy_sales.Pst.setInt(10, PontParametres.getSemaineYear(Calendar.getInstance()));
             easy_sales.Pst.execute();
             easy_sales.deconnexionEasy();
             System.out.println("Enregistrement effectué");
@@ -100,23 +103,25 @@ public class Ventes {
     }
     public void updateQtePro(){
         try {
-            int nvlQTE = qteProduit(idArticles) - qteVente;
+            int nvlQTE = qteProduit(idArticles,idSite) - qteVente;
             easy_sales.connexionEasy();
-            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("UPDATE Articles SET qteStock = ? WHERE idArticles = ?");
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("UPDATE Articlesite SET pteauvente = ? WHERE idArticles = ? AND idsite = ?");
             easy_sales.Pst.setInt(1, nvlQTE);
             easy_sales.Pst.setString(2, idArticles);
+            easy_sales.Pst.setString(3, idSite);
             easy_sales.Pst.execute();
             easy_sales.deconnexionEasy();
         } catch (Exception e) {
             System.err.println("Erreur : "+e.getMessage());
         }
     }
-    public Integer qteProduit(String ID){
+    public Integer qteProduit(String ID, String IDSite){
         int QTE = 0;
         try {
             easy_sales.connexionEasy();
-            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT qteStock FROM articles WHERE idArticles = ?");
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT pteauVente FROM articlesite WHERE idArticles = ? AND idsite = ?");
             easy_sales.Pst.setString(1, ID);
+            easy_sales.Pst.setString(2, IDSite);
             easy_sales.rs = easy_sales.Pst.executeQuery();
             if (easy_sales.rs.next()) {
                 QTE = easy_sales.rs.getInt(1);
