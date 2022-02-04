@@ -5,7 +5,9 @@
  */
 package controllers;
 
+import com.mysql.jdbc.PreparedStatement;
 import java.util.Calendar;
+import modeles.easy_sales;
 
 /**
  *
@@ -13,6 +15,7 @@ import java.util.Calendar;
  */
 public class PontParametres {
     public static String  User,userAdm, statut, site,  connecter,jrSemaine;
+
     public static boolean admin;
     public PontParametres(){
         
@@ -23,6 +26,24 @@ public class PontParametres {
         this.site = site;
     }
 
+    public static String getNumeroFacture() {
+        String fact = "";
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT DISTINCT numFact FROM ventes ORDER BY numFact DESC LIMIT 1");
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                fact = easy_sales.rs.getString(1);
+            }else{
+                fact = "HPP1";
+            }
+            easy_sales.deconnexionEasy();
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return fact;
+    }
+    
     public  String getUser() {
         return User;
     }
