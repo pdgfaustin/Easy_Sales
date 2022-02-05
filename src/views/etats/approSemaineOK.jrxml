@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="26ef2c56-4c35-4e2f-a73d-eae8efacb183">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="site" class="java.lang.String"/>
+	<parameter name="semaine" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+     approsemaine.`idArticles` AS approsemaine_idArticles,
+     approsemaine.`qlteArticle` AS approsemaine_qlteArticle,
+     approsemaine.`idSite` AS approsemaine_idSite,
+     approsemaine.`semaineApp` AS approsemaine_semaineApp,
+     approsemaine.`qteLundi` AS approsemaine_qteLundi,
+     approsemaine.`qteMardi` AS approsemaine_qteMardi,
+     approsemaine.`qteMercredi` AS approsemaine_qteMercredi,
+     approsemaine.`qteJeudi` AS approsemaine_qteJeudi,
+     approsemaine.`qteVendredi` AS approsemaine_qteVendredi,
+     approsemaine.`qteSamedi` AS approsemaine_qteSamedi,
+     approsemaine.`qteDimanche` AS approsemaine_qteDimanche
+FROM
+     `approsemaine` approsemaine
+WHERE
+     idSite = $P{site}
+ AND semaineApp = $P{semaine}
+ORDER BY qlteArticle]]>
+	</queryString>
+	<field name="approsemaine_idArticles" class="java.lang.String"/>
+	<field name="approsemaine_qlteArticle" class="java.lang.String"/>
+	<field name="approsemaine_idSite" class="java.lang.String"/>
+	<field name="approsemaine_semaineApp" class="java.lang.Integer"/>
+	<field name="approsemaine_qteLundi" class="java.math.BigDecimal"/>
+	<field name="approsemaine_qteMardi" class="java.math.BigDecimal"/>
+	<field name="approsemaine_qteMercredi" class="java.math.BigDecimal"/>
+	<field name="approsemaine_qteJeudi" class="java.math.BigDecimal"/>
+	<field name="approsemaine_qteVendredi" class="java.math.BigDecimal"/>
+	<field name="approsemaine_qteSamedi" class="java.math.BigDecimal"/>
+	<field name="approsemaine_qteDimanche" class="java.math.BigDecimal"/>
+	<variable name="lundi" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{approsemaine_qteLundi} ? $F{approsemaine_qteLundi} : new Integer("0")]]></variableExpression>
+	</variable>
+	<variable name="mardi" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{approsemaine_qteMardi} ? $F{approsemaine_qteMardi} : new Integer("0")]]></variableExpression>
+	</variable>
+	<variable name="mercredi" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{approsemaine_qteMercredi} ? $F{approsemaine_qteMercredi} : new Integer("0")]]></variableExpression>
+	</variable>
+	<variable name="jeudi" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{approsemaine_qteJeudi} ? $F{approsemaine_qteJeudi} : new Integer("0")]]></variableExpression>
+	</variable>
+	<variable name="vendredi" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{approsemaine_qteVendredi} ? $F{approsemaine_qteVendredi} : new Integer("0")]]></variableExpression>
+	</variable>
+	<variable name="samedi" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{approsemaine_qteSamedi} ? $F{approsemaine_qteSamedi} : new Integer("0")]]></variableExpression>
+	</variable>
+	<variable name="dimanche" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{approsemaine_qteDimanche} ? $F{approsemaine_qteDimanche} : new Integer("0")]]></variableExpression>
+	</variable>
+	<variable name="totalSemaine" class="java.lang.Integer">
+		<variableExpression><![CDATA[$V{lundi}+$V{mardi}+$V{mercredi}+$V{jeudi}+$V{vendredi}+$V{samedi}+$V{dimanche}]]></variableExpression>
+	</variable>
+	<variable name="totalGeneral" class="java.lang.Integer" resetType="Group" resetGroup="approsemaine_semaineApp" calculation="Sum">
+		<variableExpression><![CDATA[$V{totalSemaine}]]></variableExpression>
+	</variable>
+	<group name="approsemaine_semaineApp">
+		<groupExpression><![CDATA[$F{approsemaine_semaineApp}]]></groupExpression>
+		<groupHeader>
+			<band height="100">
+				<staticText>
+					<reportElement uuid="ba4f7f67-e1fd-4170-8755-7e24a7a0453f" x="319" y="79" width="55" height="20"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cambria" size="11"/>
+					</textElement>
+					<text><![CDATA[Vendredi]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="0c030479-2ef0-45e5-b683-d09cb1174ce1" x="156" y="44" width="30" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Cambria" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{approsemaine_semaineApp}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="ba4f7f67-e1fd-4170-8755-7e24a7a0453f" x="374" y="79" width="55" height="20"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cambria" size="11"/>
+					</textElement>
+					<text><![CDATA[Samedi]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="dd36ef98-0be9-46f9-b3ef-733b05e27671" x="144" y="10" width="254" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cambria" size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{approsemaine_idSite}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="ba4f7f67-e1fd-4170-8755-7e24a7a0453f" x="99" y="79" width="55" height="20"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cambria" size="11"/>
+					</textElement>
+					<text><![CDATA[Lundi]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="ba4f7f67-e1fd-4170-8755-7e24a7a0453f" x="2" y="43" width="154" height="20"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Cambria" size="14"/>
+					</textElement>
+					<text><![CDATA[Rapport de la Semaine :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="ba4f7f67-e1fd-4170-8755-7e24a7a0453f" x="484" y="79" width="71" height="20"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cambria" size="11"/>
+					</textElement>
+					<text><![CDATA[Total]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="ba4f7f67-e1fd-4170-8755-7e24a7a0453f" x="264" y="79" width="55" height="20"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cambria" size="11"/>
+					</textElement>
+					<text><![CDATA[Jeudi]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="ba4f7f67-e1fd-4170-8755-7e24a7a0453f" x="154" y="79" width="55" height="20"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cambria" size="11"/>
+					</textElement>
+					<text><![CDATA[Mardi]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="ba4f7f67-e1fd-4170-8755-7e24a7a0453f" x="429" y="79" width="55" height="20"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cambria" size="11"/>
+					</textElement>
+					<text><![CDATA[Dimanche]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="ba4f7f67-e1fd-4170-8755-7e24a7a0453f" x="209" y="79" width="55" height="20"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cambria" size="11"/>
+					</textElement>
+					<text><![CDATA[Mercredi]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50">
+				<textField pattern="#,##0">
+					<reportElement uuid="bdc5bfda-1ab7-4df0-90ca-e40efc9c651b" x="484" y="30" width="71" height="20"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Cambria"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalGeneral}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement uuid="b2e90b4e-76aa-4a1d-8d7a-566abf6d7405" x="0" y="0" width="555" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="5c1be787-5566-49ef-a39b-794fe882f841" x="387" y="30" width="97" height="20"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Cambria"/>
+					</textElement>
+					<text><![CDATA[Total de la Semaine :]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="approsemaine_qlteArticle">
+		<groupExpression><![CDATA[$F{approsemaine_qlteArticle}]]></groupExpression>
+		<groupHeader>
+			<band height="22">
+				<textField>
+					<reportElement uuid="ddd9f3bf-73cb-4b4c-a34a-5ada4f6d125d" x="0" y="1" width="98" height="20"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cambria" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{approsemaine_qlteArticle}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement uuid="b2e90b4e-76aa-4a1d-8d7a-566abf6d7405" x="0" y="1" width="554" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="b2e90b4e-76aa-4a1d-8d7a-566abf6d7405" x="0" y="21" width="555" height="1"/>
+				</line>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="approsemaine_idArticles">
+		<groupExpression><![CDATA[$F{approsemaine_idArticles}]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement uuid="436c752a-f414-4b16-828c-fb01e8e9c3c0" x="39" y="0" width="59" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{approsemaine_idArticles}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement uuid="b3f25014-7f1d-43d1-9255-4eb981000e43" x="99" y="0" width="55" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lundi}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement uuid="ea83b546-f4fb-4b93-95c3-f02dc55bfdc0" x="154" y="0" width="55" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{mardi}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement uuid="c043fa94-81a3-4ca9-bf7f-19ac81c8b1d4" x="209" y="0" width="55" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{mercredi}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement uuid="12563bb6-93b8-4342-8fbe-0c475f164143" x="264" y="0" width="55" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{jeudi}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement uuid="a9d63c24-2188-482c-9b97-6203eaef10c7" x="319" y="0" width="55" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{vendredi}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement uuid="c19274ad-be80-445f-b041-6b96e5e73bb0" x="374" y="0" width="55" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{samedi}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement uuid="68e248fa-e504-405a-8280-1554747faf3d" x="429" y="0" width="55" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{dimanche}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement uuid="47afe319-c11f-43a0-819f-b25425d281ce" x="484" y="0" width="71" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalSemaine}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

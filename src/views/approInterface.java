@@ -310,8 +310,9 @@ public class approInterface extends javax.swing.JInternalFrame {
 
     private void tblStockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblStockMouseClicked
         // TODO add your handling code here:
-        txtLibPro.setText(tblStock.getValueAt(tblStock.getSelectedRow(), 0).toString());
-        txtIdProd.setText(tblStock.getValueAt(tblStock.getSelectedRow(), 2).toString());
+        txtLibPro.setText(tblStock.getValueAt(tblStock.getSelectedRow(), 1).toString());
+        txtIdProd.setText(tblStock.getValueAt(tblStock.getSelectedRow(), 0).toString());
+        txtQTE.requestFocus();
     }//GEN-LAST:event_tblStockMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

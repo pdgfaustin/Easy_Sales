@@ -67,8 +67,13 @@ public class MenuGen extends javax.swing.JFrame {
         jXHyperlink11 = new org.jdesktop.swingx.JXHyperlink();
         DsKtp = new javax.swing.JDesktopPane();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("FRAIS SCOLAIRE : POUR UNE GESTION SAINE");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         Mvisa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LesImages/HPP_Congo.jpg"))); // NOI18N
         Mvisa.setTitle("Easy Sales :");
@@ -164,7 +169,12 @@ public class MenuGen extends javax.swing.JFrame {
         MInterVisa.setFont(new java.awt.Font("Cambria", 1, 12)); // NOI18N
 
         jXHyperlink7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LesImages/Copy.png"))); // NOI18N
-        jXHyperlink7.setText("Liste des Chambres Occupées");
+        jXHyperlink7.setText("Les Inputs de la Semaine");
+        jXHyperlink7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXHyperlink7ActionPerformed(evt);
+            }
+        });
         MInterVisa.getContentPane().add(jXHyperlink7);
 
         Mvisa.getContentPane().add(MInterVisa);
@@ -181,7 +191,7 @@ public class MenuGen extends javax.swing.JFrame {
         );
         DsKtpLayout.setVerticalGroup(
             DsKtpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 786, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -196,7 +206,9 @@ public class MenuGen extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(DsKtp)
-            .addComponent(Mvisa, javax.swing.GroupLayout.DEFAULT_SIZE, 786, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(Mvisa, javax.swing.GroupLayout.PREFERRED_SIZE, 626, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -251,6 +263,21 @@ public class MenuGen extends javax.swing.JFrame {
         // TODO add your handling code here:
         new pwdInterface().setVisible(true);
     }//GEN-LAST:event_jXHyperlink17ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        int msg = JOptionPane.showConfirmDialog(this, "Voulez - vous mettre fin à votre seession ?", "Easy Sales", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        if (msg == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_formWindowClosing
+
+    private void jXHyperlink7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXHyperlink7ActionPerformed
+        // TODO add your handling code here:
+        approIImpression apII = new approIImpression();
+        DsKtp.add(apII);
+        apII.setVisible(true);
+    }//GEN-LAST:event_jXHyperlink7ActionPerformed
 
     /**
      * @param args the command line arguments
