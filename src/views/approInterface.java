@@ -49,20 +49,23 @@ public class approInterface extends javax.swing.JInternalFrame {
             dt = new DefaultTableModel();
             dt.addColumn("ID PRO");
             dt.addColumn("QTE PRO");
-            dt.addColumn("PT Vente");
+            dt.addColumn("PV Vente");
+            dt.addColumn("Article");
             tblStock.setModel(dt);
             tblStock.getColumn("QTE PRO").setMaxWidth(60);
-            tblStock.getColumn("PT Vente").setMaxWidth(60);
+            tblStock.getColumn("PV Vente").setMaxWidth(60);
+            tblStock.getColumn("Article").setMaxWidth(0);
             easy_sales.connexionEasy();
             easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT desiArticle, qteStock, idArticles,pteauvente FROM articlesite WHERE idSite = ?");
             easy_sales.Pst.setString(1, PontParametres.site);
             easy_sales.rs = easy_sales.Pst.executeQuery();
             while (easy_sales.rs.next()) {                
-                String a,b,d;
+                String a,b,d,e;
+                e = easy_sales.rs.getString(1);
                 a = easy_sales.rs.getString(4);
                 b = easy_sales.rs.getString(2);
                 d = easy_sales.rs.getString(3);
-                String [] c = {d,b,a};
+                String [] c = {d,b,a,e};
                 dt.addRow(c);
             }
             tblStock.setModel(dt);
@@ -216,7 +219,7 @@ public class approInterface extends javax.swing.JInternalFrame {
             }
         });
 
-        CBQ.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SQB", "TM/LM" }));
+        CBQ.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SQB", "TM/LM", "SHOE" }));
 
         jLabel3.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -310,7 +313,7 @@ public class approInterface extends javax.swing.JInternalFrame {
 
     private void tblStockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblStockMouseClicked
         // TODO add your handling code here:
-        txtLibPro.setText(tblStock.getValueAt(tblStock.getSelectedRow(), 1).toString());
+        txtLibPro.setText(tblStock.getValueAt(tblStock.getSelectedRow(), 3).toString());
         txtIdProd.setText(tblStock.getValueAt(tblStock.getSelectedRow(), 0).toString());
         txtQTE.requestFocus();
     }//GEN-LAST:event_tblStockMouseClicked
@@ -325,9 +328,13 @@ public class approInterface extends javax.swing.JInternalFrame {
                 return;
             }
             String b = cbTAppro.getSelectedItem().toString().trim();
-            if ((!a.equals("Lundi") && b.equals("IN STAND")) || b.equals("PRODUCTION")) {
-                JOptionPane.showMessageDialog(this, "Le IN STAND ne se fait que le lundi ! Revoir cela SVP", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
-                return;
+            if (!a.equals("Lundi") && b.equals("IN STAND")) {
+                if (!a.equals("Samedi") && b.equals("IN STAND")) {
+                    if (!a.equals("Dimanche") && b.equals("IN STAND")) {
+                        JOptionPane.showMessageDialog(this, "Le IN STAND ne se fait que soit le samedi, dimanche ou le lundi ! Revoir cela SVP", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+                }
             }
             String c = txtIdProd.getText().trim();
             if (a.isEmpty() || c.isEmpty()) {
