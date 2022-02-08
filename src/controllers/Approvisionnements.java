@@ -14,7 +14,7 @@ import modeles.easy_sales;
  * @author Faustin PADINGANYI
  */
 public class Approvisionnements {
-    private String idType, idArticles,idSite,users, qlteArticle;
+    private String idType, idArticles,idSite,users, qlteArticle,idCycle;
     private int qteAppro;
     public Approvisionnements(){
         
@@ -26,12 +26,13 @@ public class Approvisionnements {
         this.qteAppro = qteAppro;
         this.users = users;
         this.qlteArticle = qlteArticle;
+        idCycle = PontParametres.getIdCycle();
     }
     public void enregistrerAppro(){
         try {
             easy_sales.connexionEasy();
             easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO Appro (idType,idArticles,"
-                    + "qteAppro,jrAppro,idSite,users,qlteArticle,semaineApp, dateAppro) VALUES (?,?,?,?,?,?,?,?,now())");
+                    + "qteAppro,jrAppro,idSite,users,qlteArticle,semaineApp,idCycle, dateAppro) VALUES (?,?,?,?,?,?,?,?,?,now())");
             easy_sales.Pst.setString(1, idType);
             easy_sales.Pst.setString(2, idArticles);
             easy_sales.Pst.setInt(3, qteAppro);
@@ -40,6 +41,7 @@ public class Approvisionnements {
             easy_sales.Pst.setString(6, users);
             easy_sales.Pst.setString(7, qlteArticle);
             easy_sales.Pst.setInt(8, PontParametres.getSemaineYear(Calendar.getInstance()));
+            easy_sales.Pst.setString(9, PontParametres.getIdCycle());
             easy_sales.Pst.execute();
             easy_sales.deconnexionEasy();
             System.out.println("Enregistrement effectué");

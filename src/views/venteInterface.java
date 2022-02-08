@@ -8,7 +8,6 @@ package views;
 import com.mysql.jdbc.PreparedStatement;
 import controllers.PontParametres;
 import controllers.Ventes;
-import java.sql.Date;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -111,10 +110,10 @@ public class venteInterface extends javax.swing.JInternalFrame {
         try {
             dt = new DefaultTableModel();
             dt.addColumn("ID PRO");
-            dt.addColumn("PT Vente");
+            dt.addColumn("PV Vente");
             dt.addColumn("DesiPro");
             tblStock.setModel(dt);
-            tblStock.getColumn("PT Vente").setMaxWidth(60);
+            tblStock.getColumn("PV Vente").setMaxWidth(60);
             tblStock.getColumn("DesiPro").setMaxWidth(0);
             easy_sales.connexionEasy();
             easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT desiArticle, qteStock, idArticles,pteauvente FROM articlesite WHERE idSite = ?");

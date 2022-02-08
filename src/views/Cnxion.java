@@ -7,6 +7,7 @@ package views;
 
 import controllers.PontParametres;
 import controllers.UsersBD;
+import controllers.Ventes;
 import javax.swing.JOptionPane;
 import java.io.*;
 import java.text.DateFormatSymbols;
@@ -164,12 +165,14 @@ public class Cnxion extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         try{
-            PrintWriter fich= new PrintWriter(new FileWriter("FicherUser.txt"));
+//            PrintWriter fich= new PrintWriter(new FileWriter("FicherUser.txt"));
             String us=this.zUserN.getText(), pd=Arrays.toString(zpwd.getPassword());
 //            fich.
             UsersBD user = new UsersBD();
             boolean users = user.trouverUser(us, pd);
             if(users){
+                Ventes vt = new Ventes();
+                PontParametres.setIdCycle(vt.rechercherCycle());
                 dispose();
                 new views.Logo().setVisible(true);
             }else{

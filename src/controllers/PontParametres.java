@@ -14,7 +14,7 @@ import modeles.easy_sales;
  * @author Faustin PADINGANYI
  */
 public class PontParametres {
-    public static String  User,userAdm, statut, site,  connecter,jrSemaine;
+    public static String  User,userAdm, statut, site, idCycle, connecter,jrSemaine;
 
     public static boolean admin;
     public PontParametres(){
@@ -26,11 +26,21 @@ public class PontParametres {
         this.site = site;
     }
 
+    public static String getIdCycle() {
+        return idCycle;
+    }
+
+    public static void setIdCycle(String idCycle) {
+        PontParametres.idCycle = idCycle;
+    }
+
+    
     public static String getNumeroFacture() {
         String fact = "";
         try {
             easy_sales.connexionEasy();
-            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT DISTINCT numFact FROM ventes ORDER BY numFact DESC LIMIT 1");
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT DISTINCT numFact FROM ventes WHERE idSite = ? ORDER BY idVentes DESC LIMIT 1");
+            easy_sales.Pst.setString(1, site);
             easy_sales.rs = easy_sales.Pst.executeQuery();
             if (easy_sales.rs.next()) {
                 fact = easy_sales.rs.getString(1);

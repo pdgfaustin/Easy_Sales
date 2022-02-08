@@ -56,6 +56,7 @@ public class MenuGen extends javax.swing.JFrame {
         Mvisa = new org.jdesktop.swingx.JXTaskPane();
         MBaseVisa = new org.jdesktop.swingx.JXTaskPane();
         jXHyperlink15 = new org.jdesktop.swingx.JXHyperlink();
+        jXHyperlink16 = new org.jdesktop.swingx.JXHyperlink();
         MBaseVisa1 = new org.jdesktop.swingx.JXTaskPane();
         jXHyperlink9 = new org.jdesktop.swingx.JXHyperlink();
         MBaseVisa2 = new org.jdesktop.swingx.JXTaskPane();
@@ -102,6 +103,20 @@ public class MenuGen extends javax.swing.JFrame {
         });
         MBaseVisa.getContentPane().add(jXHyperlink15);
 
+        jXHyperlink16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LesImages/b_usradd.png"))); // NOI18N
+        jXHyperlink16.setText("Ouverture Cycle");
+        jXHyperlink16.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jXHyperlink16MouseClicked(evt);
+            }
+        });
+        jXHyperlink16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXHyperlink16ActionPerformed(evt);
+            }
+        });
+        MBaseVisa.getContentPane().add(jXHyperlink16);
+
         Mvisa.getContentPane().add(MBaseVisa);
 
         MBaseVisa1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LesImages/iClear.png"))); // NOI18N
@@ -129,7 +144,7 @@ public class MenuGen extends javax.swing.JFrame {
         MBaseVisa2.setFont(new java.awt.Font("Cambria", 1, 12)); // NOI18N
 
         jXHyperlink10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LesImages/b_usrcheck.png"))); // NOI18N
-        jXHyperlink10.setText("Plateau de Vente");
+        jXHyperlink10.setText("Pavement des Ventes");
         jXHyperlink10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jXHyperlink10MouseClicked(evt);
@@ -279,6 +294,17 @@ public class MenuGen extends javax.swing.JFrame {
         apII.setVisible(true);
     }//GEN-LAST:event_jXHyperlink7ActionPerformed
 
+    private void jXHyperlink16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jXHyperlink16MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jXHyperlink16MouseClicked
+
+    private void jXHyperlink16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXHyperlink16ActionPerformed
+        // TODO add your handling code here:
+        cycleInterface cI = new cycleInterface();
+        DsKtp.add(cI);
+        cI.setVisible(true);
+    }//GEN-LAST:event_jXHyperlink16ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -332,6 +358,7 @@ public class MenuGen extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXHyperlink jXHyperlink10;
     private org.jdesktop.swingx.JXHyperlink jXHyperlink11;
     private org.jdesktop.swingx.JXHyperlink jXHyperlink15;
+    private org.jdesktop.swingx.JXHyperlink jXHyperlink16;
     private org.jdesktop.swingx.JXHyperlink jXHyperlink17;
     private org.jdesktop.swingx.JXHyperlink jXHyperlink7;
     private org.jdesktop.swingx.JXHyperlink jXHyperlink9;

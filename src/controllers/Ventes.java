@@ -14,10 +14,15 @@ import modeles.easy_sales;
  * @author Faustin PADINGANYI
  */
 public class Ventes {
-    private String nFacture,idClie, idArticles, idSite, idTvente, users,nomClient;
-    private int qteVente,prixVente;
+    private String nFacture,idClie, idArticles, idSite, idTvente, users,nomClient,idCycle;
+    private int qteVente,prixVente,semaineD, semaineF;
     public Ventes(){
         
+    }
+    public Ventes(int semaineD,int semaineF){
+        this.semaineD = semaineD;
+        this.semaineF = semaineF;
+        idCycle = PontParametres.site + Calendar.getInstance().getWeekYear() + semaineD;
     }
     public Ventes(String idClie,String idArticles,String idSite,String idTvente,String users,int qteVente, int prixVente,String nFacture,String nomClient){
         this.idClie = idClie;
@@ -30,11 +35,80 @@ public class Ventes {
         this.nFacture = nFacture;
         this.nomClient = nomClient;
     }
+    
+    /**
+     * Début des Opérations sur le Cycle de Vente
+     */
+    
+    public void enregistrerCycle(){
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO cycleV (id,semaineD,semaineF,etat,site) "
+                    + " VALUES (?,?,?,?,?)");
+            easy_sales.Pst.setString(1, idCycle);
+            easy_sales.Pst.setInt(2, semaineD);
+            easy_sales.Pst.setInt(3, semaineF);
+            easy_sales.Pst.setString(4, "A");
+            easy_sales.Pst.setString(5, PontParametres.site);
+            easy_sales.Pst.execute();
+            easy_sales.deconnexionEasy();
+            System.out.println("Cycle Créer");
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+    }
+    public String rechercherCycle(){
+        String cycleV = "";
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT id FROM cycleV WHERE site = ? AND etat = ?");
+            easy_sales.Pst.setString(1, PontParametres.site);
+            easy_sales.Pst.setString(2, "A");
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                cycleV = easy_sales.rs.getString(1);
+                easy_sales.connexionEasy();
+                PontParametres.setIdCycle(cycleV);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return cycleV;
+    }
+    public void fermerCycleDesArticles(){
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("UPDATE ArticleSite SET qteStock = 0, pteauVente = 0 WHERE idSite = ?");
+            easy_sales.Pst.setString(1, PontParametres.site);
+            easy_sales.Pst.execute();
+            easy_sales.deconnexionEasy();
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("UPDATE cycleV set dateFerm = now(), etat = ? WHERE id = ?");
+            easy_sales.Pst.setString(1, "B");
+            easy_sales.Pst.setString(2, PontParametres.getIdCycle());
+            easy_sales.Pst.execute();
+            easy_sales.deconnexionEasy();
+            System.out.println("Enregistrement effectué");
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+    }
+    
+    /**
+     * Fin des Opérations sur le Cycle
+     */
+    
+    /**
+     * 
+     * @return String Numéro Facture
+     */
+    
     public String numeroFacture(){
         String fact = "";
         try {
             easy_sales.connexionEasy();
-            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT DISTINCT numFact FROM ventes ORDER BY numFact DESC LIMIT 1");
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT DISTINCT numFact FROM ventes WHERE idSite = ? ORDER BY idVentes DESC LIMIT 1");
+            easy_sales.Pst.setString(1, PontParametres.site);
             easy_sales.rs = easy_sales.Pst.executeQuery();
             if (easy_sales.rs.next()) {
                 String a = easy_sales.rs.getString(1);
