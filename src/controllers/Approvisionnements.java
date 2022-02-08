@@ -6,6 +6,7 @@
 package controllers;
 
 import com.mysql.jdbc.PreparedStatement;
+import java.sql.Date;
 import java.util.Calendar;
 import modeles.easy_sales;
 
@@ -87,5 +88,272 @@ public class Approvisionnements {
         } catch (Exception e) {
             System.err.println("Erreur : "+e.getMessage());
         }
+    }
+    /**
+     * Remplissage de la zone de la situation du Stock dans le Cycle
+     */
+    
+    /**
+     * Début STOCK INITIAL DU CYCLE
+     * @return 
+     */
+    public Integer stockProduction(){
+        int stock = 0;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT SUM(qteAppro) FROM Appro WHERE idType = ? AND idCycle = ?");
+            easy_sales.Pst.setString(1, "PRODUCTION");
+            easy_sales.Pst.setString(2, PontParametres.getIdCycle());
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                stock = easy_sales.rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return stock;
+    }
+    public Integer stockSQB(String Article){
+        int stock = 0;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT SUM(qteAppro) FROM Appro WHERE idType = ? AND idCycle = ? AND qlteArticle = ? AND idArticles = ?");
+            easy_sales.Pst.setString(1, "PRODUCTION");
+            easy_sales.Pst.setString(2, PontParametres.getIdCycle());
+            easy_sales.Pst.setString(3, "SQB");
+            easy_sales.Pst.setString(4, Article);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                stock = easy_sales.rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return stock;
+    }
+    public Integer stockTM(String Article){
+        int stock = 0;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT SUM(qteAppro) FROM Appro WHERE idType = ? AND idCycle = ? AND qlteArticle = ? AND idArticles = ?");
+            easy_sales.Pst.setString(1, "PRODUCTION");
+            easy_sales.Pst.setString(2, PontParametres.getIdCycle());
+            easy_sales.Pst.setString(3, "TM/LM");
+            easy_sales.Pst.setString(4, Article);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                stock = easy_sales.rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return stock;
+    }
+    public Integer stockSHOE(){
+        int stock = 0;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT SUM(qteAppro) FROM Appro WHERE idType = ? AND idCycle = ? AND qlteArticle = ?");
+            easy_sales.Pst.setString(1, "PRODUCTION");
+            easy_sales.Pst.setString(2, PontParametres.getIdCycle());
+            easy_sales.Pst.setString(3, "SHOE");
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                stock = easy_sales.rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return stock;
+    }
+    /**
+     * FIN STOCK INITIAL
+     */
+    
+    /**
+     * Début CONSOMMATION DU STOCK
+     */
+    public Integer stockCONSProduction(){
+        int stock = 0;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT SUM(qteAppro) FROM Appro WHERE idType <> ? AND idCycle = ?");
+            easy_sales.Pst.setString(1, "PRODUCTION");
+            easy_sales.Pst.setString(2, PontParametres.getIdCycle());
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                stock = easy_sales.rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return stock;
+    }
+    public Integer stockCONSSQB(String Article){
+        int stock = 0;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT SUM(qteAppro) FROM Appro WHERE idType <> ? AND idCycle = ? AND qlteArticle = ? AND idArticles = ?");
+            easy_sales.Pst.setString(1, "PRODUCTION");
+            easy_sales.Pst.setString(2, PontParametres.getIdCycle());
+            easy_sales.Pst.setString(3, "SQB");
+            easy_sales.Pst.setString(4, Article);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                stock = easy_sales.rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return stock;
+    }
+    public Integer stockCONSTM(String Article){
+        int stock = 0;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT SUM(qteAppro) FROM Appro WHERE idType <> ? AND idCycle = ? AND qlteArticle = ? AND idArticles = ?");
+            easy_sales.Pst.setString(1, "PRODUCTION");
+            easy_sales.Pst.setString(2, PontParametres.getIdCycle());
+            easy_sales.Pst.setString(3, "TM/LM");
+            easy_sales.Pst.setString(4, Article);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                stock = easy_sales.rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return stock;
+    }
+    public Integer stockCONSSHOE(){
+        int stock = 0;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT SUM(qteAppro) FROM Appro WHERE idType <> ? AND idCycle = ? AND qlteArticle = ?");
+            easy_sales.Pst.setString(1, "PRODUCTION");
+            easy_sales.Pst.setString(2, PontParametres.getIdCycle());
+            easy_sales.Pst.setString(3, "SHOE");
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                stock = easy_sales.rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return stock;
+    }
+    /**
+     * Fin Consommation du STock Initial
+     */
+    /**
+     * Début du Pavement de vente
+     */
+    public Integer stocPAVEMENT(String Article){
+        int stock = 0;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT pteauVente FROM ArticleSite WHERE idSite = ? AND idArticles = ?");
+            easy_sales.Pst.setString(1, PontParametres.site);
+            easy_sales.Pst.setString(2, Article);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                stock = easy_sales.rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return stock;
+    }
+    public Integer pavementVente(){
+        int stock = 0;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT SUM(pteauVente) FROM ArticleSite WHERE idSite = ?");
+            easy_sales.Pst.setString(1, PontParametres.site);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                stock = easy_sales.rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return stock;
+    }
+    /**
+     * Les TOPs de la Journée (Consommation Journalière du STOCK)
+     * (Début)
+     */
+    public Integer stockCONSProduction(Date dateJ){
+        int stock = 0;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT SUM(qteAppro) FROM Appro WHERE idType <> ? AND idCycle = ? AND dateAppro = ?");
+            easy_sales.Pst.setString(1, "PRODUCTION");
+            easy_sales.Pst.setString(2, PontParametres.getIdCycle());
+            easy_sales.Pst.setDate(3, dateJ);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                stock = easy_sales.rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return stock;
+    }
+    public Integer stockCONSSQB(String Article,Date dateJ){
+        int stock = 0;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT SUM(qteAppro) FROM Appro WHERE idType <> ? AND idCycle = ? AND qlteArticle = ? AND idArticles = ? AND dateAppro = ?");
+            easy_sales.Pst.setString(1, "PRODUCTION");
+            easy_sales.Pst.setString(2, PontParametres.getIdCycle());
+            easy_sales.Pst.setString(3, "SQB");
+            easy_sales.Pst.setString(4, Article);
+            easy_sales.Pst.setDate(5, dateJ);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                stock = easy_sales.rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return stock;
+    }
+    public Integer stockCONSTM(String Article,Date dateJ){
+        int stock = 0;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT SUM(qteAppro) FROM Appro WHERE idType <> ? AND idCycle = ? AND qlteArticle = ? AND idArticles = ? AND dateAppro = ?");
+            easy_sales.Pst.setString(1, "PRODUCTION");
+            easy_sales.Pst.setString(2, PontParametres.getIdCycle());
+            easy_sales.Pst.setString(3, "TM/LM");
+            easy_sales.Pst.setString(4, Article);
+            easy_sales.Pst.setDate(5, dateJ);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                stock = easy_sales.rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return stock;
+    }
+    public Integer stockCONSSHOE(Date dateJ){
+        int stock = 0;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT SUM(qteAppro) FROM Appro WHERE idType <> ? AND idCycle = ? AND qlteArticle = ? AND dateAppro = ?");
+            easy_sales.Pst.setString(1, "PRODUCTION");
+            easy_sales.Pst.setString(2, PontParametres.getIdCycle());
+            easy_sales.Pst.setString(3, "SHOE");
+            easy_sales.Pst.setDate(4, dateJ);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                stock = easy_sales.rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return stock;
     }
 }

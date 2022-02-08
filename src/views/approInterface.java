@@ -8,6 +8,10 @@ package views;
 import com.mysql.jdbc.PreparedStatement;
 import controllers.Approvisionnements;
 import controllers.PontParametres;
+import controllers.Ventes;
+import java.sql.Date;
+import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -33,6 +37,7 @@ public class approInterface extends javax.swing.JInternalFrame {
         chargerAppro();
         chargerStock();
         chargerCBAppro();
+        production();
         nettoie();
     }
     void nettoie(){
@@ -106,6 +111,66 @@ public class approInterface extends javax.swing.JInternalFrame {
             System.err.println("Erreur : "+e.getMessage());
         }
     }
+    Approvisionnements AP = null;
+    DateFormatSymbols dtf=new DateFormatSymbols();
+    SimpleDateFormat sdt=new SimpleDateFormat("yyyy-MM-dd",dtf);
+    void production(){
+        AP = new Approvisionnements();
+        /**
+         * Chargement des SQB
+         */
+        lblTotPro.setText(String.valueOf(AP.stockProduction() - AP.stockCONSProduction()));
+        lblProBAG.setText(String.valueOf(AP.stockSQB("BAG") - AP.stockCONSSQB("BAG")));
+        lblProCHA.setText(String.valueOf(AP.stockSQB("CHA") - AP.stockCONSSQB("CHA")));
+        lblProClo.setText(String.valueOf(AP.stockSQB("CLO") - AP.stockCONSSQB("CLO")));
+        lblProMat.setText(String.valueOf(AP.stockSQB("MAT") - AP.stockCONSSQB("MAT")));
+        lblProTNS.setText(String.valueOf(AP.stockSQB("TNS") - AP.stockCONSSQB("TNS")));
+        /**
+         * Chargement des TM/LM
+         */
+        lblTMProBAG.setText(String.valueOf(AP.stockTM("BAG") - AP.stockCONSTM("BAG")));
+        lblTMProCHA.setText(String.valueOf(AP.stockTM("CHA") - AP.stockCONSTM("CHA")));
+        lblTMProClo.setText(String.valueOf(AP.stockTM("CLO") - AP.stockCONSTM("CLO")));
+        lblTMProMAT.setText(String.valueOf(AP.stockTM("MAT") - AP.stockCONSTM("MAT")));
+        lblTMProTNS.setText(String.valueOf(AP.stockTM("TNS") - AP.stockCONSTM("TNS")));
+        /**
+         * Chargement SHOE
+         */
+        lblProSHOE.setText(String.valueOf(AP.stockSHOE()));
+        
+        /**
+         * Chargement Pavement des Ventes
+         */
+        lblPVBAG.setText(String.valueOf(AP.stocPAVEMENT("BAG")));
+        lblPVCHA.setText(String.valueOf(AP.stocPAVEMENT("CHA")));
+        lblPVClo.setText(String.valueOf(AP.stocPAVEMENT("CLO")));
+        lblPVMAT.setText(String.valueOf(AP.stocPAVEMENT("MAT")));
+        lblPVSHOE.setText(String.valueOf(AP.stocPAVEMENT("SHOE")));
+        lblPVTNS.setText(String.valueOf(AP.stocPAVEMENT("TNS")));
+        lblTotPvmnt.setText(String.valueOf(AP.pavementVente()));
+        /**
+         * Chargement des TOPs UP du Jour
+         */
+        try {
+            String a = String.valueOf(Calendar.getInstance().getTime());
+            java.util.Date dte1 = new java.util.Date();
+            java.sql.Date dte2 = new Date(dte1.getTime());
+            lblTopBAG.setText(String.valueOf(AP.stockCONSSQB("BAG", dte2)));
+            lblTopCHA.setText(String.valueOf(AP.stockCONSSQB("CHA", dte2)));
+            lblTopClo.setText(String.valueOf(AP.stockCONSSQB("CLO", dte2)));
+            lblTopMAT.setText(String.valueOf(AP.stockCONSSQB("MAT", dte2)));
+            lblTopTNS.setText(String.valueOf(AP.stockCONSSQB("TNS", dte2)));
+            lblBAGTM.setText(String.valueOf(AP.stockCONSTM("BAG", dte2)));
+            lblCHATM.setText(String.valueOf(AP.stockCONSTM("CHA", dte2)));
+            lblCLOTM.setText(String.valueOf(AP.stockCONSTM("CLO", dte2)));
+            lblMATTM.setText(String.valueOf(AP.stockCONSTM("MAT", dte2)));
+            lblTNSTM.setText(String.valueOf(AP.stockCONSTM("TNS", dte2)));
+            lblSHOETM.setText(String.valueOf(AP.stockCONSSHOE(dte2)));
+            lblJrTop.setText(String.valueOf(AP.stockCONSProduction(dte2)));
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -142,26 +207,26 @@ public class approInterface extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
+        lblProClo = new javax.swing.JLabel();
+        lblProBAG = new javax.swing.JLabel();
+        lblProCHA = new javax.swing.JLabel();
+        lblProMat = new javax.swing.JLabel();
+        lblProTNS = new javax.swing.JLabel();
+        lblTMProClo = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
+        lblTMProCHA = new javax.swing.JLabel();
+        lblTMProBAG = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
+        lblTMProMAT = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
+        lblTMProTNS = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
-        jLabel28 = new javax.swing.JLabel();
-        jLabel59 = new javax.swing.JLabel();
+        lblProSHOE = new javax.swing.JLabel();
+        lblTotPro = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jLabel35 = new javax.swing.JLabel();
         jLabel36 = new javax.swing.JLabel();
@@ -171,26 +236,26 @@ public class approInterface extends javax.swing.JInternalFrame {
         jLabel39 = new javax.swing.JLabel();
         jLabel40 = new javax.swing.JLabel();
         jLabel41 = new javax.swing.JLabel();
-        jLabel42 = new javax.swing.JLabel();
-        jLabel43 = new javax.swing.JLabel();
-        jLabel44 = new javax.swing.JLabel();
-        jLabel45 = new javax.swing.JLabel();
-        jLabel46 = new javax.swing.JLabel();
-        jLabel47 = new javax.swing.JLabel();
+        lblTopClo = new javax.swing.JLabel();
+        lblTopBAG = new javax.swing.JLabel();
+        lblTopCHA = new javax.swing.JLabel();
+        lblTopMAT = new javax.swing.JLabel();
+        lblTopTNS = new javax.swing.JLabel();
+        lblCLOTM = new javax.swing.JLabel();
         jLabel48 = new javax.swing.JLabel();
         jLabel49 = new javax.swing.JLabel();
-        jLabel50 = new javax.swing.JLabel();
-        jLabel51 = new javax.swing.JLabel();
+        lblCHATM = new javax.swing.JLabel();
+        lblBAGTM = new javax.swing.JLabel();
         jLabel52 = new javax.swing.JLabel();
         jLabel53 = new javax.swing.JLabel();
-        jLabel54 = new javax.swing.JLabel();
+        lblMATTM = new javax.swing.JLabel();
         jLabel55 = new javax.swing.JLabel();
-        jLabel56 = new javax.swing.JLabel();
+        lblTNSTM = new javax.swing.JLabel();
         jLabel57 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jLabel58 = new javax.swing.JLabel();
-        jLabel61 = new javax.swing.JLabel();
-        jLabel60 = new javax.swing.JLabel();
+        lblSHOETM = new javax.swing.JLabel();
+        lblJrTop = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
@@ -199,13 +264,13 @@ public class approInterface extends javax.swing.JInternalFrame {
         jLabel78 = new javax.swing.JLabel();
         jLabel79 = new javax.swing.JLabel();
         jLabel80 = new javax.swing.JLabel();
-        jLabel81 = new javax.swing.JLabel();
-        jLabel82 = new javax.swing.JLabel();
-        jLabel83 = new javax.swing.JLabel();
-        jLabel84 = new javax.swing.JLabel();
-        jLabel85 = new javax.swing.JLabel();
-        jLabel86 = new javax.swing.JLabel();
-        jLabel87 = new javax.swing.JLabel();
+        lblPVCHA = new javax.swing.JLabel();
+        lblPVClo = new javax.swing.JLabel();
+        lblPVBAG = new javax.swing.JLabel();
+        lblPVMAT = new javax.swing.JLabel();
+        lblPVTNS = new javax.swing.JLabel();
+        lblPVSHOE = new javax.swing.JLabel();
+        lblTotPvmnt = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -339,35 +404,35 @@ public class approInterface extends javax.swing.JInternalFrame {
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("TNS");
 
-        jLabel11.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel11.setText("0");
+        lblProClo.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblProClo.setForeground(new java.awt.Color(255, 255, 255));
+        lblProClo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblProClo.setText("0");
 
-        jLabel12.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel12.setText("0");
+        lblProBAG.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblProBAG.setForeground(new java.awt.Color(255, 255, 255));
+        lblProBAG.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblProBAG.setText("0");
 
-        jLabel13.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel13.setText("0");
+        lblProCHA.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblProCHA.setForeground(new java.awt.Color(255, 255, 255));
+        lblProCHA.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblProCHA.setText("0");
 
-        jLabel14.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel14.setText("0");
+        lblProMat.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblProMat.setForeground(new java.awt.Color(255, 255, 255));
+        lblProMat.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblProMat.setText("0");
 
-        jLabel15.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel15.setText("0");
+        lblProTNS.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblProTNS.setForeground(new java.awt.Color(255, 255, 255));
+        lblProTNS.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblProTNS.setText("0");
 
-        jLabel16.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel16.setText("0");
+        lblTMProClo.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblTMProClo.setForeground(new java.awt.Color(255, 255, 255));
+        lblTMProClo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTMProClo.setText("0");
 
         jLabel17.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
@@ -377,15 +442,15 @@ public class approInterface extends javax.swing.JInternalFrame {
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setText("CHA");
 
-        jLabel19.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel19.setText("0");
+        lblTMProCHA.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblTMProCHA.setForeground(new java.awt.Color(255, 255, 255));
+        lblTMProCHA.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTMProCHA.setText("0");
 
-        jLabel20.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel20.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel20.setText("0");
+        lblTMProBAG.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblTMProBAG.setForeground(new java.awt.Color(255, 255, 255));
+        lblTMProBAG.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTMProBAG.setText("0");
 
         jLabel21.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(255, 255, 255));
@@ -395,19 +460,19 @@ public class approInterface extends javax.swing.JInternalFrame {
         jLabel22.setForeground(new java.awt.Color(255, 255, 255));
         jLabel22.setText("MAT");
 
-        jLabel23.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel23.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel23.setText("0");
+        lblTMProMAT.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblTMProMAT.setForeground(new java.awt.Color(255, 255, 255));
+        lblTMProMAT.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTMProMAT.setText("0");
 
         jLabel24.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(255, 255, 255));
         jLabel24.setText("TNS");
 
-        jLabel25.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel25.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel25.setText("0");
+        lblTMProTNS.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblTMProTNS.setForeground(new java.awt.Color(255, 255, 255));
+        lblTMProTNS.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTMProTNS.setText("0");
 
         jLabel26.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         jLabel26.setForeground(new java.awt.Color(255, 255, 255));
@@ -428,15 +493,15 @@ public class approInterface extends javax.swing.JInternalFrame {
         jLabel27.setForeground(new java.awt.Color(255, 255, 255));
         jLabel27.setText("TM/LM");
 
-        jLabel28.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel28.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel28.setText("0");
+        lblProSHOE.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblProSHOE.setForeground(new java.awt.Color(255, 255, 255));
+        lblProSHOE.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblProSHOE.setText("0");
 
-        jLabel59.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel59.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel59.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel59.setText("0");
+        lblTotPro.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblTotPro.setForeground(new java.awt.Color(255, 255, 255));
+        lblTotPro.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTotPro.setText("0");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -452,11 +517,11 @@ public class approInterface extends javax.swing.JInternalFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addGap(8, 8, 8)
-                                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(lblProTNS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addGap(5, 5, 5)
-                                .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(lblProMat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel8)
@@ -464,9 +529,9 @@ public class approInterface extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel6))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(lblProClo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblProCHA, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblProBAG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(51, 51, 51)
@@ -474,20 +539,20 @@ public class approInterface extends javax.swing.JInternalFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel24)
                                 .addGap(8, 8, 8)
-                                .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE))
+                                .addComponent(lblTMProTNS, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel22)
                                 .addGap(5, 5, 5)
-                                .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(lblTMProMAT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(7, 7, 7)
-                        .addComponent(jLabel59, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(lblTotPro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel26)
                         .addGap(40, 40, 40)
-                        .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(lblProSHOE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -502,9 +567,9 @@ public class approInterface extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel27)
                                 .addGap(29, 29, 29)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblTMProClo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblTMProCHA, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblTMProBAG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
@@ -514,7 +579,7 @@ public class approInterface extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel59))
+                    .addComponent(lblTotPro))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
@@ -523,23 +588,23 @@ public class approInterface extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(jLabel11))))
+                            .addComponent(lblProClo))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jLabel13))
+                    .addComponent(lblProCHA))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jLabel12))
+                    .addComponent(lblProBAG))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jLabel14))
+                    .addComponent(lblProMat))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jLabel15))
+                    .addComponent(lblProTNS))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -547,27 +612,27 @@ public class approInterface extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
-                    .addComponent(jLabel16))
+                    .addComponent(lblTMProClo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
-                    .addComponent(jLabel19))
+                    .addComponent(lblTMProCHA))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
-                    .addComponent(jLabel20))
+                    .addComponent(lblTMProBAG))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel22)
-                    .addComponent(jLabel23))
+                    .addComponent(lblTMProMAT))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel24)
-                    .addComponent(jLabel25))
+                    .addComponent(lblTMProTNS))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel26)
-                    .addComponent(jLabel28))
+                    .addComponent(lblProSHOE))
                 .addGap(29, 29, 29))
         );
 
@@ -612,35 +677,35 @@ public class approInterface extends javax.swing.JInternalFrame {
         jLabel41.setForeground(new java.awt.Color(255, 255, 255));
         jLabel41.setText("TNS");
 
-        jLabel42.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel42.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel42.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel42.setText("0");
+        lblTopClo.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblTopClo.setForeground(new java.awt.Color(255, 255, 255));
+        lblTopClo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTopClo.setText("0");
 
-        jLabel43.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel43.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel43.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel43.setText("0");
+        lblTopBAG.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblTopBAG.setForeground(new java.awt.Color(255, 255, 255));
+        lblTopBAG.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTopBAG.setText("0");
 
-        jLabel44.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel44.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel44.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel44.setText("0");
+        lblTopCHA.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblTopCHA.setForeground(new java.awt.Color(255, 255, 255));
+        lblTopCHA.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTopCHA.setText("0");
 
-        jLabel45.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel45.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel45.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel45.setText("0");
+        lblTopMAT.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblTopMAT.setForeground(new java.awt.Color(255, 255, 255));
+        lblTopMAT.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTopMAT.setText("0");
 
-        jLabel46.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel46.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel46.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel46.setText("0");
+        lblTopTNS.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblTopTNS.setForeground(new java.awt.Color(255, 255, 255));
+        lblTopTNS.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTopTNS.setText("0");
 
-        jLabel47.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel47.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel47.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel47.setText("0");
+        lblCLOTM.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblCLOTM.setForeground(new java.awt.Color(255, 255, 255));
+        lblCLOTM.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblCLOTM.setText("0");
 
         jLabel48.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         jLabel48.setForeground(new java.awt.Color(255, 255, 255));
@@ -650,15 +715,15 @@ public class approInterface extends javax.swing.JInternalFrame {
         jLabel49.setForeground(new java.awt.Color(255, 255, 255));
         jLabel49.setText("CHA");
 
-        jLabel50.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel50.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel50.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel50.setText("0");
+        lblCHATM.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblCHATM.setForeground(new java.awt.Color(255, 255, 255));
+        lblCHATM.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblCHATM.setText("0");
 
-        jLabel51.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel51.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel51.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel51.setText("0");
+        lblBAGTM.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblBAGTM.setForeground(new java.awt.Color(255, 255, 255));
+        lblBAGTM.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblBAGTM.setText("0");
 
         jLabel52.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         jLabel52.setForeground(new java.awt.Color(255, 255, 255));
@@ -668,19 +733,19 @@ public class approInterface extends javax.swing.JInternalFrame {
         jLabel53.setForeground(new java.awt.Color(255, 255, 255));
         jLabel53.setText("MAT");
 
-        jLabel54.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel54.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel54.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel54.setText("0");
+        lblMATTM.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblMATTM.setForeground(new java.awt.Color(255, 255, 255));
+        lblMATTM.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblMATTM.setText("0");
 
         jLabel55.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         jLabel55.setForeground(new java.awt.Color(255, 255, 255));
         jLabel55.setText("TNS");
 
-        jLabel56.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel56.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel56.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel56.setText("0");
+        lblTNSTM.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblTNSTM.setForeground(new java.awt.Color(255, 255, 255));
+        lblTNSTM.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTNSTM.setText("0");
 
         jLabel57.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         jLabel57.setForeground(new java.awt.Color(255, 255, 255));
@@ -701,15 +766,15 @@ public class approInterface extends javax.swing.JInternalFrame {
         jLabel58.setForeground(new java.awt.Color(255, 255, 255));
         jLabel58.setText("TM/LM");
 
-        jLabel61.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel61.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel61.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel61.setText("0");
+        lblSHOETM.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblSHOETM.setForeground(new java.awt.Color(255, 255, 255));
+        lblSHOETM.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblSHOETM.setText("0");
 
-        jLabel60.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel60.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel60.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel60.setText("0");
+        lblJrTop.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblJrTop.setForeground(new java.awt.Color(255, 255, 255));
+        lblJrTop.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblJrTop.setText("0");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -725,11 +790,11 @@ public class approInterface extends javax.swing.JInternalFrame {
                             .addGroup(jPanel9Layout.createSequentialGroup()
                                 .addComponent(jLabel41)
                                 .addGap(8, 8, 8)
-                                .addComponent(jLabel46, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(lblTopTNS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel9Layout.createSequentialGroup()
                                 .addComponent(jLabel40)
                                 .addGap(5, 5, 5)
-                                .addComponent(jLabel45, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(lblTopMAT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel9Layout.createSequentialGroup()
                                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel39)
@@ -737,9 +802,9 @@ public class approInterface extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel37))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel42, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel44, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel43, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(lblTopClo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblTopCHA, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblTopBAG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addContainerGap()
@@ -750,18 +815,18 @@ public class approInterface extends javax.swing.JInternalFrame {
                         .addContainerGap()
                         .addComponent(jLabel35)
                         .addGap(61, 61, 61)
-                        .addComponent(jLabel60, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
+                        .addComponent(lblJrTop, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                         .addGap(41, 41, 41)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel9Layout.createSequentialGroup()
                                 .addComponent(jLabel55)
                                 .addGap(8, 8, 8)
-                                .addComponent(jLabel56, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(lblTNSTM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel9Layout.createSequentialGroup()
                                 .addComponent(jLabel53)
                                 .addGap(5, 5, 5)
-                                .addComponent(jLabel54, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(lblMATTM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(41, 41, 41)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -770,13 +835,13 @@ public class approInterface extends javax.swing.JInternalFrame {
                             .addComponent(jLabel48))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel47, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel50, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel51, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(lblCLOTM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblCHATM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblBAGTM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(jLabel57)
                         .addGap(40, 40, 40)
-                        .addComponent(jLabel61, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(lblSHOETM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -785,7 +850,7 @@ public class approInterface extends javax.swing.JInternalFrame {
                 .addContainerGap(13, Short.MAX_VALUE)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel35)
-                    .addComponent(jLabel60))
+                    .addComponent(lblJrTop))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel36)
@@ -794,23 +859,23 @@ public class approInterface extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel37)
-                            .addComponent(jLabel42))))
+                            .addComponent(lblTopClo))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel38)
-                    .addComponent(jLabel44))
+                    .addComponent(lblTopCHA))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel39)
-                    .addComponent(jLabel43))
+                    .addComponent(lblTopBAG))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel40)
-                    .addComponent(jLabel45))
+                    .addComponent(lblTopMAT))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel41)
-                    .addComponent(jLabel46))
+                    .addComponent(lblTopTNS))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -818,27 +883,27 @@ public class approInterface extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel48)
-                    .addComponent(jLabel47))
+                    .addComponent(lblCLOTM))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel49)
-                    .addComponent(jLabel50))
+                    .addComponent(lblCHATM))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel52)
-                    .addComponent(jLabel51))
+                    .addComponent(lblBAGTM))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel53)
-                    .addComponent(jLabel54))
+                    .addComponent(lblMATTM))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel55)
-                    .addComponent(jLabel56))
+                    .addComponent(lblTNSTM))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel57)
-                    .addComponent(jLabel61))
+                    .addComponent(lblSHOETM))
                 .addGap(12, 12, 12))
         );
 
@@ -872,40 +937,40 @@ public class approInterface extends javax.swing.JInternalFrame {
         jLabel80.setForeground(new java.awt.Color(255, 255, 255));
         jLabel80.setText("SHOE");
 
-        jLabel81.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel81.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel81.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel81.setText("0");
+        lblPVCHA.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblPVCHA.setForeground(new java.awt.Color(255, 255, 255));
+        lblPVCHA.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblPVCHA.setText("0");
 
-        jLabel82.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel82.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel82.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel82.setText("0");
+        lblPVClo.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblPVClo.setForeground(new java.awt.Color(255, 255, 255));
+        lblPVClo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblPVClo.setText("0");
 
-        jLabel83.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel83.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel83.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel83.setText("0");
+        lblPVBAG.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblPVBAG.setForeground(new java.awt.Color(255, 255, 255));
+        lblPVBAG.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblPVBAG.setText("0");
 
-        jLabel84.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel84.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel84.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel84.setText("0");
+        lblPVMAT.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblPVMAT.setForeground(new java.awt.Color(255, 255, 255));
+        lblPVMAT.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblPVMAT.setText("0");
 
-        jLabel85.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel85.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel85.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel85.setText("0");
+        lblPVTNS.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblPVTNS.setForeground(new java.awt.Color(255, 255, 255));
+        lblPVTNS.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblPVTNS.setText("0");
 
-        jLabel86.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel86.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel86.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel86.setText("0");
+        lblPVSHOE.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblPVSHOE.setForeground(new java.awt.Color(255, 255, 255));
+        lblPVSHOE.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblPVSHOE.setText("0");
 
-        jLabel87.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jLabel87.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel87.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel87.setText("0");
+        lblTotPvmnt.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        lblTotPvmnt.setForeground(new java.awt.Color(255, 255, 255));
+        lblTotPvmnt.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTotPvmnt.setText("0");
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
@@ -917,34 +982,34 @@ public class approInterface extends javax.swing.JInternalFrame {
                         .addContainerGap()
                         .addComponent(jLabel29)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
-                        .addComponent(jLabel87, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblTotPvmnt, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel14Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel14Layout.createSequentialGroup()
                                 .addComponent(jLabel76)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel81, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblPVCHA, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel14Layout.createSequentialGroup()
                                 .addComponent(jLabel30)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel82, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblPVClo, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel14Layout.createSequentialGroup()
                                 .addComponent(jLabel80)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel86, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblPVSHOE, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel14Layout.createSequentialGroup()
                                 .addComponent(jLabel77)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel83, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblPVBAG, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel14Layout.createSequentialGroup()
                                 .addComponent(jLabel78)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel84, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblPVMAT, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel14Layout.createSequentialGroup()
                                 .addComponent(jLabel79)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel85, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(lblPVTNS, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         jPanel14Layout.setVerticalGroup(
@@ -953,31 +1018,31 @@ public class approInterface extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel29)
-                    .addComponent(jLabel87))
+                    .addComponent(lblTotPvmnt))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel30)
-                    .addComponent(jLabel82))
+                    .addComponent(lblPVClo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel76)
-                    .addComponent(jLabel81))
+                    .addComponent(lblPVCHA))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel77)
-                    .addComponent(jLabel83))
+                    .addComponent(lblPVBAG))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel78)
-                    .addComponent(jLabel84))
+                    .addComponent(lblPVMAT))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel79)
-                    .addComponent(jLabel85))
+                    .addComponent(lblPVTNS))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel80)
-                    .addComponent(jLabel86))
+                    .addComponent(lblPVSHOE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1056,7 +1121,7 @@ public class approInterface extends javax.swing.JInternalFrame {
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 360, Short.MAX_VALUE)
                             .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -1151,6 +1216,11 @@ public class approInterface extends javax.swing.JInternalFrame {
                 return;
             }
             Approvisionnements Ap =  null;
+            Ventes vt = new Ventes();
+            if (vt.rechercherCycle().equalsIgnoreCase("")) {
+                JOptionPane.showMessageDialog(this, "Aucun Cycle n'est créé, prière de d'abord le faire SVP", "Easy Sales", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             for (int i = 0; i < nbrLigne; i++) {
                 String a,b,c,d;
                 a = tblAppro.getValueAt(i, 2).toString();
@@ -1178,32 +1248,17 @@ public class approInterface extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel32;
-    private javax.swing.JLabel jLabel33;
-    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
@@ -1212,74 +1267,66 @@ public class approInterface extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
-    private javax.swing.JLabel jLabel42;
-    private javax.swing.JLabel jLabel43;
-    private javax.swing.JLabel jLabel44;
-    private javax.swing.JLabel jLabel45;
-    private javax.swing.JLabel jLabel46;
-    private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel50;
-    private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
-    private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel55;
-    private javax.swing.JLabel jLabel56;
     private javax.swing.JLabel jLabel57;
     private javax.swing.JLabel jLabel58;
-    private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel60;
-    private javax.swing.JLabel jLabel61;
-    private javax.swing.JLabel jLabel62;
-    private javax.swing.JLabel jLabel63;
-    private javax.swing.JLabel jLabel64;
-    private javax.swing.JLabel jLabel65;
-    private javax.swing.JLabel jLabel66;
-    private javax.swing.JLabel jLabel67;
-    private javax.swing.JLabel jLabel68;
-    private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel70;
-    private javax.swing.JLabel jLabel71;
-    private javax.swing.JLabel jLabel72;
-    private javax.swing.JLabel jLabel73;
-    private javax.swing.JLabel jLabel74;
-    private javax.swing.JLabel jLabel75;
     private javax.swing.JLabel jLabel76;
     private javax.swing.JLabel jLabel77;
     private javax.swing.JLabel jLabel78;
     private javax.swing.JLabel jLabel79;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel80;
-    private javax.swing.JLabel jLabel81;
-    private javax.swing.JLabel jLabel82;
-    private javax.swing.JLabel jLabel83;
-    private javax.swing.JLabel jLabel84;
-    private javax.swing.JLabel jLabel85;
-    private javax.swing.JLabel jLabel86;
-    private javax.swing.JLabel jLabel87;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblBAGTM;
+    private javax.swing.JLabel lblCHATM;
+    private javax.swing.JLabel lblCLOTM;
+    private javax.swing.JLabel lblJrTop;
+    private javax.swing.JLabel lblMATTM;
+    private javax.swing.JLabel lblPVBAG;
+    private javax.swing.JLabel lblPVCHA;
+    private javax.swing.JLabel lblPVClo;
+    private javax.swing.JLabel lblPVMAT;
+    private javax.swing.JLabel lblPVSHOE;
+    private javax.swing.JLabel lblPVTNS;
+    private javax.swing.JLabel lblProBAG;
+    private javax.swing.JLabel lblProCHA;
+    private javax.swing.JLabel lblProClo;
+    private javax.swing.JLabel lblProMat;
+    private javax.swing.JLabel lblProSHOE;
+    private javax.swing.JLabel lblProTNS;
+    private javax.swing.JLabel lblSHOETM;
     private javax.swing.JLabel lblSite;
+    private javax.swing.JLabel lblTMProBAG;
+    private javax.swing.JLabel lblTMProCHA;
+    private javax.swing.JLabel lblTMProClo;
+    private javax.swing.JLabel lblTMProMAT;
+    private javax.swing.JLabel lblTMProTNS;
+    private javax.swing.JLabel lblTNSTM;
+    private javax.swing.JLabel lblTopBAG;
+    private javax.swing.JLabel lblTopCHA;
+    private javax.swing.JLabel lblTopClo;
+    private javax.swing.JLabel lblTopMAT;
+    private javax.swing.JLabel lblTopTNS;
+    private javax.swing.JLabel lblTotPro;
+    private javax.swing.JLabel lblTotPvmnt;
     private javax.swing.JTable tblAppro;
     private javax.swing.JTable tblStock;
     private javax.swing.JTextField txtIdProd;
