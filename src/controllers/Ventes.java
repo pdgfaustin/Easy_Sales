@@ -426,10 +426,11 @@ public class Ventes {
      */
     public void listArticleHJ0(){
         try {
+            int a = dernierNumVente();
             easy_sales.connexionEasy();
             easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO heureDeJoie "
                     + "(numeroD,dateJ,JourAngo,idSIte) VALUES (?,now(),?,?)");
-            easy_sales.Pst.setInt(1, dernierNumVente());
+            easy_sales.Pst.setInt(1, a);
             easy_sales.Pst.setString(2, PontParametres.getJrSemaine(Calendar.getInstance()));
             easy_sales.Pst.setString(3, PontParametres.site);
             easy_sales.Pst.execute();
@@ -594,12 +595,15 @@ public class Ventes {
      */
     public void fermerListeHJ(){
         try {
+            int a = dernierNumVente();
+            int b = numeroDHJetJ100("heuredejoie");
             easy_sales.connexionEasy();
             easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("UPDATE heureDeJoie SET numeroF = ? WHERE idSite = ? AND numeroD = ?");
-            easy_sales.Pst.setInt(1, dernierNumVente());
+            easy_sales.Pst.setInt(1, a);
             easy_sales.Pst.setString(2, PontParametres.site);
-            easy_sales.Pst.setInt(3, numeroDHJetJ100("Journal100"));
+            easy_sales.Pst.setInt(3, b);
             easy_sales.Pst.execute();
+            easy_sales.deconnexionEasy();
             System.out.println("Fermeture effectuée");
         } catch (Exception e) {
             System.err.println("Erreur : "+e.getMessage());

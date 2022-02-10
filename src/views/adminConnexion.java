@@ -5,6 +5,8 @@
  */
 package views;
 
+import com.mysql.jdbc.PreparedStatement;
+import controllers.PontParametres;
 import controllers.UsersBD;
 import controllers.Ventes;
 import javax.swing.JOptionPane;
@@ -12,7 +14,13 @@ import java.io.*;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.ImageIcon;
+import modeles.easy_sales;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -188,12 +196,12 @@ public class adminConnexion extends javax.swing.JFrame {
         // TODO add your handling code here:
         
     }//GEN-LAST:event_formWindowClosed
-
+    Ventes vt=null;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         try{
             String us=this.zUserN.getText(), pd=Arrays.toString(zpwd.getPassword());
-            Ventes vt = new Ventes();
+            vt = new Ventes();
             UsersBD user = new UsersBD();
             boolean users = user.trouverAdmin(us, pd);
             if(users){
@@ -205,6 +213,14 @@ public class adminConnexion extends javax.swing.JFrame {
                     }else{
                         int msg = JOptionPane.showConfirmDialog(this, "Mettre fin à l'Heure de Joie ?", "Easy Sales", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                         if (msg == JOptionPane.YES_OPTION) {
+                        vt.fermerListeHJ();
+                        /**
+                         * Impression donnée Heure de Joie
+                         */
+                        impressionHJ();
+                        /**
+                         * Fin Impression donnée Heure de Joie
+                         */
                             vt.tuerParam("HEURE DE JOIE");
                         }
                     }
@@ -231,6 +247,30 @@ public class adminConnexion extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Erreur : "+e.getMessage(), "Magnific Base Dynamique", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+    void impressionHJ(){
+        
+        int numD = vt.numeroDHJetJ100("heuredejoie", "numeroD");
+        int numF = vt.numeroDHJetJ100("heuredejoie", "numeroF");
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT idArticles, sum(QTEVENTE), sum(QTEVENTE * prixVente) FROM Ventes WHERE idSite = ? AND idVentes BETWEEN ? AND ? "
+                    + " GROUP BY idArticles");
+            easy_sales.Pst.setString(1, PontParametres.site);
+            easy_sales.Pst.setInt(2, numD);
+            easy_sales.Pst.setInt(3, numF);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                Map para = new HashMap();
+                para.put("numeroD", numD);
+                para.put("numeroF", numF);
+                para.put("site", PontParametres.site);
+                JasperPrint jp = JasperFillManager.fillReport(getClass().getResourceAsStream("etats/heureDJ.jasper"),para,easy_sales.cn);
+                JasperViewer.viewReport(jp, false);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+    }
     DateFormatSymbols dtf=new DateFormatSymbols();
     SimpleDateFormat sdt=new SimpleDateFormat("yyyy-MM-dd",dtf);
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

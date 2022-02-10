@@ -107,6 +107,9 @@ public class approInterface extends javax.swing.JInternalFrame {
                 cbTAppro.addItem(easy_sales.rs.getString(1));
             }
             easy_sales.deconnexionEasy();
+            if (!PontParametres.getJrSemaine(Calendar.getInstance()).equals("LUNDI")) {
+                cbTAppro.setSelectedItem("TOP UP");
+            }
         } catch (Exception e) {
             System.err.println("Erreur : "+e.getMessage());
         }
@@ -136,7 +139,7 @@ public class approInterface extends javax.swing.JInternalFrame {
         /**
          * Chargement SHOE
          */
-        lblProSHOE.setText(String.valueOf(AP.stockSHOE()));
+        lblProSHOE.setText(String.valueOf(AP.stockSHOE() - AP.stockCONSSHOE()));
         
         /**
          * Chargement Pavement des Ventes
@@ -170,6 +173,19 @@ public class approInterface extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             System.err.println("Erreur : "+e.getMessage());
         }
+    }
+    Integer controlQTE(String Article){
+        int cons = 0;
+        AP = new Approvisionnements();
+        String qlte = CBQ.getSelectedItem().toString();
+        if (qlte.equals("SQB")) {
+            cons = AP.stockSQB(Article) - AP.stockCONSSQB(Article);
+        }else if(qlte.equals("TM/LM")){
+            cons = AP.stockTM(Article) - AP.stockCONSTM(Article);
+        }else if(qlte.equals("SHOE")){
+            cons = AP.stockSHOE() - AP.stockCONSSHOE();
+        }
+        return cons;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -1176,6 +1192,11 @@ public class approInterface extends javax.swing.JInternalFrame {
             String c = txtIdProd.getText().trim();
             if (a.isEmpty() || c.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Toutes les zones sont obligatoires SVP", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            int Aujd8 = controlQTE(txtIdProd.getText()) - Integer.parseInt(txtQTE.getText().trim());
+            if (Aujd8 < 0) {
+                JOptionPane.showMessageDialog(this, "La quantité à TOPER doit être inférieure ou égale à : "+controlQTE(txtIdProd.getText()), "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
             Object [] d = {txtLibPro.getText(),txtIdProd.getText(),CBQ.getSelectedItem(),qte,b};

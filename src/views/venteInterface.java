@@ -612,6 +612,10 @@ public class venteInterface extends javax.swing.JInternalFrame {
                         }
                     }
                 }
+            boolean HJ = ventes.heureDeJoieActif();
+            if (!HJ) {
+                ventes.listArticleHJ0();
+            }
             numeroFacture();
             chargerVente();
             nettoie();
