@@ -557,6 +557,12 @@ public class venteInterface extends javax.swing.JInternalFrame {
                     int pUnit = Integer.parseInt(tblVente.getValueAt(i, 2).toString());
                     String nomClient = txtNomClient.getText();
                     ventes = new Ventes(client, idArt, site, idTVente, user, qteVente, pUnit, facture,nomClient);
+                    if (idTVente.equals("HEURE DE JOIE")) {
+                        boolean tr = ventes.heureDeJoieActif();
+                        if (!tr) {
+                            ventes.heureDeJoieActif();
+                        }
+                    }
                     boolean trClie = ventes.rechercherClient();
                     if (!trClie) {
                         ventes.enregistrerClient();
@@ -570,6 +576,42 @@ public class venteInterface extends javax.swing.JInternalFrame {
                 }
                 JOptionPane.showMessageDialog(this, "Vente effectuée", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
             }
+            ventes = new Ventes();
+                int numeroD = ventes.numeroDHJetJ100("Journal100");
+                if (numeroD == 0) {
+                    ventes.debut1001ERArticles();
+                }else{
+                    int qte100 = ventes.qteDes100();
+                    if (qte100>=100) {
+                        ventes.ajoutQTE100ARticles();
+                        JOptionPane.showMessageDialog(this, "Vous avez atteint "+qte100+" Articles Vendus", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
+                        /**
+                         * Impression Liste des 100
+                         */
+                        impression100();
+                        /**
+                         * Fin Impression
+                         */
+                        ventes.fermerJournal100();
+                        ventes.debut1001ERArticles();
+                    }else{
+                        qte100 += ventes.produitParFacture(PontParametres.getNumeroFacture());
+                        if (qte100>=100) {
+                            ventes.ajoutQTE100ARticles();
+                            ventes.fermerJournal100();
+                            JOptionPane.showMessageDialog(this, "Vous avez atteint "+qte100+" Articles Vendus", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
+                            /**
+                             * Impression Liste des 100
+                             */
+                            impression100();
+                            /**
+                             * Fin Impression
+                             */
+                        }else{
+                            ventes.ajoutQTE100ARticles();
+                        }
+                    }
+                }
             numeroFacture();
             chargerVente();
             nettoie();
@@ -586,6 +628,29 @@ public class venteInterface extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    void impression100(){
+        int numD = ventes.numeroDHJetJ100("Journal100", "numeroD");
+        int numF = ventes.numeroDHJetJ100("Journal100", "numeroF");
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT idArticles, sum(QTEVENTE) FROM Ventes WHERE idSite = ? AND idVentes BETWEEN ? AND ? "
+                    + " GROUP BY idArticles");
+            easy_sales.Pst.setString(1, PontParametres.site);
+            easy_sales.Pst.setInt(2, numD);
+            easy_sales.Pst.setInt(3, numF);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                Map para = new HashMap();
+                para.put("numeroD", numD);
+                para.put("numeroF", numF);
+                para.put("site", PontParametres.site);
+                JasperPrint jp = JasperFillManager.fillReport(getClass().getResourceAsStream("etats/liste100.jasper"),para,easy_sales.cn);
+                JasperViewer.viewReport(jp, false);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+    }
     private void txtIdClientFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdClientFocusLost
         // TODO add your handling code here:
         rechercherClient(txtIdClient.getText());

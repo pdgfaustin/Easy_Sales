@@ -99,7 +99,7 @@ public class Ventes {
      */
     
     /**
-     * 
+     * Méthode sur le Numéro Facture
      * @return String Numéro Facture
      */
     
@@ -124,6 +124,11 @@ public class Ventes {
         }
         return fact;
     }
+    
+    /**
+     * Enregistrement du Client
+     */
+    
     public void enregistrerClient(){
         try {
             easy_sales.connexionEasy();
@@ -137,6 +142,12 @@ public class Ventes {
             System.err.println("Erreur : "+e.getMessage());
         }
     }
+    
+    /**
+     * Recherche du Client
+     * @return Vraie ou Faux, si le client existe ou pas
+     */
+    
     public boolean rechercherClient(){
         boolean trouve = false;
         try {
@@ -152,12 +163,17 @@ public class Ventes {
         }
         return trouve;
     }
+    
+    /**
+     * Enregistrement des opérations sur la vente
+     */
+    
     public void enregistrerVente(){
         try {
             easy_sales.connexionEasy();
             easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO ventes "
                     + "(idClie, idArticles, idSite, idTVentes, qteVente, prixVente, jrVente,"
-                    + "users,numFact, semaineVente, dateVente) VALUES (?,?,?,?,?,?,?,?,?,?,now())");
+                    + "users,numFact, semaineVente,idCycle, dateVente) VALUES (?,?,?,?,?,?,?,?,?,?,?,now())");
             easy_sales.Pst.setString(1, idClie);
             easy_sales.Pst.setString(2, idArticles);
             easy_sales.Pst.setString(3, idSite);
@@ -168,6 +184,7 @@ public class Ventes {
             easy_sales.Pst.setString(8, users);
             easy_sales.Pst.setString(9, nFacture);
             easy_sales.Pst.setInt(10, PontParametres.getSemaineYear(Calendar.getInstance()));
+            easy_sales.Pst.setString(11, PontParametres.getIdCycle());
             easy_sales.Pst.execute();
             easy_sales.deconnexionEasy();
             System.out.println("Enregistrement effectué");
@@ -254,9 +271,10 @@ public class Ventes {
         boolean trouve = false;
         try {
             easy_sales.connexionEasy();
-            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT nomParam,dateOuverture FROM parametreventes WHERE etatParam = ? AND nomParam = ?");
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT nomParam,dateOuverture FROM parametreventes WHERE etatParam = ? AND nomParam = ? AND idSite = ?");
             easy_sales.Pst.setString(1, "A");
             easy_sales.Pst.setString(2, "HEURE DE JOIE");
+            easy_sales.Pst.setString(3, PontParametres.site);
             easy_sales.rs = easy_sales.Pst.executeQuery();
             if (easy_sales.rs.next()) {
                 trouve = true;
@@ -274,17 +292,19 @@ public class Ventes {
         String paramS = "";
         try {
             easy_sales.connexionEasy();
-            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT nomParam,dateOuverture FROM parametreventes WHERE etatParam = ?");
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT nomParam,dateOuverture FROM parametreventes WHERE etatParam = ? AND idSite = ?");
             easy_sales.Pst.setString(1, "A");
+            easy_sales.Pst.setString(2, PontParametres.site);
             easy_sales.rs = easy_sales.Pst.executeQuery();
             if (easy_sales.rs.next()) {
                 paramS = easy_sales.rs.getString(1);
             }else{
                 easy_sales.deconnexionEasy();
                 easy_sales.connexionEasy();
-                easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO parametreventes (nomParam,dateOuverture,etatParam) VALUES(?,now(),?)");
+                easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO parametreventes (nomParam,dateOuverture,etatParam,idSite) VALUES(?,now(),?,?)");
                 easy_sales.Pst.setString(1, "NORMAL");
                 easy_sales.Pst.setString(2, "A");
+                easy_sales.Pst.setString(3, PontParametres.site);
             }
             easy_sales.deconnexionEasy();
         } catch (Exception e) {
@@ -296,10 +316,11 @@ public class Ventes {
         try {
             easy_sales.connexionEasy();
             easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO parametreVentes "
-                    + "(nomParam,dateOuverture,etatParam,users) VALUES (?,now(),?,?)");
+                    + "(nomParam,dateOuverture,etatParam,users,idSite) VALUES (?,now(),?,?,?)");
             easy_sales.Pst.setString(1, a);
             easy_sales.Pst.setString(2, "A");
             easy_sales.Pst.setString(3, PontParametres.User);
+            easy_sales.Pst.setString(4, PontParametres.site);
             easy_sales.Pst.execute();
             easy_sales.deconnexionEasy();
         } catch (Exception e) {
@@ -315,9 +336,10 @@ public class Ventes {
         try {
             easy_sales.connexionEasy();
             easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("UPDATE parametreVentes "
-                    + "SET dateFermeture = now(), etatParam = ? WHERE nomParam = ?");
+                    + "SET dateFermeture = now(), etatParam = ? WHERE nomParam = ? AND idSite = ?");
             easy_sales.Pst.setString(1, "B");
             easy_sales.Pst.setString(2, a);
+            easy_sales.Pst.setString(3, PontParametres.site);
             easy_sales.Pst.execute();
             easy_sales.deconnexionEasy();
         } catch (Exception e) {
@@ -350,6 +372,240 @@ public class Ventes {
         }
         return trouve;
     }
+    
+    /**
+     ***** Taitement sur l'Heure de Joie et le Journal 100 ******
+     ************************************************************/
+    /**
+     **** LE DERNIER NUMERO DE VENTE ****
+     * **********************************
+     * @return Integer
+     */
+    public Integer dernierNumVente(){
+        int numero = 0;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT idVentes FROM Ventes WHERE "
+                    + " idSite = ? ORDER BY idVentes DESC LIMIT 1");
+            easy_sales.Pst.setString(1, PontParametres.site);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                numero = easy_sales.rs.getInt(1);
+            }
+            easy_sales.deconnexionEasy();
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return numero;
+    }
+    
+    /**
+     ****HEURE DE JOIE ACTIF****
+     * *************************
+     * @return BOOLEAN
+     */
+    public boolean heureDeJoieActif(){
+        boolean trouve = false;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT id FROM heureDeJoie WHERE numeroF = ? AND idSite = ?");
+            easy_sales.Pst.setInt(1, 0);
+            easy_sales.Pst.setString(2, PontParametres.site);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                trouve = true;
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return trouve;
+    }
+    /**
+     ****CREATION DE LA LISTE DES PRODUITS HEURE DE JOIE****
+     * *****************************************************
+     */
+    public void listArticleHJ0(){
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO heureDeJoie "
+                    + "(numeroD,dateJ,JourAngo,idSIte) VALUES (?,now(),?,?)");
+            easy_sales.Pst.setInt(1, dernierNumVente());
+            easy_sales.Pst.setString(2, PontParametres.getJrSemaine(Calendar.getInstance()));
+            easy_sales.Pst.setString(3, PontParametres.site);
+            easy_sales.Pst.execute();
+            easy_sales.deconnexionEasy();
+            System.out.println("Debut Liste Enregistré");
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+    }
+    /**
+     * ***NOMBRE DES PRODUITS DE LA FACTURE*** *
+     * *************************************** *
+     */
+    public Integer produitParFacture(String numeroFact){
+        int qte = 0;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT SUM(qteVente) FROM Ventes WHERE numFact = ? AND idSite = ?");
+            easy_sales.Pst.setString(1, numeroFact);
+            easy_sales.Pst.setString(2, PontParametres.site);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                qte = easy_sales.rs.getInt(1);
+            }
+            easy_sales.deconnexionEasy();
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return qte;
+    }
+    /**
+     ****CREATION LA LISTE DES 100 1ERS ARTICLES VENDUS****
+     * ************************************************** *
+     */
+    public void debut1001ERArticles(){
+        try {
+            int a = produitParFacture(PontParametres.getNumeroFacture());
+            int b = dernierNumVente();
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("INSERT INTO journal100 "
+                    + " (numeroD,nbrArticle,idSite) VALUES (?,?,?)");
+            easy_sales.Pst.setInt(1, b);
+            easy_sales.Pst.setInt(2, a);
+            easy_sales.Pst.setString(3, PontParametres.site);
+            easy_sales.Pst.execute();
+            easy_sales.deconnexionEasy();
+            System.out.println("Debut 100 Articles Créé");
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+    }
+    /**
+     * ***AJOUT QTE ARTICLE POUR ATEINDRE 100*** *
+     * ***************************************** *
+     */
+    public void ajoutQTE100ARticles(){
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT nbrArticle FROM journal100 WHERE idSite = ? AND numeroF = ?");
+            easy_sales.Pst.setString(1, PontParametres.site);
+            easy_sales.Pst.setInt(2, 0);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                int a = easy_sales.rs.getInt(1);
+                a += produitParFacture(PontParametres.getNumeroFacture());
+                easy_sales.deconnexionEasy();
+                easy_sales.connexionEasy();
+                easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("UPDATE journal100 SET nbrArticle = ? WHERE idSite = ? AND numeroF = ?");
+                easy_sales.Pst.setInt(1, a);
+                easy_sales.Pst.setString(2, PontParametres.site);
+                easy_sales.Pst.setInt(3, 0);
+                easy_sales.Pst.execute();
+                easy_sales.deconnexionEasy();
+                System.out.println("Qte des 100 Ajouté");
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+    }
+    /**
+     * ***CATCH DE LA QTE DES 100 PREMIERS ARTICLES*** *
+     * *********************************************** *
+     */
+    public Integer qteDes100(){
+        int qte = 0;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT nbrArticle FROM journal100 WHERE numeroF = ? AND idSite = ?");
+            easy_sales.Pst.setInt(1, 0);
+            easy_sales.Pst.setString(2, PontParametres.site);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                qte = easy_sales.rs.getInt(1);
+            }
+            easy_sales.deconnexionEasy();
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return qte;
+    }
+    /**
+     * ***FERMER LE JOURNAL 100*** *
+     * *************************** *
+     */
+    public void fermerJournal100(){
+        try {
+            int a = dernierNumVente();
+            int b = numeroDHJetJ100("Journal100");
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("UPDATE Journal100 SET numeroF = ? WHERE idSite = ? AND numeroD = ?");
+            easy_sales.Pst.setInt(1, a);
+            easy_sales.Pst.setString(2, PontParametres.site);
+            easy_sales.Pst.setInt(3, b);
+            easy_sales.Pst.execute();
+            easy_sales.deconnexionEasy();
+            System.out.println("Fermeture effectuée");
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+    }
+    /**
+     * **NUMERO DU DEBUT HEURE DE JOIE ET JOURNAL 100 ** *
+     * ************************************************* *
+     */
+    public Integer numeroDHJetJ100(String table){
+        int numero = 0;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT numeroD FROM " + table + " WHERE idSite = ? AND numeroF = ? ORDER BY id DESC LIMIT 1");
+            easy_sales.Pst.setString(1, PontParametres.site);
+            easy_sales.Pst.setInt(2, 0);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                numero = easy_sales.rs.getInt(1);
+            }
+            easy_sales.deconnexionEasy();
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return numero;
+    }
+    public Integer numeroDHJetJ100(String table,String Rubrique){
+        int numero = 0;
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("SELECT "+ Rubrique +" FROM " + table + " WHERE idSite = ? AND numeroF <> ? ORDER BY id DESC LIMIT 1");
+            easy_sales.Pst.setString(1, PontParametres.site);
+            easy_sales.Pst.setInt(2, 0);
+            easy_sales.rs = easy_sales.Pst.executeQuery();
+            if (easy_sales.rs.next()) {
+                numero = easy_sales.rs.getInt(1);
+            }
+            easy_sales.deconnexionEasy();
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+        return numero;
+    }
+    /**
+     * **FERMER HEURE DE JOIE** *
+     * ************************ *
+     */
+    public void fermerListeHJ(){
+        try {
+            easy_sales.connexionEasy();
+            easy_sales.Pst = (PreparedStatement) easy_sales.cn.clientPrepareStatement("UPDATE heureDeJoie SET numeroF = ? WHERE idSite = ? AND numeroD = ?");
+            easy_sales.Pst.setInt(1, dernierNumVente());
+            easy_sales.Pst.setString(2, PontParametres.site);
+            easy_sales.Pst.setInt(3, numeroDHJetJ100("Journal100"));
+            easy_sales.Pst.execute();
+            System.out.println("Fermeture effectuée");
+        } catch (Exception e) {
+            System.err.println("Erreur : "+e.getMessage());
+        }
+    }
+    
 }
 //                Calendar cl = Calendar.getInstance();
 //                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");

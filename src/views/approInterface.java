@@ -1165,14 +1165,14 @@ public class approInterface extends javax.swing.JInternalFrame {
                 return;
             }
             String b = cbTAppro.getSelectedItem().toString().trim();
-//            if (!a.equals("Lundi") && b.equals("IN STAND")) {
-//                if (!a.equals("Samedi") && b.equals("IN STAND")) {
-//                    if (!a.equals("Dimanche") && b.equals("IN STAND")) {
-//                        JOptionPane.showMessageDialog(this, "Le IN STAND ne se fait que soit le samedi, dimanche ou le lundi ! Revoir cela SVP", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
-//                        return;
-//                    }
-//                }
-//            }
+            if (!a.equals("Lundi") && b.equals("IN STAND")) {
+                if (!a.equals("Samedi") && b.equals("IN STAND")) {
+                    if (!a.equals("Dimanche") && b.equals("IN STAND")) {
+                        JOptionPane.showMessageDialog(this, "Le IN STAND ne se fait que soit le samedi, dimanche ou le lundi ! Revoir cela SVP", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+                }
+            }
             String c = txtIdProd.getText().trim();
             if (a.isEmpty() || c.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Toutes les zones sont obligatoires SVP", "Easy Sales", JOptionPane.INFORMATION_MESSAGE);
