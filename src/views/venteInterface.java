@@ -8,6 +8,7 @@ package views;
 import com.mysql.jdbc.PreparedStatement;
 import controllers.PontParametres;
 import controllers.Ventes;
+import java.io.File;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -16,8 +17,10 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modeles.easy_sales;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.view.JasperViewer;
 
 /**
@@ -649,6 +652,7 @@ public class venteInterface extends javax.swing.JInternalFrame {
                 para.put("numeroF", numF);
                 para.put("site", PontParametres.site);
                 JasperPrint jp = JasperFillManager.fillReport(getClass().getResourceAsStream("etats/liste100.jasper"),para,easy_sales.cn);
+//                JasperPrintManager.printReport(jp, true);
                 JasperViewer.viewReport(jp, false);
             }
         } catch (Exception e) {
@@ -684,6 +688,7 @@ public class venteInterface extends javax.swing.JInternalFrame {
                 Map para = new HashMap();
                 para.put("hFacture", numFact);
                 JasperPrint jp = JasperFillManager.fillReport(getClass().getResourceAsStream("etats/facture1.jasper"),para,easy_sales.cn);
+//                JasperPrintManager.printReport(jp, true);
                 JasperViewer.viewReport(jp, false);
             }
         } catch (Exception e) {
