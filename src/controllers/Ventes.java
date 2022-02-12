@@ -67,7 +67,7 @@ public class Ventes {
             easy_sales.rs = easy_sales.Pst.executeQuery();
             if (easy_sales.rs.next()) {
                 cycleV = easy_sales.rs.getString(1);
-                easy_sales.connexionEasy();
+                easy_sales.deconnexionEasy();
                 PontParametres.setIdCycle(cycleV);
             }
         } catch (Exception e) {

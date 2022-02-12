@@ -4,6 +4,7 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="hFacture" class="java.lang.String"/>
+	<parameter name="site" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT
      les_ventes.`idClie` AS les_ventes_idClie,
@@ -22,7 +23,10 @@
 FROM
      `les_ventes` les_ventes
 WHERE
-     numFact = $P{hFacture}]]>
+     numFact = $P{hFacture}
+ AND idSite = $P{site}
+GROUP BY
+     idArticles,qteVente,prixVente]]>
 	</queryString>
 	<field name="les_ventes_idClie" class="java.lang.String"/>
 	<field name="les_ventes_idArticles" class="java.lang.String"/>

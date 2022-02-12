@@ -687,6 +687,7 @@ public class venteInterface extends javax.swing.JInternalFrame {
             if (easy_sales.rs.next()) {
                 Map para = new HashMap();
                 para.put("hFacture", numFact);
+                para.put("site", PontParametres.site);
                 JasperPrint jp = JasperFillManager.fillReport(getClass().getResourceAsStream("etats/facture1.jasper"),para,easy_sales.cn);
 //                JasperPrintManager.printReport(jp, true);
                 JasperViewer.viewReport(jp, false);
