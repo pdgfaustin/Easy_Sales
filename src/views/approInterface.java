@@ -1167,6 +1167,11 @@ public class approInterface extends javax.swing.JInternalFrame {
         String a  = txtIdProd.getText().trim();
         if (a.equalsIgnoreCase("SHOE")) {
             CBQ.setSelectedItem("SHOE");
+        }else{
+            String aa = CBQ.getSelectedItem().toString();
+            if (aa.equalsIgnoreCase("SHOE")) {
+                CBQ.setSelectedItem("SQB");
+            }
         }
         txtQTE.requestFocus();
     }//GEN-LAST:event_tblStockMouseClicked

@@ -281,7 +281,7 @@ public class MenuGen extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        int msg = JOptionPane.showConfirmDialog(this, "Voulez - vous mettre fin à votre seession ?", "Easy Sales", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        int msg = JOptionPane.showConfirmDialog(this, "Voulez - vous mettre fin à votre Session ?", "Easy Sales", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
         if (msg == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
